@@ -69,10 +69,8 @@ const projects = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (
           <div 
-            class="group relative p-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer"
-            style={`background: var(--color-bg-highlight);
-                   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                   border-left: 4px solid ${project.borderColor};`}
+            class="group relative p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 bg-bg-highlight"
+            style={`border-left: 4px solid ${project.borderColor};`}
           >
             <!-- Project Header -->
             <div class="flex items-center justify-between mb-4">

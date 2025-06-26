@@ -1,0 +1,137 @@
+---
+import { Icon } from "astro-icon/components";
+import Socials from "./Socials.astro";
+---
+
+<footer class="border-t bg-bg-card border-bg-highlight mt-auto">
+  <div class="container mx-auto px-4">
+    <div class="py-16">
+      <div class="relative z-10 w-full max-w-6xl mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start gap-12"
+        >
+          <!-- Brand Section -->
+          <div class="flex-1">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold text-text mb-4">
+                <span style="color: var(--color-primary);"
+                  >Yorukot's personal website</span
+                >
+              </h3>
+              <p class="text-text-muted mb-6 max-w-md leading-relaxed">
+                Welcome to my corner of the internet.
+              </p>
+              <div class="flex gap-4">
+                <a
+                  href="/sitemap.xml"
+                  class="text-text-muted hover:text-accent-highlight transition-all duration-200 flex items-center group"
+                >
+                  <Icon
+                    name="tabler:sitemap"
+                    class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"
+                  />
+                  <span
+                    class="border-b border-dashed border-text-muted group-hover:border-accent-highlight"
+                    >Sitemap</span
+                  >
+                </a>
+                <a
+                  href="/rss.xml"
+                  class="text-text-muted hover:text-accent-highlight transition-all duration-200 flex items-center group"
+                >
+                  <Icon
+                    name="tabler:rss"
+                    class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"
+                  />
+                  <span
+                    class="border-b border-dashed border-text-muted group-hover:border-accent-highlight"
+                    >RSS Feed</span
+                  >
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="flex flex-col items-start">
+            <div class="mb-6">
+              <span class="text-2xl font-semibold text-accent-highlight mb-3">
+                Connect with me
+              </span>
+              <div class="flex space-x-4 mb-2">
+                <div class="flex items-center">
+                  <Icon
+                    name="tabler:map-pin"
+                    class="w-4 h-4 mr-2"
+                    style="color: var(--color-accent);"
+                  />
+                  <span class="text-sm text-text-muted">Taiwan</span>
+                </div>
+                <div class="flex items-center">
+                  <Icon
+                    name="tabler:clock"
+                    class="w-4 h-4 mr-2"
+                    style="color: var(--color-accent);"
+                  />
+                  <span class="text-sm text-text-muted" id="footer-time"
+                    >UTC+8</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:flex md:justify-end">
+              <Socials />
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div
+          class="mt-4 pt-8 border-t"
+          style="border-color: var(--color-bg-highlight);"
+        >
+          <div
+            class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0"
+          >
+            <!-- Copyright -->
+            <div class="flex items-center text-text-muted text-sm">
+              <Icon name="tabler:copyright" class="w-4 h-4 mr-2 opacity-70" />
+              <span>2025 Yorukot. Made with</span>
+              <Icon
+                name="tabler:heart-filled"
+                class="w-4 h-4 mx-2 animate-pulse"
+                style="color: var(--color-danger);"
+              />
+              <span>and</span>
+              <Icon
+                name="skill-icons:astro"
+                class="w-5 h-5 ml-2 hover:scale-110 transition-transform"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateFooterTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString("en-US", {
+        timeZone: "Asia/Taipei",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const timeElement = document.getElementById("footer-time");
+      if (timeElement) {
+        timeElement.textContent = `${timeString} UTC+8`;
+      }
+    }
+
+    // Update time immediately and then every minute
+    updateFooterTime();
+    setInterval(updateFooterTime, 60000);
+  </script>
+</footer>

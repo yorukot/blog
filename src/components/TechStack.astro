@@ -70,10 +70,8 @@ const techStacks = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {techStacks.map((tech) => (
           <div 
-            class="group relative p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
-            style={`background: var(--color-bg-highlight);
-                   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                   border-left: 4px solid ${tech.borderColor};`}
+            class="group relative p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 bg-bg-highlight"
+            style={`border-left: 4px solid ${tech.borderColor};`}
           >
             <!-- Tech Header -->
             <div class="flex items-center justify-between mb-4">

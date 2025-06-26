@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
 export interface Props {
   title?: string;
@@ -9,9 +10,9 @@ export interface Props {
 }
 
 const {
-  title = "Alex Johnson - Full-Stack Developer",
+  title = "Yorukot - Student & Full-Stack Developer",
   lang = "en",
-  description = "Passionate full-stack developer creating digital experiences with modern web technologies. Specializing in React, Node.js, and cloud infrastructure.",
+  description = "17-year-old full-stack developer with 6 years of experience, creating CLI/TUI tools and web apps. Passionate about open-source, anime, and sharing knowledge.",
 } = Astro.props;
 ---
 
@@ -21,14 +22,14 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="author" content="Alex Johnson" />
+    <meta name="author" content="Yorukot" />
     <meta name="theme-color" content="#0f0f0f" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Alex Johnson" />
+    <meta property="og:site_name" content="Yorukot" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -38,10 +39,15 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Sitemap and RSS Feed -->
+    <link rel="sitemap" href="/sitemap.xml" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
   </head>
   <body class="min-h-screen bg-bg">
     <Header />
     <slot />
+    <Footer />
   </body>
 </html>
 

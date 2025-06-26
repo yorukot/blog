@@ -1,10 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
+import Socials from "./Socials.astro";
 
 const {
   title = "Yorukot",
-  description = "I am a software developer passionate about creating innovative solutions. Lover of all things programming. Lately I have been working a lot with React, TypeScript, and Node.js.",
-  companyUrl = "#",
   photoUrl = "./src/assets/avatar.png",
 } = Astro.props;
 ---
@@ -18,9 +17,7 @@ const {
           <div class="relative group">
             <!-- Photo container -->
             <div
-              class="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-[1.02]"
-              style="background: var(--color-bg-highlight);
-                     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);"
+              class="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-[1.02] bg-bg-highlight"
             >
               <img
                 src={photoUrl}
@@ -45,7 +42,7 @@ const {
                   style="color: var(--color-accent);"
                   size={16}
                 />
-                <span class="text-sm">Taiwan, Taichung</span>
+                <a href="https://maps.app.goo.gl/d6URazuxoMjo3Ch16" target="_blank" class="text-sm">Taiwan, Taichung</a>
                 <Icon 
                   name="flag:tw-4x3" 
                   class="ml-2"
@@ -77,7 +74,11 @@ const {
           <!-- Description Section -->
           <div class="space-y-4 leading-relaxed mb-6 text-text">
             <p>
-              {description}
+              Hi! I’m a 17-year-old high school student with about 6 years of development experience. I love building things with code and specialize in full-stack web development and creating CLI/TUI tools that make working in the terminal more enjoyable.
+            </p>
+          
+            <p>
+              When I’m not coding or contributing to open-source projects, you’ll probably find me watching anime, TV series, or movies. I’m always learning new technologies and sharing what I discover with the community.
             </p>
 
             <p>
@@ -141,45 +142,7 @@ const {
           </div>
 
           <!-- Social Links -->
-          <div class="flex justify-center md:justify-start space-x-4 text-text">
-            <a
-              href="#"
-              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
-              style="background: var(--color-bg-highlight);"
-              aria-label="Mail"
-            >
-              <Icon name="tabler:mail-filled" class="w-7 h-7" />
-            </a>
-
-            <a
-              href="#"
-              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
-              style="background: var(--color-bg-highlight);"
-              aria-label="GitHub"
-            >
-              <div class="w-7 h-7">
-                <Icon name="cib:github" class="w-7 h-7" />
-              </div>
-            </a>
-
-            <a
-              href="#"
-              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
-              style="background: var(--color-bg-highlight);"
-              aria-label="Discord"
-            >
-              <Icon name="cbi:discord" class="w-7 h-7" />
-            </a>
-
-            <a
-              href="#"
-              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
-              style="background: var(--color-bg-highlight);"
-              aria-label="YouTube"
-            >
-              <Icon name="cbi:youtube" class="w-7 h-7" />
-            </a>
-          </div>
+          <Socials />
         </div>
       </div>
     </div>
@@ -199,7 +162,7 @@ const {
     
     const timeElement = document.getElementById('utc-time');
     if (timeElement) {
-      timeElement.textContent = `Asia/Taipei ${timeString}`;
+      timeElement.textContent = `${timeString} UTC+8`;
     }
   }
 
