@@ -1,0 +1,214 @@
+---
+import { Icon } from "astro-icon/components";
+
+const experiences = [
+  {
+    title: "Instructor @ SITCON Camp 2025",
+    type: "Teaching",
+    description: "Served as an instructor at SITCON Camp, teaching programming and technology skills to students.",
+    date: "2025",
+    icon: "tabler:school",
+    color: "hsl(270, 60%, 60%)"
+  },
+  {
+    title: "Staff Member @ SITCON Camp 2025",
+    type: "Volunteer",
+    description: "Worked as a staff member for SITCON Camp, helping organize and coordinate educational activities.",
+    date: "2025",
+    icon: "tabler:users",
+    color: "hsl(270, 60%, 60%)"
+  },
+  {
+    title: "Contestant @ Google DevJam",
+    type: "Competition",
+    description: "Participated in Google DevJam focusing on Gemini API development and AI integration. Achieved 2nd place.",
+    date: "2025",
+    icon: "tabler:brain",
+    color: "hsl(120, 60%, 50%)"
+  },
+  {
+    title: "Contestant @ Taipei-New Taipei Programming Hackathon Dashboard Competition",
+    type: "Competition",
+    description: "Advanced to the finals in the Taipei-New Taipei Programming Hackathon Dashboard Competition.",
+    date: "2025",
+    icon: "tabler:dashboard",
+    color: "hsl(195, 100%, 65%)"
+  },
+  {
+    title: "Contestant @ NTTU Maker Marathon",
+    type: "Competition",
+    description: "Achieved the Judges’ Award in the National Taitung University Maker Marathon, showcasing innovative solutions.",
+    date: "2025",
+    icon: "tabler:trophy",
+    color: "hsl(45, 100%, 55%)"
+  },
+  {
+    title: "Contestant @ Japan AI Koshien",
+    type: "Competition",
+    description: "Participated in Japan AI Koshien, competing in AI and machine learning challenges. Achieved 3rd place.",
+    date: "2025",
+    icon: "tabler:robot",
+    color: "hsl(348, 58.60%, 56%)"
+  },
+  {
+    title: "Participant @ Shanghai HackClub Juice",
+    type: "Event",
+    description: "Participated in Shanghai HackClub Juice, met and conversed with HackClub founder Zach, and built the Juice Jump project as part of the event.",
+    date: "2025",
+    icon: "tabler:world",
+    color: "hsl(171, 90.50%, 71.20%)"
+  },
+  {
+    title: "Staff Member @ Scrapyard Taiwan",
+    type: "Event",
+    description: "Participated in a maker community event, exploring hardware hacking and creative technology projects.",
+    date: "2025",
+    icon: "tabler:tools",
+    color: "hsl(25, 100%, 60%)"
+  },
+  {
+    title: "Speaker @ SITCON 2025",
+    type: "Conference",
+    description: "Delivered a keynote talk titled “How to Reach 1,000 Stars? Practical Lessons from Successful Open Source Projects” at the Students’ Information Technology Conference.",
+    date: "2025",
+    icon: "tabler:microphone",
+    color: "hsl(24, 84.40%, 65%)"
+  },
+  {
+    title: "Contestant @ Research Paper Competition",
+    type: "Academic",
+    description: "Received Grade A for the research paper “Performance Analysis and Discussion of Parallel Computing.”",
+    date: "2025",
+    icon: "tabler:file-text",
+    color: "hsl(141, 71%, 48%)"
+  },
+  {
+    title: "Trainee @ NTHU HPC Winter Camp 2025",
+    type: "Training",
+    description: "Participated in the High-Performance Computing Winter Camp at National Tsing Hua University.",
+    date: "2025",
+    icon: "tabler:cpu",
+    color: "hsl(210, 50%, 55%)"
+  },
+  {
+    title: "Contestant @ Academic Subject Competition",
+    type: "Competition",
+    description: "Participated in academic subject competitions, demonstrating excellence in STEM fields.",
+    date: "2024",
+    icon: "tabler:math",
+    color: "hsl(270, 60%, 60%)"
+  },
+  {
+    title: "Trainee @ AIS3 Training Camp",
+    type: "Training",
+    description: "Completed the Advanced Information Security Summer School, gaining cybersecurity and information security skills.",
+    date: "2024",
+    icon: "tabler:shield",
+    color: "hsl(0, 70%, 55%)"
+  },
+  {
+    title: "Contestant @ Golden Shield Award",
+    type: "Competition",
+    description: "Advanced to the finals in the Golden Shield Award, competing in cybersecurity and information security challenges.",
+    date: "2023",
+    icon: "tabler:award",
+    color: "hsl(45, 100%, 55%)"
+  }
+];
+
+---
+
+<div class="container mx-auto px-4">
+  <section class="py-8 md:py-20">
+    <div class="relative z-10 w-full max-w-6xl mx-auto">
+      <!-- Section Header -->
+      <div class="text-left mb-12">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-text">
+          <span style="color: var(--color-primary);">Experience</span>
+        </h2>
+        <p class="text-lg md:text-xl text-text-muted leading-relaxed">
+          Competitions, events, and activities I've participated in
+        </p>
+      </div>
+
+      <!-- Experience Timeline -->
+      <div class="relative space-y-6">
+        {experiences.map((experience, index) => (
+          <div class="relative flex items-start space-x-4 group">
+            <!-- Timeline Icon -->
+            <div class="flex-shrink-0 mt-1 relative z-10">
+              <div 
+                class="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={`background: ${experience.color}20; border: 2px solid ${experience.color};`}
+              >
+                <Icon 
+                  name={experience.icon}
+                  class="w-6 h-6"
+                  style={`color: ${experience.color};`}
+                />
+              </div>
+            </div>
+
+            <!-- Experience Content -->
+            <div 
+              class="flex-1 p-6 rounded-2xl transition-all duration-300 group-hover:-translate-y-1"
+              style="background: var(--color-bg-highlight); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);"
+            >
+              <!-- Header -->
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-text mb-1">
+                    {experience.title}
+                  </h3>
+                  <div class="flex items-center space-x-3">
+                    <span 
+                      class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+                      style={`background: ${experience.color}20; color: ${experience.color};`}
+                    >
+                      {experience.type}
+                    </span>
+                    <span class="text-sm text-text-muted">
+                      {experience.date}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <p class="text-text-muted leading-relaxed">
+                {experience.description}
+              </p>
+            </div>
+
+            <!-- Connecting Line (except for last item) -->
+            {index < experiences.length - 1 && (
+              <div 
+                class="absolute left-6 top-16 w-0.5 h-16 z-0"
+                style="background: var(--color-bg-card);"
+              >
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-12 text-center">
+        <p class="text-text-muted leading-relaxed mb-4">
+          Always eager to participate in new events and learn from the community.
+        </p>
+        <div class="flex justify-center items-center">
+          <Icon
+            name="icon-park-outline:dot"
+            class="mr-2"
+            style="color: var(--color-primary);"
+            size={24}
+          />
+          <span class="text-text">
+            Looking forward to more exciting opportunities
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

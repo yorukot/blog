@@ -1,0 +1,149 @@
+---
+import { Icon } from "astro-icon/components";
+
+const projects = [
+  {
+    title: "superfile",
+    description: "Pretty fancy and modern terminal file manager written in Go. Features intuitive navigation, file operations, and customizable themes.",
+    techStack: ["Go", "Terminal", "CLI", "Bubble Tea"],
+    link: "https://github.com/yorukot/superfile",
+    borderColor: "hsl(200, 100%, 60%)", // Go blue
+    featured: "⚡ GitHub Trending"
+  },
+  {
+    title: "Personal Blog",
+    description: "This portfolio website built with Astro, featuring modern design, responsive layout, and optimized performance.",
+    techStack: ["Astro", "TypeScript", "Tailwind CSS"],
+    link: "https://github.com/yorukot/blog",
+    borderColor: "hsl(15, 100%, 55%)", // Astro orange
+    featured: null
+  },
+  {
+    title: "MHCAT",
+    description: "A Discord bot that helps manage servers with various utility features. Built with Discord.js and MongoDB, used by over 1 million users.",
+    techStack: ["Node.js", "Discord.js", "MongoDB"],
+    link: "https://github.com/yorukot/old-mhcat",
+    borderColor: "hsl(235, 86%, 65%)", // Discord purple
+    featured: "🚀 1M+ Users"
+  },
+  {
+    title: "tmlshock",
+    description: "A terminal TTL clock and stopwatch built with Go. Simple and efficient time tracking tool for the command line.",
+    techStack: ["Go", "Terminal", "CLI"],
+    link: "https://github.com/yorukot/tmlshock",
+    borderColor: "hsl(45, 100%, 55%)", // Terminal yellow
+    featured: null
+  },
+  {
+    title: "Random Websites",
+    description: "I build a LOT of websites for fun or utility. Various projects exploring different technologies, but none that are actually public yet.",
+    techStack: ["React", "Next.js", "Tailwind CSS", "Node.js"],
+    borderColor: "hsl(270, 60%, 60%)", // Web purple
+    featured: null
+  },
+  {
+    title: "Juice Jump",
+    description: "A simple game made for a Hack Club event. Built with Godot engine, featuring fun jumping mechanics.",
+    techStack: ["Godot", "GDScript"],
+    link: "https://github.com/yorukot/juicejump",
+    borderColor: "hsl(141, 71%, 48%)", // Game green
+    featured: "🎮 Game Jam"
+  }
+];
+---
+
+<div class="container mx-auto px-4">
+  <section class="pb-8 md:pb-20">
+    <div class="relative z-10 w-full max-w-6xl mx-auto">
+      <!-- Section Header -->
+      <div class="text-left mb-12">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-text">
+          <span style="color: var(--color-primary);">Projects</span>
+        </h2>
+        <p class="text-lg md:text-xl text-text-muted leading-relaxed">
+          Some of the things I've built and worked on
+        </p>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {projects.map((project) => (
+          <div 
+            class="group relative p-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer"
+            style={`background: var(--color-bg-highlight);
+                   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                   border-left: 4px solid ${project.borderColor};`}
+          >
+            <!-- Project Header -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <h3 class="text-xl md:text-2xl font-bold text-text">
+                  {project.title}
+                </h3>
+              </div>
+              <div class="flex space-x-2">
+                <Icon 
+                  name="tabler:external-link" 
+                  class="w-5 h-5 text-text-muted group-hover:text-accent-highlight transition-colors"
+                />
+              </div>
+            </div>
+
+            <!-- Featured Badge -->
+            {project.featured && (
+              <div class="mb-4">
+                <span 
+                  class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium"
+                  style="background: var(--color-bg-card); color: var(--color-accent-highlight);"
+                >
+                  {project.featured}
+                </span>
+              </div>
+            )}
+
+            <!-- Description -->
+            <p class="text-text-muted leading-relaxed mb-4">
+              {project.description}
+            </p>
+
+            <!-- Tech Stack -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.techStack.map((tech) => (
+                <span 
+                  class="px-3 py-1 rounded-lg text-sm font-medium text-text"
+                  style="background: var(--color-bg-card);"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <!-- Hover Border Effect -->
+            <div 
+              class="absolute inset-0 rounded-2xl border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+              style={`border-color: ${project.borderColor};`}
+            >
+            </div>
+
+            <!-- Click Handler -->
+            <a 
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="absolute inset-0 rounded-2xl"
+              aria-label={`Visit ${project.title}`}
+            >
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-12 text-center">
+        <p class="text-text-muted leading-relaxed">
+          Always working on something new and exciting. Check out my GitHub for more projects!
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

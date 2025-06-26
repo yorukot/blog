@@ -1,0 +1,209 @@
+---
+import { Icon } from "astro-icon/components";
+
+const {
+  title = "Yorukot",
+  description = "I am a software developer passionate about creating innovative solutions. Lover of all things programming. Lately I have been working a lot with React, TypeScript, and Node.js.",
+  companyUrl = "#",
+  photoUrl = "./src/assets/avatar.png",
+} = Astro.props;
+---
+
+<div class="container mx-auto px-4">
+  <section class="flex items-center py-8 md:py-20">
+    <div class="relative z-10 w-full max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Photo Section -->
+        <div class="order-1 md:order-2 flex justify-center">
+          <div class="relative group">
+            <!-- Photo container -->
+            <div
+              class="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-[1.02]"
+              style="background: var(--color-bg-highlight);
+                     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);"
+            >
+              <img
+                src={photoUrl}
+                alt="Profile photo"
+                class="w-full h-full object-cover"
+              />
+
+              <!-- Border accent -->
+              <div
+                class="absolute inset-0 rounded-2xl border-2"
+                style="border-color: var(--color-primary);"
+              >
+              </div>
+            </div>
+
+            <!-- Location and Time Info -->
+            <div class="mt-6 text-center space-y-2">
+              <div class="flex items-center justify-center text-text-muted">
+                <Icon
+                  name="tabler:map-pin"
+                  class="mr-2"
+                  style="color: var(--color-accent);"
+                  size={16}
+                />
+                <span class="text-sm">Taiwan, Taichung</span>
+                <Icon 
+                  name="flag:tw-4x3" 
+                  class="ml-2"
+                  size={20}
+                />
+              </div>
+              <div class="flex items-center justify-center text-text-muted">
+                <Icon
+                  name="tabler:clock"
+                  class="mr-2"
+                  style="color: var(--color-accent);"
+                  size={16}
+                />
+                <span class="text-sm" id="utc-time">UTC+8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="order-2 md:order-1 text-left text-xl">
+          <!-- Main Heading -->
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-text"
+          >
+            <span style="color: var(--color-primary);">Hi,</span> I'm {title}
+          </h1>
+
+          <!-- Description Section -->
+          <div class="space-y-4 leading-relaxed mb-6 text-text">
+            <p>
+              {description}
+            </p>
+
+            <p>
+              I work <span
+                class="underline hover:opacity-80 transition-opacity text-accent-highlight"
+              >
+                @Opensource
+              </span> where I spend most of my time building tools and websites.
+              Some projects and tags for me:
+            </p>
+
+            <!-- Projects List -->
+            <ul class="space-y-2 ml-4 text-text">
+              <li class="flex items-center">
+                <Icon
+                  name="icon-park-outline:dot"
+                  class="mr-2"
+                  style="color: var(--color-primary);"
+                  size={24}
+                />
+                <span>
+                  Pretty fancy and modern terminal file manager, <a
+                    href="https://github.com/yorukot/superfile"
+                    class="underline hover:text-accent text-accent-highlight"
+                    target="_blank">superfile</a
+                  >.
+                </span>
+              </li>
+              <li class="flex items-center">
+                <Icon
+                  name="icon-park-outline:dot"
+                  class="mr-2"
+                  style="color: var(--color-primary);"
+                  size={24}
+                />
+                <span> I do some opensource contributions at everywhere. </span>
+              </li>
+              <li class="flex items-center">
+                <Icon
+                  name="icon-park-outline:dot"
+                  class="mr-2"
+                  style="color: var(--color-primary);"
+                  size={24}
+                />
+                <span> I like do system design and architecture. </span>
+              </li>
+              <li class="flex items-center">
+                <Icon
+                  name="icon-park-outline:dot"
+                  class="mr-2"
+                  style="color: var(--color-primary);"
+                  size={24}
+                />
+                <span>
+                  A lot of website and web apps, <del class="text-text-muted"
+                    >but it all not finished yet.</del
+                  >
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Social Links -->
+          <div class="flex justify-center md:justify-start space-x-4 text-text">
+            <a
+              href="#"
+              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+              style="background: var(--color-bg-highlight);"
+              aria-label="Mail"
+            >
+              <Icon name="tabler:mail-filled" class="w-7 h-7" />
+            </a>
+
+            <a
+              href="#"
+              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+              style="background: var(--color-bg-highlight);"
+              aria-label="GitHub"
+            >
+              <div class="w-7 h-7">
+                <Icon name="cib:github" class="w-7 h-7" />
+              </div>
+            </a>
+
+            <a
+              href="#"
+              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+              style="background: var(--color-bg-highlight);"
+              aria-label="Discord"
+            >
+              <Icon name="cbi:discord" class="w-7 h-7" />
+            </a>
+
+            <a
+              href="#"
+              class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+              style="background: var(--color-bg-highlight);"
+              aria-label="YouTube"
+            >
+              <Icon name="cbi:youtube" class="w-7 h-7" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  function updateTime() {
+    const now = new Date();
+    const utcTime = new Date(now.getTime());
+    const timeString = utcTime.toLocaleTimeString('en-US', {
+      timeZone: 'Asia/Taipei',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    
+    const timeElement = document.getElementById('utc-time');
+    if (timeElement) {
+      timeElement.textContent = `Asia/Taipei ${timeString}`;
+    }
+  }
+
+  // Update time immediately and then every minute
+  updateTime();
+  setInterval(updateTime, 60000);
+</script>

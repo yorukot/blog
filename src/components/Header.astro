@@ -1,0 +1,34 @@
+---
+import Book from "@lucide/astro/icons/book";
+import Languages from "@lucide/astro/icons/languages";
+---
+
+<header class="sticky top-0 z-50 w-full border-b bg-bg border-accent">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo and Brand -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center">
+          <span class="text-xl font-bold text-[var(--color-text)]">Yorukot</span
+          >
+        </a>
+      </div>
+
+      <!-- Right Side Navigation -->
+      <div class="flex items-center space-x-6">
+        <a
+          href="/blog"
+          class="flex items-center space-x-2 text-text hover:text-primary hover:rotate-15 transition-colors"
+        >
+          <Book size={24} />
+        </a>
+        <button
+          class="cursor-pointer flex items-center space-x-2 text-text hover:text-primary hover:rotate-15 transition-colors"
+          aria-label="Switch language"
+        >
+          <Languages size={24} />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

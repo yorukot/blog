@@ -1,11 +1,19 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import { getHomeTranslations } from "../i18n/home";
+import type { Locale } from "../i18n/utils";
+import Hero from "../components/Hero.astro";
+import TechStack from "../components/TechStack.astro";
+import Projects from "../components/Projects.astro";
+import Experience from "../components/Experience.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const currentLocale = (Astro.currentLocale || "en") as Locale;
+const t = getHomeTranslations(currentLocale);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={t.title} lang={currentLocale}>
+  <Hero />
+  <TechStack />
+  <Projects />
+  <Experience />
 </Layout>

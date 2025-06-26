@@ -1,0 +1,34 @@
+# https://EditorConfig.org
+root = true
+
+# Common base rules
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+# Markdown and plain text files — spaces, size 2
+[*.md, *.txt]
+indent_style = space
+indent_size = 2
+
+# JSON, YAML, TOML — spaces, size 2
+[*.json, *.json5, *.toml, *.yaml, *.yml]
+indent_style = space
+indent_size = 2
+
+# Source code files — tabs, displayed as 2 spaces
+[*.ts, *.tsx, *.js, *.jsx, *.html, *.css, *.scss, *.vue, *.svelte]
+indent_style = tab
+tab_width = 2
+
+# Hidden config files like .env, .gitignore — tabs, displayed as 2 spaces
+[.*]
+indent_style = tab
+tab_width = 2
+
+# Shell scripts and Makefiles — tabs, displayed as 2 spaces
+[*.sh, Makefile, makefile]
+indent_style = tab
+tab_width = 2
