@@ -28,13 +28,10 @@ const t = useTranslations(currentLocale);
       <!-- Error Message -->
       <div class="mb-12 space-y-4">
         <h2 class="text-2xl md:text-3xl font-bold text-text">
-          {currentLocale === 'zh-tw' ? '頁面不存在' : 'Page Not Found'}
+          {t('404.title')}
         </h2>
         <p class="text-text-muted text-lg leading-relaxed max-w-lg mx-auto">
-          {currentLocale === 'zh-tw' 
-            ? '抱歉，您要找的頁面可能已被移動、刪除或從未存在過。' 
-            : "Sorry, the page you're looking for might have been moved, deleted, or never existed in the first place."
-          }
+          {t('404.description')}
         </p>
       </div>
 
@@ -46,7 +43,7 @@ const t = useTranslations(currentLocale);
           class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg"
         >
           <Icon name="tabler:home" class="w-5 h-5" />
-          {currentLocale === 'zh-tw' ? '回到首頁' : 'Go Home'}
+          {t('404.goHome')}
         </a>
 
         <!-- Go to Blog Button -->
@@ -55,7 +52,7 @@ const t = useTranslations(currentLocale);
           class="inline-flex items-center gap-2 px-6 py-3 bg-bg-card text-text border border-primary border-opacity-30 font-medium rounded-lg hover:bg-bg-highlight hover:border-primary-hover transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg"
         >
           <Icon name="tabler:book" class="w-5 h-5" />
-          {currentLocale === 'zh-tw' ? '查看文章' : 'Read Blog'}
+          {t('404.readBlog')}
         </a>
       </div>
 
@@ -65,7 +62,7 @@ const t = useTranslations(currentLocale);
           id="easter-egg"
           class="text-text-muted text-xs hover:text-accent transition-colors duration-200"
         >
-          {currentLocale === 'zh-tw' ? '🎮 點擊這裡來點有趣的' : '🎮 Click here for something fun'}
+          {t('404.easterEgg')}
         </button>
       </div>
     </div>
@@ -78,16 +75,34 @@ const t = useTranslations(currentLocale);
     let clickCount = 0;
     const currentLocale = document.documentElement.lang || 'en';
     
+    // Translation strings for JavaScript
+    const translations = {
+      en: {
+        again: '🎯 Click again...',
+        oneMore: '🎊 One more time!',
+        found: '🎉 You found the easter egg!',
+        original: '🎮 Click here for something fun'
+      },
+      'zh-tw': {
+        again: '🎯 再點一次...',
+        oneMore: '🎊 最後一次！',
+        found: '🎉 你找到了彩蛋！',
+        original: '🎮 點擊這裡來點有趣的'
+      }
+    };
+    
+    const t = translations[currentLocale as keyof typeof translations] || translations.en;
+    
     easterEggBtn?.addEventListener('click', () => {
       clickCount++;
       
       if (clickCount === 1) {
-        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎯 再點一次...' : '🎯 Click again...';
+        easterEggBtn.textContent = t.again;
       } else if (clickCount === 2) {
-        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎊 最後一次！' : '🎊 One more time!';
+        easterEggBtn.textContent = t.oneMore;
       } else if (clickCount >= 3) {
         // Fun animation
-        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎉 你找到了彩蛋！' : '🎉 You found the easter egg!';
+        easterEggBtn.textContent = t.found;
         easterEggBtn.style.transform = 'scale(1.2)';
         easterEggBtn.style.color = 'var(--color-primary)';
         
@@ -115,7 +130,7 @@ const t = useTranslations(currentLocale);
         
         setTimeout(() => {
           easterEggBtn.style.transform = '';
-          easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎮 點擊這裡來點有趣的' : '🎮 Click here for something fun';
+          easterEggBtn.textContent = t.original;
           easterEggBtn.style.color = '';
           clickCount = 0;
         }, 3000);

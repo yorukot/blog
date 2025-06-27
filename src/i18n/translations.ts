@@ -175,6 +175,16 @@ export const translations = {
     'alert.info': 'Info',
     'alert.success': 'Success',
 
+    // 404 Page
+    '404.title': 'Page Not Found',
+    '404.description': "Sorry, the page you're looking for might have been moved, deleted, or never existed in the first place.",
+    '404.goHome': 'Go Home',
+    '404.readBlog': 'Read Blog',
+    '404.easterEgg': '🎮 Click here for something fun',
+    '404.easterEgg.again': '🎯 Click again...',
+    '404.easterEgg.oneMore': '🎊 One more time!',
+    '404.easterEgg.found': '🎉 You found the easter egg!',
+
     // Common
     'common.location': 'Taiwan',
     'common.timezone': 'UTC+8',
@@ -318,6 +328,16 @@ export const translations = {
     "alert.error": "錯誤",
     "alert.info": "資訊",
     "alert.success": "完成",
+
+    // 404 Page
+    "404.title": "頁面不存在",
+    "404.description": "抱歉，您要找的頁面可能已被移動、刪除或從未存在過。",
+    "404.goHome": "回到首頁",
+    "404.readBlog": "查看文章",
+    "404.easterEgg": "🎮 點擊這裡來點有趣的",
+    "404.easterEgg.again": "🎯 再點一次...",
+    "404.easterEgg.oneMore": "🎊 最後一次！",
+    "404.easterEgg.found": "🎉 你找到了彩蛋！",
 
     // Common
     "common.location": "臺灣",
