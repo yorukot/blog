@@ -1,0 +1,128 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+
+export interface Props {
+  type?: 'tip' | 'warning' | 'error' | 'info' | 'success';
+  title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+
+const alertConfig = {
+  tip: {
+    icon: 'lucide:lightbulb',
+    bgColor: 'var(--color-primary)',
+    borderColor: 'var(--color-primary)',
+  },
+  warning: {
+    icon: 'lucide:alert-triangle',
+    bgColor: '#f59e0b',
+    borderColor: '#f59e0b',
+  },
+  error: {
+    icon: 'lucide:x-circle',
+    bgColor: '#ef4444',
+    borderColor: '#ef4444',
+  },
+  info: {
+    icon: 'lucide:info',
+    bgColor: 'var(--color-accent)',
+    borderColor: 'var(--color-accent)',
+  },
+  success: {
+    icon: 'lucide:check-circle',
+    bgColor: '#10b981',
+    borderColor: '#10b981',
+  },
+};
+
+const config = alertConfig[type];
+const displayTitle = title || t(`alert.${type}` as any);
+---
+
+<div class="alert" style={`border-left-color: ${config.borderColor};`}>
+  <div class="alert-content">
+    <div class="alert-header">
+      <Icon name={config.icon} size={20} style={`color: ${config.borderColor};`} />
+      <span class="alert-title" style={`color: ${config.borderColor};`}>{displayTitle}</span>
+    </div>
+    <div class="alert-body">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .alert {
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+    border-opacity: 0.2;
+    border-left-width: 4px;
+    background-color: var(--color-bg-card);
+    overflow: hidden;
+  }
+
+  .alert-content {
+    padding: 1rem;
+  }
+
+  .alert-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .alert-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+  }
+
+  .alert-body {
+    color: var(--color-text);
+  }
+
+  .alert-body :global(p) {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .alert-body :global(p:not(:last-child)) {
+    margin-bottom: 0.75rem;
+  }
+
+  .alert-body :global(ul),
+  .alert-body :global(ol) {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .alert-body :global(li) {
+    margin: 0.25rem 0;
+  }
+
+  .alert-body :global(code) {
+    background-color: var(--color-bg-highlight) !important;
+    color: var(--color-text-contrast) !important;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-weight: 600;
+  }
+
+  .alert-body :global(a) {
+    color: var(--color-accent) !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .alert-body :global(strong) {
+    color: var(--color-text-contrast) !important;
+    font-weight: 700;
+  }
+</style>

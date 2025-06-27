@@ -1,0 +1,201 @@
+---
+export interface Props {
+  tabs: string[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<div class="code-tabs-container">
+  <!-- Tab Headers -->
+  <div class="tab-headers">
+    {
+      tabs.map((tabTitle, index) => (
+        <button class={`tab-header ${index === 0 ? 'active' : ''}`} data-tab-index={index}>
+          {tabTitle}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Tab Contents -->
+  <div class="tab-contents">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .code-tabs-container {
+    margin: 1.5rem 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-bg-highlight);
+    border-opacity: 0.2;
+    background-color: var(--color-bg-card);
+  }
+
+  .tab-headers {
+    display: flex;
+    background-color: var(--color-bg-highlight);
+    border-opacity: 0.2;
+  }
+
+  .tab-header {
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    position: relative;
+  }
+
+  .tab-header:hover {
+    color: var(--color-text);
+    background-color: var(--color-bg-card);
+    background-opacity: 0.5;
+  }
+
+  .tab-header.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    background-color: var(--color-bg-card);
+  }
+
+  .tab-contents {
+    position: relative;
+  }
+
+  .tab-contents > :global(*) {
+    display: none;
+  }
+
+  .tab-contents > :global(*.active) {
+    display: block;
+  }
+
+  .tab-contents > :global(*.hidden) {
+    display: none;
+  }
+
+  /* Remove top border radius from code blocks in tabs */
+  .tab-contents :global(pre) {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border-top: none !important;
+    position: relative;
+  }
+
+  /* Copy button styles for CodeTabs */
+  .tab-contents :global(pre .copy-button) {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--color-bg-highlight);
+    border: 1px solid var(--color-text-muted);
+    border-opacity: 0.3;
+    border-radius: 0.5rem;
+    opacity: 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .tab-contents :global(pre .copy-button svg) {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .tab-contents :global(pre:hover .copy-button) {
+    opacity: 1;
+  }
+
+  .tab-contents :global(pre .copy-button:hover) {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-bg);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .tab-contents :global(pre .copy-button.copied) {
+    background-color: var(--color-success, #10b981);
+    border-color: var(--color-success, #10b981);
+    color: var(--color-bg);
+  }
+
+  .tab-contents :global(pre .copy-button:active) {
+    transform: scale(0.95);
+  }
+</style>
+
+<script>
+  // Tab switching functionality
+  function initCodeTabs() {
+    const containers = document.querySelectorAll('.code-tabs-container');
+
+    containers.forEach((container) => {
+      const tabHeaders = container.querySelectorAll('.tab-header');
+      // Look for direct child elements in tab-contents that should be tab content
+      const tabContentsWrapper = container.querySelector('.tab-contents');
+      const tabContents = tabContentsWrapper ? Array.from(tabContentsWrapper.children) : [];
+
+      // Hide all tab contents initially, show only the first one
+      tabContents.forEach((content, index) => {
+        if (index === 0) {
+          content.classList.add('active');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+
+      tabHeaders.forEach((header, headerIndex) => {
+        header.addEventListener('click', () => {
+          // Remove active class from all tabs and contents in this container
+          tabHeaders.forEach((h) => h.classList.remove('active'));
+          tabContents.forEach((c) => {
+            c.classList.remove('active');
+            c.classList.add('hidden');
+          });
+
+          // Add active class to clicked tab and corresponding content
+          header.classList.add('active');
+          if (tabContents[headerIndex]) {
+            tabContents[headerIndex].classList.add('active');
+            tabContents[headerIndex].classList.remove('hidden');
+
+            // Trigger copy button initialization for newly visible content
+            setTimeout(() => {
+              const event = new CustomEvent('codetab:changed');
+              document.dispatchEvent(event);
+            }, 50);
+          }
+        });
+      });
+    });
+  }
+
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCodeTabs);
+  } else {
+    initCodeTabs();
+  }
+
+  // Also initialize after any dynamic content changes
+  document.addEventListener('astro:page-load', initCodeTabs);
+</script>
+

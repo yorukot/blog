@@ -1,55 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
+import { getLangFromUrl, useTranslations, getProjects } from "@/i18n/utils";
 
-const projects = [
-  {
-    title: "superfile",
-    description: "Pretty fancy and modern terminal file manager written in Go. Features intuitive navigation, file operations, and customizable themes.",
-    techStack: ["Go", "Terminal", "CLI", "Bubble Tea"],
-    link: "https://github.com/yorukot/superfile",
-    borderColor: "hsl(200, 100%, 60%)", // Go blue
-    featured: "⚡ GitHub Trending"
-  },
-  {
-    title: "Personal Blog",
-    description: "This portfolio website built with Astro, featuring modern design, responsive layout, and optimized performance.",
-    techStack: ["Astro", "TypeScript", "Tailwind CSS"],
-    link: "https://github.com/yorukot/blog",
-    borderColor: "hsl(15, 100%, 55%)", // Astro orange
-    featured: null
-  },
-  {
-    title: "MHCAT",
-    description: "A Discord bot that helps manage servers with various utility features. Built with Discord.js and MongoDB, used by over 1 million users.",
-    techStack: ["Node.js", "Discord.js", "MongoDB"],
-    link: "https://github.com/yorukot/old-mhcat",
-    borderColor: "hsl(235, 86%, 65%)", // Discord purple
-    featured: "🚀 1M+ Users"
-  },
-  {
-    title: "tmlshock",
-    description: "A terminal TTL clock and stopwatch built with Go. Simple and efficient time tracking tool for the command line.",
-    techStack: ["Go", "Terminal", "CLI"],
-    link: "https://github.com/yorukot/tmlshock",
-    borderColor: "hsl(45, 100%, 55%)", // Terminal yellow
-    featured: null
-  },
-  {
-    title: "Random Websites",
-    description: "I build a LOT of websites for fun or utility. Various projects exploring different technologies, but none that are actually public yet.",
-    techStack: ["React", "Next.js", "Tailwind CSS", "Node.js"],
-    borderColor: "hsl(270, 60%, 60%)", // Web purple
-    featured: null
-  },
-  {
-    title: "Juice Jump",
-    description: "A simple game made for a Hack Club event. Built with Godot engine, featuring fun jumping mechanics.",
-    techStack: ["Godot", "GDScript"],
-    link: "https://github.com/yorukot/juicejump",
-    borderColor: "hsl(141, 71%, 48%)", // Game green
-    featured: "🎮 Game Jam"
-  }
-];
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+const projects = getProjects();
 ---
 
 <div class="container mx-auto px-4">
@@ -58,10 +13,10 @@ const projects = [
       <!-- Section Header -->
       <div class="text-left mb-12">
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-text">
-          <span style="color: var(--color-primary);">Projects</span>
+          <span style="color: var(--color-primary);">{t('projects.title')}</span>
         </h2>
         <p class="text-lg md:text-xl text-text-muted leading-relaxed">
-          Some of the things I've built and worked on
+          {t('projects.subtitle')}
         </p>
       </div>
 
@@ -76,7 +31,7 @@ const projects = [
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center space-x-3">
                 <h3 class="text-xl md:text-2xl font-bold text-text">
-                  {project.title}
+                  {t(`projects.${project.id}.title` as any)}
                 </h3>
               </div>
               <div class="flex space-x-2">
@@ -101,7 +56,7 @@ const projects = [
 
             <!-- Description -->
             <p class="text-text-muted leading-relaxed mb-4">
-              {project.description}
+              {t(`projects.${project.id}.description` as any)}
             </p>
 
             <!-- Tech Stack -->
@@ -124,14 +79,16 @@ const projects = [
             </div>
 
             <!-- Click Handler -->
-            <a 
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="absolute inset-0 rounded-2xl"
-              aria-label={`Visit ${project.title}`}
-            >
-            </a>
+            {project.github && (
+              <a 
+                href={`https://github.com/${project.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="absolute inset-0 rounded-2xl"
+                aria-label={t('projects.visit', { title: t(`projects.${project.id}.title` as any) })}
+              >
+              </a>
+            )}
           </div>
         ))}
       </div>
@@ -139,7 +96,7 @@ const projects = [
       <!-- Additional Info -->
       <div class="mt-12 text-center">
         <p class="text-text-muted leading-relaxed">
-          Always working on something new and exciting. Check out my GitHub for more projects!
+          {t('projects.footer')}
         </p>
       </div>
     </div>

@@ -1,0 +1,601 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Icon } from "astro-icon/components";
+import Layout from '@/layouts/Layout.astro';
+import Post from '@/components/Post.astro';
+import { getLangFromUrl, useTranslations, languages } from '@/i18n/utils';
+
+// ========================================
+// Static Path Generation
+// ========================================
+export async function getStaticPaths() {
+  return languages.map((lang) => ({
+    params: { locale: lang },
+  }));
+}
+
+// ========================================
+// Page Setup and Data Fetching
+// ========================================
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+
+// Get URL parameters for initial filter state
+const url = new URL(Astro.request.url);
+const initialTag = url.searchParams.get('tag') || 'all';
+
+// Get all blog posts for the current locale
+const allPosts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => {
+  return data.lang === currentLocale;
+});
+
+// Sort posts by publication date (newest first)
+const sortedPosts = allPosts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+// Get all unique categories (first tag of each post)
+const allCategories = [...new Set(allPosts.map((post: CollectionEntry<'blog'>) => 
+  post.data.tags?.[0] || 'Uncategorized'
+))];
+
+// Get all unique sub-tags (all tags except the first one)
+const allSubTags = [...new Set(allPosts.flatMap((post: CollectionEntry<'blog'>) => 
+  post.data.tags?.slice(1) || []
+))];
+
+// ========================================
+// Helper Functions
+// ========================================
+
+// Format date for display
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat(currentLocale === 'zh-tw' ? 'zh-TW' : 'en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(date);
+}
+
+// Get reading time estimate
+function getReadingTime(content: string) {
+  const wordsPerMinute = currentLocale === 'zh-tw' ? 300 : 200;
+  const words = content.split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes;
+}
+
+// Mock word count for demo (you can replace this with actual content length)
+function getWordCount(post: CollectionEntry<'blog'>) {
+  // This is a simplified calculation - you might want to get actual content length
+  const description = post.data.description || '';
+  return Math.floor(Math.random() * 500) + 300; // Mock data for demo
+}
+---
+
+<Layout title={t('blog.title')}>
+  <div class="min-h-screen bg-bg">
+    <div class="container mx-auto px-4 py-12">
+      <div class="relative z-10 w-full max-w-4xl mx-auto">
+
+        <!-- ================================ -->
+        <!-- Page Header -->
+        <!-- ================================ -->
+        <div class="mb-12">
+          <h1 class="text-3xl md:text-4xl font-bold text-text mb-4">
+            {t('blog.title')}
+          </h1>
+          <p class="text-text-muted text-lg">
+            {t('blog.subtitle')}
+          </p>
+        </div>
+
+        <!-- ================================ -->
+        <!-- Filter Section -->
+        <!-- ================================ -->
+        <div class="mb-8">
+
+          <!-- Category Filters -->
+          <div class="mb-4">
+            <h3 class="text-sm font-medium text-text-muted mb-2">Categories</h3>
+            <div class="flex flex-wrap gap-3">
+              <button
+                class="tag-filter px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                class:list={{
+                  'active': initialTag === 'all',
+                  'bg-primary text-white': initialTag === 'all',
+                  'bg-bg-highlight text-text hover:bg-primary hover:text-white': initialTag !== 'all'
+                }}
+                data-tag="all"
+              >
+                {t('blog.filter.all')}
+              </button>
+              {allCategories.map(category => (
+                <button
+                  class="tag-filter px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                  class:list={{
+                    'active': initialTag === category,
+                    'bg-primary text-white': initialTag === category,
+                    'bg-bg-highlight text-text hover:bg-primary hover:text-white': initialTag !== category
+                  }}
+                  data-tag={category}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <!-- Sub-tag Filters (Initially Hidden) -->
+          {allSubTags.length > 0 && (
+            <div class="sub-tag-filters-section">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-sm font-medium text-text-muted">Sub-tags</h3>
+                <button 
+                  id="toggle-subtags" 
+                  class="text-xs text-accent hover:text-accent-highlight transition-colors"
+                >
+                  Show filters
+                </button>
+              </div>
+              <div id="subtag-filters" class="hidden">
+                <div class="flex flex-wrap gap-2">
+                  {allSubTags.map(tag => (
+                    <button
+                      class="tag-filter px-3 py-1 rounded text-xs font-medium transition-all duration-200"
+                      class:list={{
+                        'active': initialTag === tag,
+                        'bg-accent text-white': initialTag === tag,
+                        'bg-bg-card text-text-muted hover:bg-accent hover:text-white': initialTag !== tag
+                      }}
+                      data-tag={tag}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- ================================ -->
+        <!-- Blog Posts List -->
+        <!-- ================================ -->
+        <div class="space-y-6" id="posts-container">
+          {sortedPosts.map((post: CollectionEntry<'blog'>) => (
+            <Post post={post} currentLocale={currentLocale} />
+          ))}
+        </div>
+
+        <!-- ================================ -->
+        <!-- No Results Message -->
+        <!-- ================================ -->
+        <div id="no-results" class="text-center py-16 hidden">
+          <Icon 
+            name="tabler:search-off" 
+            class="w-16 h-16 mx-auto mb-4 text-text-muted"
+          />
+          <h3 class="text-xl font-bold text-text mb-2">
+            {t('blog.noResults.title')}
+          </h3>
+          <p class="text-text-muted">
+            {t('blog.noResults.description')}
+          </p>
+        </div>
+
+        <!-- ================================ -->
+        <!-- Footer Stats -->
+        <!-- ================================ -->
+        <div class="mt-16 pt-8 border-t border-bg-highlight">
+          <div class="flex items-center gap-6 text-text-muted text-sm">
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:article" size={16} />
+              <span>{t('blog.totalArticles', { count: sortedPosts.length })}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:tag" size={16} />
+              <span>{t('blog.totalCategories', { count: allCategories.length })}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Client-Side JavaScript -->
+  <!-- ================================ -->
+  <script>
+    // ========================================
+    // DOM Elements and Initial Setup
+    // ========================================
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    const postsContainer = document.getElementById('posts-container');
+    const noResults = document.getElementById('no-results');
+    const allPosts = document.querySelectorAll('.blog-post');
+    const toggleSubtagsBtn = document.getElementById('toggle-subtags');
+    const subtagFiltersContainer = document.getElementById('subtag-filters');
+
+    // Get initial tag from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentTag = urlParams.get('tag') || 'all';
+
+    // ========================================
+    // Helper Functions
+    // ========================================
+
+    /**
+     * Determine if a tag is a main category or sub-tag
+     */
+    function isMainCategory(tag: string): boolean {
+      if (tag === 'all') return true;
+
+      // Check if this tag appears as a main category (first tag) in any post
+      let isMain = false;
+      allPosts.forEach(post => {
+        const postElement = post as HTMLElement;
+        const category = postElement.dataset.category || '';
+        if (category === tag) {
+          isMain = true;
+        }
+      });
+      return isMain;
+    }
+
+    /**
+     * Filter posts based on current tag selection
+     */
+    function filterPosts() {
+      let visibleCount = 0;
+
+      allPosts.forEach(post => {
+        const postElement = post as HTMLElement;
+        const category = postElement.dataset.category || '';
+        const tags = JSON.parse(postElement.dataset.tags || '[]');
+        const allPostTags = [category, ...tags];
+
+        // Check if current tag matches any of the post's tags
+        const tagMatch = currentTag === 'all' || allPostTags.includes(currentTag);
+
+        if (tagMatch) {
+          postElement.style.display = 'block';
+          visibleCount++;
+        } else {
+          postElement.style.display = 'none';
+        }
+      });
+
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        postsContainer?.classList.add('hidden');
+        noResults?.classList.remove('hidden');
+      } else {
+        postsContainer?.classList.remove('hidden');
+        noResults?.classList.add('hidden');
+      }
+    }
+
+    /**
+     * Update URL with current tag selection
+     */
+    function updateURL(tag: string) {
+      const url = new URL(window.location.href);
+      if (tag === 'all') {
+        url.searchParams.delete('tag');
+      } else {
+        url.searchParams.set('tag', tag);
+      }
+      window.history.pushState({}, '', url);
+    }
+
+    // ========================================
+    // Event Listeners
+    // ========================================
+
+    /**
+     * Unified tag filter handlers
+     */
+    tagFilters.forEach((button) => {
+      (button as HTMLElement).addEventListener('click', () => {
+        const tag = (button as HTMLElement).dataset.tag || 'all';
+
+        // Update active state for all tag filters
+        tagFilters.forEach((btn) => {
+          const btnElement = btn as HTMLElement;
+          btnElement.classList.remove('active', 'bg-primary', 'bg-accent', 'text-white');
+
+          // Reset to default styling based on button type
+          if (btnElement.classList.contains('px-4')) { // Main category buttons
+            btnElement.classList.add('bg-bg-highlight', 'text-text');
+          } else { // Sub-tag buttons  
+            btnElement.classList.add('bg-bg-card', 'text-text-muted');
+          }
+        });
+
+        // Set active state for clicked button
+        const buttonElement = button as HTMLElement;
+        buttonElement.classList.add('active');
+        buttonElement.classList.remove('bg-bg-highlight', 'text-text', 'bg-bg-card', 'text-text-muted');
+
+        // Different styling based on whether it's a main category or sub-tag
+        if (isMainCategory(tag)) {
+          buttonElement.classList.add('bg-primary', 'text-white');
+        } else {
+          buttonElement.classList.add('bg-accent', 'text-white');
+        }
+
+        // Update current tag and filter
+        currentTag = tag;
+        updateURL(tag);
+        filterPosts();
+
+        // Auto-show sub-tag filters if a sub-tag is selected
+        if (!isMainCategory(tag) && tag !== 'all') {
+          subtagFiltersContainer?.classList.remove('hidden');
+          if (toggleSubtagsBtn) {
+            toggleSubtagsBtn.textContent = 'Hide filters';
+          }
+        } else if (tag === 'all' || isMainCategory(tag)) {
+          // Hide sub-tag filters when main category is selected
+          subtagFiltersContainer?.classList.add('hidden');
+          if (toggleSubtagsBtn) {
+            toggleSubtagsBtn.textContent = 'Show filters';
+          }
+        }
+      });
+    });
+
+    /**
+     * Sub-tag clickable functionality
+     */
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+
+      if (target.classList.contains('sub-tag')) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const tag = target.dataset.tag;
+        if (tag) {
+          // Find and activate the corresponding filter
+          const filterButton = document.querySelector(`[data-tag="${tag}"].tag-filter`) as HTMLElement;
+          if (filterButton) {
+            filterButton.click();
+          }
+        }
+      }
+    });
+
+    /**
+     * Toggle sub-tag filters visibility
+     */
+    toggleSubtagsBtn?.addEventListener('click', () => {
+      const isHidden = subtagFiltersContainer?.classList.contains('hidden');
+
+      if (isHidden) {
+        subtagFiltersContainer?.classList.remove('hidden');
+        toggleSubtagsBtn.textContent = 'Hide filters';
+      } else {
+        // Don't hide if a sub-tag is currently selected
+        if (!isMainCategory(currentTag) && currentTag !== 'all') {
+          // Add visual feedback that hiding is not allowed
+          toggleSubtagsBtn.style.opacity = '0.5';
+          setTimeout(() => {
+            toggleSubtagsBtn.style.opacity = '1';
+          }, 200);
+          return; // Prevent hiding when sub-tag is active
+        }
+
+        subtagFiltersContainer?.classList.add('hidden');
+        toggleSubtagsBtn.textContent = 'Show filters';
+        // Reset to 'all' when hiding
+        if (currentTag !== 'all') {
+          const allButton = document.querySelector('[data-tag="all"]') as HTMLElement;
+          if (allButton) {
+            allButton.click();
+          }
+        }
+      }
+    });
+
+    /**
+     * Expandable tags functionality
+     */
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+
+      // Expand tags button
+      if (target.classList.contains('expand-tags-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const postId = target.dataset.postId;
+        const dropdown = document.querySelector(`[data-post-id="${postId}"].expanded-tags`) as HTMLElement;
+
+        if (dropdown) {
+          dropdown.classList.toggle('hidden');
+        }
+      }
+
+      // Close tags button
+      if (target.classList.contains('close-tags-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const postId = target.dataset.postId;
+        const dropdown = document.querySelector(`[data-post-id="${postId}"].expanded-tags`) as HTMLElement;
+
+        if (dropdown) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
+
+    /**
+     * Close dropdowns when clicking outside
+     */
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+
+      if (!target.closest('.expanded-tags') && !target.classList.contains('expand-tags-btn')) {
+        document.querySelectorAll('.expanded-tags').forEach(dropdown => {
+          dropdown.classList.add('hidden');
+        });
+      }
+    });
+
+    // ========================================
+    // Scroll Reveal Animation
+    // ========================================
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    allPosts.forEach(post => {
+      observer.observe(post);
+    });
+
+    // ========================================
+    // Initialization
+    // ========================================
+
+    /**
+     * Initialize filter state on page load
+     */
+    function initializeFilters() {
+      // Apply initial filter
+      filterPosts();
+
+      // If current tag is a sub-tag, show the sub-tag filters
+      if (!isMainCategory(currentTag) && currentTag !== 'all') {
+        subtagFiltersContainer?.classList.remove('hidden');
+        if (toggleSubtagsBtn) {
+          toggleSubtagsBtn.textContent = 'Hide filters';
+        }
+      }
+
+      // Reset all buttons to default state first
+      tagFilters.forEach((btn) => {
+        const btnElement = btn as HTMLElement;
+        btnElement.classList.remove('active', 'bg-primary', 'bg-accent', 'text-white');
+
+        // Reset to default styling based on button type
+        if (btnElement.classList.contains('px-4')) { // Main category buttons
+          btnElement.classList.add('bg-bg-highlight', 'text-text');
+        } else { // Sub-tag buttons  
+          btnElement.classList.add('bg-bg-card', 'text-text-muted');
+        }
+      });
+
+      // Set correct visual state for the active button
+      tagFilters.forEach((btn) => {
+        const btnElement = btn as HTMLElement;
+        const tag = btnElement.dataset.tag || 'all';
+
+        if (tag === currentTag) {
+          btnElement.classList.add('active');
+          btnElement.classList.remove('bg-bg-highlight', 'text-text', 'bg-bg-card', 'text-text-muted');
+
+          if (isMainCategory(tag)) {
+            btnElement.classList.add('bg-primary', 'text-white');
+          } else {
+            btnElement.classList.add('bg-accent', 'text-white');
+          }
+        }
+      });
+    }
+
+    // Initialize on page load
+    initializeFilters();
+  </script>
+</Layout>
+
+<!-- ================================ -->
+<!-- Component Styles -->
+<!-- ================================ -->
+<style>
+  /* ========================================
+   * Animation Styles
+   * ======================================== */
+  .blog-post {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-post.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ========================================
+   * Blog Post Styles
+   * ======================================== */
+  .blog-post {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .blog-post::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    background: var(--color-bg-highlight);
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .blog-post:hover::before {
+    opacity: 1;
+  }
+
+  .blog-post:hover .absolute.left-0 {
+    background: var(--color-accent);
+  }
+
+  /* ========================================
+   * Filter Styles
+   * ======================================== */
+  .category-filter {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category-filter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .category-filter:hover::before {
+    left: 100%;
+  }
+
+  /* ========================================
+   * Transition Utilities
+   * ======================================== */
+  .blog-post {
+    transition: all 0.3s ease;
+  }
+</style>

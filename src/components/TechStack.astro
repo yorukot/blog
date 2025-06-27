@@ -1,56 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
+import { getLangFromUrl, useTranslations, getTechStack } from "@/i18n/utils";
 
-const techStacks = [
-    {
-    title: "Go",
-    description: "Go is my favorite and best language, I use it for backend services and CLI tools. Experience with Gin, Echo, Fiber, and Bubble Tea.",
-    icons: ["skill-icons:golang"],
-    borderColor: "hsl(200, 100%, 60%)", // Go blue
-  },
-  {
-    title: "JavaScript",
-    description: "Full-stack development with Node.js, NestJS, Express, and Discord.js. And of course, who's not using TypeScript?",
-    icons: ["skill-icons:javascript", "skill-icons:typescript", "skill-icons:nodejs-dark", "skill-icons:nestjs-dark", "skill-icons:expressjs-dark", "skill-icons:discordjs-dark"],
-    borderColor: "hsl(45, 100%, 55%)", // JavaScript yellow
-  },
-  {
-    title: "Python",
-    description: "Machine learning, data analysis, and web APIs with FastAPI and Flask.",
-    icons: ["skill-icons:python-dark", "skill-icons:fastapi", "skill-icons:flask-dark"],
-    borderColor: "hsl(55, 100%, 65%)", // Python yellow
-  },
-  {
-    title: "Frontend Development",
-    description: "React, Next.js, and Astro for modern web applications. Tailwind CSS for styling.",
-    icons: ["skill-icons:html", "skill-icons:css", "skill-icons:react-dark", "skill-icons:nextjs-dark", "skill-icons:astro", "skill-icons:tailwindcss-dark"],
-    borderColor: "hsl(195, 100%, 65%)", // React blue
-  },
-  {
-    title: "Database Architecture",
-    description: "PostgreSQL, MongoDB, Redis, and Cassandra for different data storage needs. I really like system design and architecture.",
-    icons: ["skill-icons:postgresql-dark", "skill-icons:mongodb", "skill-icons:redis-dark", "skill-icons:cassandra-dark"],
-    borderColor: "hsl(210, 50%, 55%)", // Database blue
-  },
-  {
-    title: "DevOps & Cloud",
-    description: "Docker, Nginx, and deployment with Vercel, Netlify, and Cloudflare.",
-    icons: ["skill-icons:docker", "skill-icons:nginx", "skill-icons:vercel-dark", "skill-icons:netlify-dark", "skill-icons:cloudflare-dark"],
-    borderColor: "hsl(25, 100%, 60%)", // Docker orange
-  },
-  {
-    title: "Development Tools",
-    description: "Linux, macOS, Git workflows, and development productivity tools.",
-    icons: ["skill-icons:linux-dark", "skill-icons:apple-dark", "skill-icons:markdown-dark", "skill-icons:git", "skill-icons:github-dark", "skill-icons:postman"],
-    borderColor: "hsl(0, 0%, 40%)", // Tools gray
-  },
-  {
-    title: "Exploring & Learning",
-    description: "I'm exploring Rust because it's really fast and modern, SolidJS, C++ (for school things), game development with Unity/Godot, and Supabase.",
-    icons: ["skill-icons:rust", "skill-icons:solidjs-dark", "skill-icons:cpp", "skill-icons:supabase-dark", "skill-icons:unity-dark", "skill-icons:godot-dark"],
-    borderColor: "hsl(15, 100%, 55%)", // Rust orange
-  }
-];
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+const techStacks = getTechStack();
 ---
 
 <div class="container mx-auto px-4">
@@ -59,10 +13,10 @@ const techStacks = [
       <!-- Section Header -->
       <div class="text-left mb-12">
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-text">
-          <span style="color: var(--color-primary);">Tech Stack</span>
+          <span style="color: var(--color-primary);">{t('techStack.title')}</span>
         </h2>
         <p class="text-lg md:text-xl text-text-muted leading-relaxed">
-          Technologies and tools I work with
+          {t('techStack.subtitle')}
         </p>
       </div>
 
@@ -77,7 +31,7 @@ const techStacks = [
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center space-x-3">
                 <h3 class="text-xl md:text-2xl font-bold text-text">
-                  {tech.title}
+                  {t(`techStack.${tech.id}.title` as any)}
                 </h3>
               </div>
               <div class="flex space-x-2">
@@ -92,7 +46,7 @@ const techStacks = [
 
             <!-- Description -->
             <p class="text-text-muted leading-relaxed mb-4">
-              {tech.description}
+              {t(`techStack.${tech.id}.description` as any)}
             </p>
 
             <!-- Hover Border Effect -->
@@ -108,7 +62,7 @@ const techStacks = [
       <!-- Additional Info -->
       <div class="mt-12 text-center">
         <p class="text-text-muted leading-relaxed mb-4">
-          Always learning and exploring new technologies to build better solutions.
+          {t('techStack.footer')}
         </p>
       </div>
     </div>

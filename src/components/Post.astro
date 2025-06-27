@@ -1,0 +1,220 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+
+// Import blog images
+import helloWorldImage from '@/assets/blog/hello-world.png';
+
+// Create image mapping
+const imageMap: Record<string, { src: string; width: number; height: number }> = {
+  '/assets/blog/hello-world.png': helloWorldImage,
+};
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  currentLocale: string;
+  variant?: 'default' | 'compact';
+}
+
+const { post, currentLocale, variant = 'default' } = Astro.props;
+
+// Format date for display
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat(currentLocale === 'zh-tw' ? 'zh-TW' : 'en-US', {
+    year: 'numeric',
+    month: variant === 'compact' ? 'short' : '2-digit',
+    day: 'numeric'
+  }).format(date);
+}
+
+// Get the actual slug without the language prefix
+const actualSlug = post.slug.split('/').slice(1).join('/');
+---
+
+{variant === 'default' ? (
+  <!-- Full Post Card for Blog Index -->
+  <article 
+    class="blog-post group relative transition-all duration-300 hover:translate-x-1 min-h-32"
+    data-category={post.data.tags?.[0] || 'Uncategorized'}
+    data-title={post.data.title.toLowerCase()}
+    data-description={post.data.description?.toLowerCase() || ''}
+    data-tags={JSON.stringify(post.data.tags || [])}
+  >
+    <!-- Left accent line -->
+    <div class="absolute left-0 top-0 w-1 h-full bg-primary rounded-full transition-all duration-300 group-hover:w-2 group-hover:bg-accent"></div>
+
+    <!-- Mobile: Image at top -->
+    <div class="block md:hidden mb-4 pl-8">
+      {post.data.image && (
+        <div class="relative w-full h-32">
+          <img
+            src={imageMap[post.data.image.url]?.src || post.data.image.url}
+            alt={post.data.image.alt}
+            class="w-full h-full rounded-lg object-cover transition-opacity duration-200"
+          />
+        </div>
+      )}
+    </div>
+
+    <div class="flex items-start">
+      <!-- Content area -->
+      <div class="pl-8 flex-1 min-w-0 flex flex-col h-full">
+        <!-- Title area -->
+        <div class="flex-1">
+          <h2 class="text-lg md:text-2xl font-bold text-text group-hover:text-primary transition-colors duration-200 leading-snug break-words group-hover:underline decoration-wavy decoration-accent mb-2">
+            {post.data.title}
+          </h2>
+        </div>
+
+        <!-- Meta information at bottom -->
+        <div class="mt-auto pt-4">
+          <div class="flex items-center gap-6 mb-2 text-sm text-text-muted">
+            <!-- Date -->
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:calendar" size={16} />
+              <time datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+            </div>
+
+            <!-- Category -->
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:folder" size={16} />
+              <span class="px-2 py-1 rounded bg-bg-highlight text-xs font-medium">
+                {post.data.tags?.[0] || 'Uncategorized'}
+              </span>
+            </div>
+
+            <!-- Sub tags -->
+            {post.data.tags && post.data.tags.length > 1 && (
+              <div class="hidden sm:flex items-center gap-2">
+                <Icon name="tabler:hash" size={16} />
+                <div class="flex items-center gap-1">
+                  <span 
+                    class="sub-tag px-2 py-1 rounded bg-bg-card text-xs font-medium text-text-muted hover:bg-accent hover:text-white transition-all duration-200 cursor-pointer"
+                    data-tag={post.data.tags[1]}
+                  >
+                    {post.data.tags[1]}
+                  </span>
+
+                  {post.data.tags.length > 2 && (
+                    <div class="relative">
+                      <button 
+                        class="expand-tags-btn px-2 py-1 rounded bg-accent text-xs font-medium text-white hover:bg-accent-highlight transition-all duration-200"
+                        data-post-id={post.slug}
+                        aria-label={`Show ${post.data.tags.length - 2} more tags`}
+                      >
+                        +{post.data.tags.length - 2}
+                      </button>
+
+                      <div 
+                        class="expanded-tags absolute top-full left-0 mt-2 p-2 bg-bg-card border border-bg-highlight rounded-lg shadow-lg z-20 min-w-48 hidden"
+                        data-post-id={post.slug}
+                      >
+                        <div class="flex flex-wrap gap-1">
+                          {post.data.tags.slice(2).map((tag: string) => (
+                            <span 
+                              class="sub-tag px-2 py-1 rounded bg-bg-highlight text-xs font-medium text-text hover:bg-accent hover:text-white transition-all duration-200 cursor-pointer"
+                              data-tag={tag}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <button 
+                          class="close-tags-btn mt-2 text-xs text-text-muted hover:text-text transition-colors"
+                          data-post-id={post.slug}
+                        >
+                          {currentLocale === 'zh-tw' ? '收起' : 'Close'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <!-- Stats -->
+          <div class="flex items-center gap-6 text-sm text-text-muted">
+            {post.data.updatedDate && (
+              <div class="flex items-center gap-1 text-accent-highlight">
+                <Icon name="tabler:edit" size={14} />
+                <span>Updated</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Right side image -->
+      {post.data.image && (
+        <div class="hidden md:block flex-shrink-0 ml-6">
+          <div class="relative w-48 lg:w-56 xl:w-64" style="aspect-ratio: 16/9;">
+            <img
+              src={imageMap[post.data.image.url]?.src || post.data.image.url}
+              alt={post.data.image.alt}
+              class="w-full h-full rounded-lg object-cover transition-opacity duration-200"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Click overlay -->
+    <a 
+      href={`/${currentLocale}/blog/${actualSlug}/`}
+      class="absolute inset-0"
+      aria-label={`Read more about ${post.data.title}`}
+    >
+    </a>
+  </article>
+) : (
+  <!-- Compact Post Card for Related Posts -->
+  <article class="group rounded-lg border border-opacity-20 p-6 transition-all duration-300 hover:border-opacity-40 hover:shadow-lg" 
+           style="background-color: var(--color-bg-card); border-color: var(--color-text-muted);">
+    <div class="space-y-4">
+      {post.data.image && (
+        <div class="overflow-hidden rounded-lg">
+          <img 
+            src={imageMap[post.data.image.url]?.src || post.data.image.url}
+            alt={post.data.image.alt}
+            class="h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      )}
+      
+      <div class="space-y-2">
+        <h4 class="text-lg font-semibold transition-colors duration-200 group-hover:text-primary" 
+            style="color: var(--color-text-contrast);">
+          <a href={`/${currentLocale}/blog/${actualSlug}/`} class="block">
+            {post.data.title}
+          </a>
+        </h4>
+        
+        {post.data.description && (
+          <p class="text-sm leading-relaxed" style="color: var(--color-text-muted);">
+            {post.data.description.length > 100 ? post.data.description.substring(0, 100) + '...' : post.data.description}
+          </p>
+        )}
+        
+        <div class="flex items-center justify-between">
+          <time class="text-xs" style="color: var(--color-text-muted);">
+            {formatDate(post.data.pubDate)}
+          </time>
+          
+          {post.data.tags && post.data.tags.length > 0 && (
+            <div class="flex gap-1">
+              {post.data.tags.slice(0, 2).map(tag => (
+                <span class="rounded-full px-2 py-1 text-xs" 
+                      style="background-color: var(--color-primary); color: var(--color-bg);">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </article>
+)}

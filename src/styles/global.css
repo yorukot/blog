@@ -2,28 +2,28 @@
 
 @theme {
   /* Base background and text colors */
-  --color-bg: hsl(232, 23%, 18%);               /* Main dark background */
-  --color-bg-card: hsl(232, 23%, 22%);          /* Slightly lighter background */
-  --color-bg-highlight: hsl(232, 23%, 25%);          /* Slightly lighter background */
+  --color-bg: hsl(232, 23%, 18%); /* Main dark background */
+  --color-bg-card: hsl(232, 23%, 22%); /* Slightly lighter background */
+  --color-bg-highlight: hsl(232, 23%, 25%); /* Slightly lighter background */
 
-  --color-text: hsl(60, 33%, 94.90%);          /* Primary text, warm light gold */
-  --color-text-muted: hsl(60, 33%, 80% );    /* Muted text, warm beige */
-  --color-text-contrast: hsl(60, 33%, 95%);  /* Strong highlight text (for emphasis / CTA) */
+  --color-text: hsl(60, 33%, 94.9%); /* Primary text, warm light gold */
+  --color-text-muted: hsl(60, 33%, 80%); /* Muted text, warm beige */
+  --color-text-contrast: hsl(60, 33%, 95%); /* Strong highlight text (for emphasis / CTA) */
 
   /* Primary colors */
-  --color-primary: hsl(24, 84.40%, 65%);
-  --color-primary-hover: hsl(24, 84.40%, 50%);
-  --color-primary-active: hsl(24, 84.40%, 40%);
-  --color-primary-highlight: hsl(24, 84.40%, 70%);
+  --color-primary: hsl(24, 84.4%, 65%);
+  --color-primary-hover: hsl(24, 84.4%, 50%);
+  --color-primary-active: hsl(24, 84.4%, 40%);
+  --color-primary-highlight: hsl(24, 84.4%, 70%);
 
   /* Accent colors (cyan tones) */
-  --color-accent: hsl(171, 50%, 60%);        /* Primary cyan accent (links, buttons) */ 
-  --color-accent-hover: hsl(171, 50%, 50%);  /* Accent hover */
-  --color-accent-highlight: hsl(171, 90.50%, 71.20%);        /* Primary cyan accent (links, buttons) */ 
+  --color-accent: hsl(171, 50%, 60%); /* Primary cyan accent (links, buttons) */
+  --color-accent-hover: hsl(171, 50%, 50%); /* Accent hover */
+  --color-accent-highlight: hsl(171, 90.5%, 71.2%); /* Primary cyan accent (links, buttons) */
 
   /* Danger colors */
-  --color-danger: hsl(348, 58.60%, 56%);
-  --color-danger-hover: hsl(348, 58.60%, 46%);
+  --color-danger: hsl(348, 58.6%, 56%);
+  --color-danger-hover: hsl(348, 58.6%, 46%);
 
   /* Success colors */
   --color-success: hsl(141, 71%, 48%);

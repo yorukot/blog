@@ -1,29 +1,29 @@
 ---
-import { Icon } from "astro-icon/components";
-import Socials from "@/components/Socials.astro";
+import { Icon } from 'astro-icon/components';
+import Socials from '@/components/Socials.astro';
+import { getLangFromUrl, useTranslations, getPersonalInfo, getContactInfo } from '@/i18n/utils';
+import avatarImage from '@/assets/avatar.png';
 
-const {
-  title = "Yorukot",
-  photoUrl = "/assets/avatar.png",
-} = Astro.props;
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+const personalInfo = getPersonalInfo();
+const contactInfo = getContactInfo();
+
+const { title = personalInfo.name, photoUrl = avatarImage.src } = Astro.props;
 ---
 
 <div class="container mx-auto px-4">
   <section class="flex items-center py-8 md:py-20">
-    <div class="relative z-10 w-full max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div class="relative z-10 mx-auto w-full max-w-6xl">
+      <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         <!-- Photo Section -->
-        <div class="order-1 md:order-2 flex justify-center">
-          <div class="relative group">
+        <div class="order-1 flex justify-center md:order-2">
+          <div class="group relative">
             <!-- Photo container -->
             <div
-              class="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-[1.02] bg-bg-highlight"
+              class="bg-bg-highlight relative h-72 w-72 overflow-hidden rounded-2xl transition-all duration-300 group-hover:scale-[1.02] md:h-80 md:w-80"
             >
-              <img
-                src={photoUrl}
-                alt="Profile photo"
-                class="w-full h-full object-cover"
-              />
+              <img src={photoUrl} alt="Profile photo" class="h-full w-full object-cover" />
 
               <!-- Border accent -->
               <div
@@ -34,64 +34,63 @@ const {
             </div>
 
             <!-- Location and Time Info -->
-            <div class="mt-6 text-center space-y-2">
-              <div class="flex items-center justify-center text-text-muted">
+            <div class="mt-6 space-y-2 text-center">
+              <div class="text-text-muted flex items-center justify-center">
                 <Icon
                   name="tabler:map-pin"
                   class="mr-2"
                   style="color: var(--color-accent);"
                   size={16}
                 />
-                <a href="https://maps.app.goo.gl/d6URazuxoMjo3Ch16" target="_blank" class="text-sm">Taiwan, Taichung</a>
-                <Icon 
-                  name="flag:tw-4x3" 
-                  class="ml-2"
-                  size={20}
-                />
+                <a href={personalInfo.location.mapUrl} target="_blank" class="text-sm"
+                  >{t('common.location')}, {personalInfo.location.city}</a
+                >
+                <Icon name="flag:tw-4x3" class="ml-2" size={20} />
               </div>
-              <div class="flex items-center justify-center text-text-muted">
+              <div class="text-text-muted flex items-center justify-center">
                 <Icon
                   name="tabler:clock"
                   class="mr-2"
                   style="color: var(--color-accent);"
                   size={16}
                 />
-                <span class="text-sm" id="utc-time">UTC+8</span>
+                <span class="text-sm" id="utc-time">{t('common.timezone')}</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Content Section -->
-        <div class="order-2 md:order-1 text-left text-xl">
+        <div class="order-2 text-left text-xl md:order-1">
           <!-- Main Heading -->
-          <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-text"
-          >
-            <span style="color: var(--color-primary);">Hi,</span> I'm {title}
+          <h1 class="text-text mb-6 text-4xl leading-tight font-bold md:text-5xl lg:text-6xl">
+            <span style="color: var(--color-primary);">{t('hero.greeting')}</span>
+            {t('hero.imName')}
+            {title}
           </h1>
 
           <!-- Description Section -->
-          <div class="space-y-4 leading-relaxed mb-6 text-text">
+          <div class="text-text mb-6 space-y-4 leading-relaxed">
             <p>
-              Hi! I’m a 17-year-old high school student with about 6 years of development experience. I love building things with code and specialize in full-stack web development and creating CLI/TUI tools that make working in the terminal more enjoyable.
+              {
+                t('hero.description.intro', {
+                  age: personalInfo.age,
+                  experienceYears: personalInfo.experienceYears,
+                })
+              }
             </p>
 
             <p>
-              When I’m not coding or contributing to open-source projects, you’ll probably find me watching anime, TV series, or movies. I’m always learning new technologies and sharing what I discover with the community.
+              {t('hero.description.hobbies')}
             </p>
 
             <p>
-              I work <span
-                class="underline hover:opacity-80 transition-opacity text-accent-highlight"
-              >
-                @Opensource
-              </span> where I spend most of my time building tools and websites.
-              Some projects and tags for me:
+              {t('hero.description.work')}
+              {t('hero.description.projectsIntro')}
             </p>
 
             <!-- Projects List -->
-            <ul class="space-y-2 ml-4 text-text">
+            <ul class="text-text ml-4 space-y-2">
               <li class="flex items-center">
                 <Icon
                   name="icon-park-outline:dot"
@@ -100,12 +99,12 @@ const {
                   size={24}
                 />
                 <span>
-                  Pretty fancy and modern terminal file manager, <a
+                  {t('hero.projects.superfile').split('superfile')[0]}<a
                     href="https://github.com/yorukot/superfile"
-                    class="underline hover:text-accent text-accent-highlight"
+                    class="hover:text-accent text-accent-highlight underline"
                     target="_blank">superfile</a
-                  >.
-                </span>
+                  >{t('hero.projects.superfile').split('superfile')[1] || '.'}</span
+                >
               </li>
               <li class="flex items-center">
                 <Icon
@@ -114,7 +113,7 @@ const {
                   style="color: var(--color-primary);"
                   size={24}
                 />
-                <span> I do some opensource contributions at everywhere. </span>
+                <span>{t('hero.projects.opensource')}</span>
               </li>
               <li class="flex items-center">
                 <Icon
@@ -123,7 +122,7 @@ const {
                   style="color: var(--color-primary);"
                   size={24}
                 />
-                <span> I like do system design and architecture. </span>
+                <span>{t('hero.projects.systemDesign')}</span>
               </li>
               <li class="flex items-center">
                 <Icon
@@ -133,9 +132,7 @@ const {
                   size={24}
                 />
                 <span>
-                  A lot of website and web apps, <del class="text-text-muted"
-                    >but it all not finished yet.</del
-                  >
+                  {t('hero.projects.websites')}
                 </span>
               </li>
             </ul>
@@ -157,9 +154,9 @@ const {
       timeZone: 'Asia/Taipei',
       hour12: false,
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
-    
+
     const timeElement = document.getElementById('utc-time');
     if (timeElement) {
       timeElement.textContent = `${timeString} UTC+8`;

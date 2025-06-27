@@ -1,44 +1,55 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from 'astro-icon/components';
+import { getContactInfo } from '@/i18n/utils';
+
+const contactInfo = getContactInfo();
 ---
 
 <!-- Social Links -->
-<div class="flex justify-center md:justify-start space-x-4 text-text">
+<div class="text-text flex justify-center space-x-4 md:justify-start">
   <a
-    href="mailto:hi@yorukot.me"
-    class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+    href={`mailto:${contactInfo.email}`}
+    class="hover:text-primary-highlight inline-flex h-12 w-12 items-center justify-center rounded-lg hover:rotate-15"
     style="background: var(--color-bg-highlight);"
     aria-label="Mail"
   >
-    <Icon name="tabler:mail-filled" class="w-7 h-7" />
+    <Icon name="tabler:mail-filled" class="h-7 w-7" />
   </a>
 
   <a
-    href="https://github.com/yorukot"
-    class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+    href={`https://github.com/${contactInfo.github}`}
+    class="hover:text-primary-highlight inline-flex h-12 w-12 items-center justify-center rounded-lg hover:rotate-15"
     style="background: var(--color-bg-highlight);"
     aria-label="GitHub"
   >
-    <div class="w-7 h-7">
-      <Icon name="cib:github" class="w-7 h-7" />
+    <div class="h-7 w-7">
+      <Icon name="cib:github" class="h-7 w-7" />
     </div>
   </a>
 
   <a
-    href="https://discord.com/users/579544867626024960"
-    class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+    href={`https://discord.com/users/${contactInfo.discord}`}
+    class="hover:text-primary-highlight inline-flex h-12 w-12 items-center justify-center rounded-lg hover:rotate-15"
     style="background: var(--color-bg-highlight);"
     aria-label="Discord"
   >
-    <Icon name="cbi:discord" class="w-7 h-7" />
+    <Icon name="cbi:discord" class="h-7 w-7" />
   </a>
 
   <a
-    href="https://www.youtube.com/@yorukot"
-    class="inline-flex items-center justify-center w-12 h-12 rounded-lg hover:rotate-15 hover:text-primary-highlight"
+    href={`https://www.youtube.com/${contactInfo.youtube}`}
+    class="hover:text-primary-highlight inline-flex h-12 w-12 items-center justify-center rounded-lg hover:rotate-15"
     style="background: var(--color-bg-highlight);"
     aria-label="YouTube"
   >
-    <Icon name="cbi:youtube" class="w-7 h-7" />
+    <Icon name="cbi:youtube" class="h-7 w-7" />
+  </a>
+  <a
+    href={`https://ko-fi.com/${contactInfo.kofi}`}
+    class="hover:text-primary-highlight inline-flex h-12 w-12 items-center justify-center rounded-lg hover:rotate-15"
+    style="background: var(--color-bg-highlight);"
+    aria-label="Ko-fi"
+  >
+    <Icon name="simple-icons:kofi" class="h-7 w-7" />
   </a>
 </div>

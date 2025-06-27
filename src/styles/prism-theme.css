@@ -1,0 +1,144 @@
+/* Custom Prism Theme for Dark Mode */
+
+/* Base styles */
+code[class*='language-'],
+pre[class*='language-'] {
+  color: #e2e8f0;
+  background: none;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 0.875rem;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  tab-size: 2;
+  hyphens: none;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+}
+
+/* Code blocks */
+pre[class*='language-'] {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  background: var(--color-bg-highlight);
+}
+
+/* Inline code */
+:not(pre) > code[class*='language-'] {
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.3rem;
+  white-space: normal;
+  background: var(--color-bg-highlight);
+}
+
+/* Syntax highlighting colors */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #64748b;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #94a3b8;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f87171;
+}
+
+.token.boolean,
+.token.number {
+  color: #fbbf24;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #34d399;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+  color: #60a5fa;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+  color: #a78bfa;
+}
+
+.token.keyword {
+  color: #fb7185;
+}
+
+.token.regex,
+.token.important {
+  color: #fbbf24;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+/* Language specific */
+.language-json .token.property {
+  color: #60a5fa;
+}
+
+.language-markdown .token.title {
+  color: #fb7185;
+  font-weight: bold;
+}
+
+.language-markdown .token.code {
+  color: #34d399;
+}
+
+/* Line highlighting */
+.highlight-line {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid #3b82f6;
+  padding-left: 0.75rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+/* Line numbers (if used) */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #374151;
+  padding-right: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.line-numbers-rows > span:before {
+  color: #6b7280;
+}

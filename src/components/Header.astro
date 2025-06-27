@@ -1,36 +1,44 @@
 ---
-import Book from "@lucide/astro/icons/book";
-import Languages from "@lucide/astro/icons/languages";
-import { getLangFromUrl, useTranslations, getAlternateLanguageUrl, lang, languages } from "@/i18n/utils";
+import Book from '@lucide/astro/icons/book';
+import Languages from '@lucide/astro/icons/languages';
+import {
+  getLangFromUrl,
+  useTranslations,
+  getAlternateLanguageUrl,
+  lang,
+  languages,
+  getPersonalInfo,
+} from '@/i18n/utils';
 
 const currentLocale = getLangFromUrl(Astro.url);
 const t = useTranslations(currentLocale);
+const personalInfo = getPersonalInfo();
 ---
 
-<header class="sticky top-0 z-50 w-full border-b bg-bg-card border-accent">
+<header class="bg-bg-card border-accent sticky top-0 z-50 w-full border-b">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo and Brand -->
       <div class="flex items-center">
         <a href="/" class="flex items-center">
-          <span class="text-xl font-bold text-[var(--color-text)]">Yorukot</span
-          >
+          <span class="text-xl font-bold text-[var(--color-text)]">{personalInfo.name}</span>
         </a>
       </div>
 
       <!-- Right Side Navigation -->
       <div class="flex items-center space-x-6">
         <a
-          href="/blog"
-          class="flex items-center space-x-2 text-text hover:text-primary hover:rotate-15 transition-colors"
+          href={`/${currentLocale}/blog/`}
+          class="text-text hover:text-primary flex items-center space-x-2 transition-colors hover:rotate-15"
+          title={t('nav.blog')}
         >
           <Book size={24} />
         </a>
 
         <!-- Language Switcher -->
-        <div class="relative group">
+        <div class="group relative">
           <button
-            class="cursor-pointer flex items-center space-x-2 text-text hover:text-primary hover:rotate-15 transition-colors"
+            class="text-text hover:text-primary flex cursor-pointer items-center space-x-2 transition-colors hover:rotate-15"
             aria-label={t('nav.switchLang')}
             title={t('nav.switchLang')}
           >
@@ -38,20 +46,24 @@ const t = useTranslations(currentLocale);
           </button>
 
           <!-- Dropdown Menu -->
-          <div class="absolute right-0 mt-2 w-24 bg-bg-card border border-accent rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div
+            class="bg-bg-card border-accent invisible absolute right-0 z-50 mt-2 w-24 rounded-md border opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100"
+          >
             <div class="py-1">
-              {languages.map((langCode) => (
-                <a
-                  href={getAlternateLanguageUrl(Astro.url, langCode)}
-                  class={`block px-4 py-2 text-sm transition-colors ${
-                    currentLocale === langCode 
-                      ? 'bg-primary/10 text-primary font-medium' 
-                      : 'text-text hover:bg-primary/10 hover:text-primary'
-                  }`}
-                >
-                  {lang[langCode]}
-                </a>
-              ))}
+              {
+                languages.map((langCode) => (
+                  <a
+                    href={getAlternateLanguageUrl(Astro.url, langCode)}
+                    class={`block px-4 py-2 text-sm transition-colors ${
+                      currentLocale === langCode
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'text-text hover:bg-primary/10 hover:text-primary'
+                    }`}
+                  >
+                    {lang[langCode]}
+                  </a>
+                ))
+              }
             </div>
           </div>
         </div>

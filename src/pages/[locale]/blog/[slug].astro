@@ -1,0 +1,572 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Layout from '@/layouts/Layout.astro';
+import Post from '@/components/Post.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import '@/styles/markdown.css';
+import '@/styles/prism-theme.css';
+
+// Import markdown components for use in MDX
+import CodeTabs from '@/components/markdown/CodeTabs.astro';
+import Alert from '@/components/markdown/Alert.astro';
+
+// Import blog images
+import helloWorldImage from '@/assets/blog/hello-world.png';
+
+// Create image mapping
+const imageMap: Record<string, { src: string; width: number; height: number }> = {
+  '/assets/blog/hello-world.png': helloWorldImage,
+};
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post: CollectionEntry<'blog'>) => {
+    // Extract the actual slug without the language prefix
+    const slugParts = post.slug.split('/');
+    const actualSlug = slugParts.slice(1).join('/'); // Remove the first part (language)
+
+    return {
+      params: {
+        locale: post.data.lang,
+        slug: actualSlug,
+      },
+      props: { post },
+    };
+  });
+}
+
+const { post }: { post: CollectionEntry<'blog'> } = Astro.props;
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+
+const { Content } = await post.render();
+
+// Get all posts for related posts functionality
+const allPosts = await getCollection('blog');
+const currentLocalePosts = allPosts.filter(p => p.data.lang === currentLocale);
+const otherPosts = currentLocalePosts.filter(p => p.slug !== post.slug);
+
+// Format date for display
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat(currentLocale === 'zh-tw' ? 'zh-TW' : 'en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}
+---
+
+<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description}>
+  <div class="min-h-screen" style="background-color: var(--color-bg);">
+    <!-- Main Content Container -->
+    <div class="container mx-auto max-w-4xl px-6 py-16">
+      <!-- Back to Blog Navigation -->
+      <nav class="mb-8">
+        <a
+          href={`/${currentLocale}/blog`}
+          class="border-opacity-30 group inline-flex items-center rounded-lg border px-4 py-2 font-medium transition-all duration-300 hover:scale-105"
+          style="background-color: var(--color-bg-card); color: var(--color-text); border-color: var(--color-text-muted);"
+          aria-label={t('blog.post.backToBlog')}
+        >
+          <Icon
+            name="tabler:arrow-left"
+            class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
+            style="color: var(--color-accent);"
+          />
+          {t('blog.post.backToBlog')}
+        </a>
+      </nav>
+
+      <!-- Article Header -->
+      <header class="mb-12">
+        <!-- Hero Image -->
+        {
+          post.data.image && (
+            <div class="group relative mb-12">
+              <div
+                class="border-opacity-20 overflow-hidden rounded-2xl border shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                style="border-color: var(--color-text-muted);"
+              >
+                <img
+                  src={imageMap[post.data.image.url]?.src || post.data.image.url}
+                  alt={post.data.image.alt}
+                  class="h-64 w-full object-cover md:h-96"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Title and Meta -->
+        <div class="space-y-6">
+          <!-- Title -->
+          <h1
+            class="text-3xl leading-tight font-bold tracking-tight md:text-4xl lg:text-5xl"
+            style="color: var(--color-text-contrast);"
+          >
+            {post.data.title}
+          </h1>
+
+          <!-- Post Meta -->
+          <div
+            class="border-opacity-20 flex flex-wrap items-center gap-6 border-t pt-4"
+            style="border-color: var(--color-text-muted);"
+          >
+            <!-- Author -->
+            {
+              post.data.author && (
+                <div class="group flex items-center">
+                  <div
+                    class="mr-3 rounded-lg p-2 transition-colors duration-300"
+                    style="background-color: var(--color-bg-card);"
+                  >
+                    <Icon name="tabler:user" class="h-5 w-5" style="color: var(--color-primary);" />
+                  </div>
+                  <span class="font-medium" style="color: var(--color-text);">
+                    {post.data.author}
+                  </span>
+                </div>
+              )
+            }
+
+            <!-- Publication Date -->
+            <div class="group flex items-center">
+              <div
+                class="mr-3 rounded-lg p-2 transition-colors duration-300"
+                style="background-color: var(--color-bg-card);"
+              >
+                <Icon name="tabler:calendar" class="h-5 w-5" style="color: var(--color-primary);" />
+              </div>
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                class="font-medium"
+                style="color: var(--color-text);"
+              >
+                {formatDate(post.data.pubDate)}
+              </time>
+            </div>
+
+            <!-- Updated Date -->
+            {
+              post.data.updatedDate && (
+                <div class="group flex items-center">
+                  <div
+                    class="mr-3 rounded-lg p-2 transition-colors duration-300"
+                    style="background-color: var(--color-bg-card);"
+                  >
+                    <Icon name="tabler:edit" class="h-5 w-5" style="color: var(--color-primary);" />
+                  </div>
+                  <time
+                    datetime={post.data.updatedDate.toISOString()}
+                    class="font-medium"
+                    style="color: var(--color-text);"
+                  >
+                    {formatDate(post.data.updatedDate)}
+                  </time>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </header>
+
+            <!-- Main Content Area -->
+      <main class="space-y-4">
+        <!-- Article Content -->
+        <section>
+          <article class="prose prose-lg markdown-content max-w-none">
+            <Content />
+          </article>
+          <!-- Tags -->
+          {
+            post.data.tags && post.data.tags.length > 0 && (
+              <div class="mt-12 pt-8" style="border-color: var(--color-text-muted);">
+                <div class="flex flex-wrap gap-3">
+                  {post.data.tags.map((tag: string, index: number) => (
+                    <a
+                      href={`/${currentLocale}/blog?tag=${encodeURIComponent(tag)}`}
+                      class="underline decoration-wavy text-text-muted hover:text-primary hover:-translate-y-0.5 transition-all duration-200"
+                      aria-label={`View all posts tagged with ${tag}`}
+                    >
+                      # {tag}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </section>
+
+        <!-- Social Sharing -->
+        <section class="pt-8">
+          <div class="flex items-center gap-4 border-b border-opacity-20 pb-4 border-text-muted border-dashed">
+            <span 
+              class="text-sm font-medium whitespace-nowrap"
+              style="color: var(--color-text-muted);"
+            >
+              Share this post on:
+            </span>
+
+            <div class="flex items-center gap-2">
+              <!-- WhatsApp -->
+              <button
+                id="share-whatsapp"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary transition-all duration-200"
+                aria-label="Share on WhatsApp"
+              >
+                <Icon name="tabler:brand-whatsapp" class="h-6 w-6" />
+              </button>
+
+              <!-- Facebook -->
+              <button
+                id="share-facebook"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Share on Facebook"
+              >
+                <Icon name="tabler:brand-facebook" class="h-6 w-6" />
+              </button>
+
+              <!-- Twitter/X -->
+              <button
+                id="share-twitter"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Share on X (Twitter)"
+              >
+                <Icon name="tabler:brand-x" class="h-6 w-6" />
+              </button>
+
+              <!-- Telegram -->
+              <button
+                id="share-telegram"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Share on Telegram"
+              >
+                <Icon name="tabler:brand-telegram" class="h-6 w-6" />
+              </button>
+
+              <!-- Threads -->
+              <button
+                id="share-threads"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Share on Threads"
+              >
+                <Icon name="tabler:brand-threads" class="h-6 w-6" />
+              </button>
+
+              <!-- Email -->
+              <button
+                id="share-email"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Share via Email"
+              >
+                <Icon name="tabler:mail" class="h-6 w-6" />
+              </button>
+
+              <!-- Copy URL -->
+              <button
+                id="share-copy-url"
+                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                aria-label="Copy URL"
+              >
+                <Icon name="tabler:link" class="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Related Posts Section -->
+        <section class="pt-8">
+          <h3 class="mb-8 text-2xl font-bold" style="color: var(--color-text-contrast);">
+            Related Posts
+          </h3>
+          <div class="space-y-6">
+            {otherPosts.slice(0, 3).map((relatedPost) => (
+              <Post post={relatedPost} currentLocale={currentLocale} variant="default" />
+            ))}
+          </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section class="pt-8">
+          <h3 class="mb-8 text-2xl font-bold" style="color: var(--color-text-contrast);">
+            Comments
+          </h3>
+          <div id="giscus-container">
+            <script
+              src="https://giscus.app/client.js"
+              data-repo="yorukot/blog"
+              data-repo-id="R_kgDONOkrcw"
+              data-category="General"
+              data-category-id="DIC_kwDONOkrc84CkOzj"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="catppuccin_macchiato"
+              data-lang="en"
+              crossorigin="anonymous"
+              async>
+            </script>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Custom Styles for Page Layout -->
+  <style>
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-hover);
+    }
+  </style>
+
+  <script>
+    // Get post title and URL for sharing
+    const getShareData = () => {
+      const title = document.querySelector('h1')?.textContent || '';
+      const url = window.location.href;
+      const description = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+      return { title, url, description };
+    };
+
+    // WhatsApp share functionality
+    const whatsappButton = document.getElementById('share-whatsapp');
+    whatsappButton?.addEventListener('click', () => {
+      const { title, url } = getShareData();
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${title} - ${url}`)}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // Facebook share functionality
+    const facebookButton = document.getElementById('share-facebook');
+    facebookButton?.addEventListener('click', () => {
+      const { url } = getShareData();
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      window.open(facebookUrl, '_blank', 'width=555,height=400');
+    });
+
+    // Twitter/X share functionality
+    const twitterButton = document.getElementById('share-twitter');
+    twitterButton?.addEventListener('click', () => {
+      const { title, url } = getShareData();
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+      window.open(twitterUrl, '_blank', 'width=550,height=420');
+    });
+
+    // Telegram share functionality
+    const telegramButton = document.getElementById('share-telegram');
+    telegramButton?.addEventListener('click', () => {
+      const { title, url } = getShareData();
+      const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+      window.open(telegramUrl, '_blank');
+    });
+
+    // Threads share functionality
+    const threadsButton = document.getElementById('share-threads');
+    threadsButton?.addEventListener('click', () => {
+      const { title, url } = getShareData();
+      const threadsUrl = `https://threads.net/intent/post?text=${encodeURIComponent(`${title} - ${url}`)}`;
+      window.open(threadsUrl, '_blank', 'width=550,height=420');
+    });
+
+    // Email share functionality
+    const emailButton = document.getElementById('share-email');
+    emailButton?.addEventListener('click', () => {
+      const { title, url, description } = getShareData();
+      const subject = encodeURIComponent(`Check out: ${title}`);
+      const body = encodeURIComponent(`I thought you might be interested in this article:\n\n${title}\n${description}\n\n${url}`);
+      const emailUrl = `mailto:?subject=${subject}&body=${body}`;
+      window.location.href = emailUrl;
+    });
+
+    // Copy URL functionality
+    const copyUrlButton = document.getElementById('share-copy-url');
+    copyUrlButton?.addEventListener('click', async () => {
+      const { url } = getShareData();
+      try {
+        await navigator.clipboard.writeText(url);
+        
+        // Visual feedback - change to check icon and green color
+        const iconElement = copyUrlButton.querySelector('svg');
+        if (iconElement) {
+          // Replace the icon with a check mark
+          iconElement.innerHTML = `
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          `;
+          iconElement.setAttribute('viewBox', '0 0 24 24');
+          iconElement.setAttribute('fill', 'none');
+          
+          // Make it green and slightly larger
+          iconElement.style.color = '#10b981'; // Green color
+          iconElement.style.transform = 'scale(1.1)';
+        }
+        
+        // Show temporary feedback
+        const originalAriaLabel = copyUrlButton.getAttribute('aria-label');
+        copyUrlButton.setAttribute('aria-label', 'URL Copied!');
+        
+        // Revert back to original icon after 2 seconds
+        setTimeout(() => {
+          if (iconElement) {
+            // Restore original link icon
+            iconElement.innerHTML = `
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            `;
+            iconElement.style.color = '';
+            iconElement.style.transform = '';
+          }
+          copyUrlButton.setAttribute('aria-label', originalAriaLabel || 'Copy URL');
+        }, 2000);
+        
+      } catch (err) {
+        console.error('Failed to copy URL:', err);
+        // Fallback for browsers that don't support clipboard API
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+    });
+
+    // Add reading progress indicator
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-highlight));
+      z-index: 100;
+      transition: width 0.1s ease;
+    `;
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+    });
+
+    // Copy functionality for regular code blocks
+    const codeBlocks = document.querySelectorAll('.markdown-content pre');
+    codeBlocks.forEach((pre) => {
+      pre.addEventListener('click', async (e: Event) => {
+        const mouseEvent = e as MouseEvent;
+        // Check if click is on the copy button area
+        const rect = pre.getBoundingClientRect();
+        const clickX = mouseEvent.clientX - rect.left;
+        const clickY = mouseEvent.clientY - rect.top;
+
+        // Copy button is positioned at top-right (0.75rem from top and right)
+        const copyButtonArea = {
+          left: rect.width - 48, // 2rem button + 0.75rem margin
+          top: 0,
+          width: 48,
+          height: 48,
+        };
+
+        if (clickX >= copyButtonArea.left && clickY <= copyButtonArea.height) {
+          const codeElement = pre.querySelector('code');
+          if (codeElement) {
+            try {
+              await navigator.clipboard.writeText(codeElement.textContent || '');
+
+              // Visual feedback
+              const htmlElement = pre as HTMLElement;
+              htmlElement.style.setProperty('--copy-feedback', 'block');
+              setTimeout(() => {
+                htmlElement.style.removeProperty('--copy-feedback');
+              }, 2000);
+            } catch (err) {
+              console.error('Failed to copy code:', err);
+            }
+          }
+        }
+      });
+    });
+
+    // Enhanced tag click functionality
+    const tagLinks = document.querySelectorAll('a[href*="?tag="]');
+    tagLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        // Add a loading state visual feedback
+        const linkElement = e.target as HTMLElement;
+        const originalText = linkElement.textContent;
+
+        // Subtle loading animation
+        linkElement.style.opacity = '0.7';
+        linkElement.style.transform = 'scale(0.95)';
+
+        // Visual feedback for navigation
+        setTimeout(() => {
+          linkElement.style.opacity = '1';
+          linkElement.style.transform = 'scale(1)';
+        }, 150);
+      });
+
+      // Add tooltip on hover
+      link.addEventListener('mouseenter', (e) => {
+        const linkElement = e.target as HTMLElement;
+        const tag = linkElement.textContent?.replace('#', '') || '';
+        linkElement.setAttribute('title', `View all posts tagged with "${tag}"`);
+      });
+    });
+
+    // Add smooth scroll to top button
+    const scrollToTopBtn = document.createElement('button');
+    scrollToTopBtn.innerHTML = `
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+    `;
+    scrollToTopBtn.className =
+      'fixed bottom-8 right-8 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 pointer-events-none hover:scale-110 z-50';
+    scrollToTopBtn.style.cssText = `
+      background-color: var(--color-primary);
+      color: var(--color-bg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    `;
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.body.appendChild(scrollToTopBtn);
+
+    // Show/hide scroll to top button
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        scrollToTopBtn.style.opacity = '1';
+        scrollToTopBtn.style.pointerEvents = 'auto';
+      } else {
+        scrollToTopBtn.style.opacity = '0';
+        scrollToTopBtn.style.pointerEvents = 'none';
+      }
+    });
+  </script>
+</Layout>

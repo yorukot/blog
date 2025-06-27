@@ -1,51 +1,52 @@
 ---
-import { Icon } from "astro-icon/components";
-import Socials from "@/components/Socials.astro";
+import { Icon } from 'astro-icon/components';
+import Socials from '@/components/Socials.astro';
+import { getLangFromUrl, useTranslations, getPersonalInfo } from '@/i18n/utils';
+
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+const personalInfo = getPersonalInfo();
 ---
 
-<footer class="border-t bg-bg-card border-bg-highlight mt-auto">
+<footer class="bg-bg-card border-bg-highlight mt-auto border-t">
   <div class="container mx-auto px-4">
     <div class="py-4">
-      <div class="relative z-10 w-full max-w-6xl mx-auto">
-        <div
-          class="flex flex-col md:flex-row justify-between items-start gap-12"
-        >
+      <div class="relative z-10 mx-auto w-full max-w-6xl">
+        <div class="flex flex-col items-start justify-between gap-12 md:flex-row">
           <!-- Brand Section -->
           <div class="flex-1">
             <div class="mb-6">
-              <h3 class="text-2xl font-bold text-text mb-4">
-                <span style="color: var(--color-primary);"
-                  >Yorukot's personal website</span
-                >
+              <h3 class="text-text mb-4 text-2xl font-bold">
+                <span style="color: var(--color-primary);">{t('footer.title')}</span>
               </h3>
               <p class="text-text-muted mb-6 max-w-md leading-relaxed">
-                Welcome to my corner of the internet.
+                {t('footer.description')}
               </p>
               <div class="flex gap-4">
                 <a
                   href="/sitemap.xml"
-                  class="text-text-muted hover:text-accent-highlight transition-all duration-200 flex items-center group"
+                  class="text-text-muted hover:text-accent-highlight group flex items-center transition-all duration-200"
                 >
                   <Icon
                     name="tabler:sitemap"
-                    class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"
+                    class="mr-2 h-4 w-4 transition-transform group-hover:scale-110"
                   />
                   <span
-                    class="border-b border-dashed border-text-muted group-hover:border-accent-highlight"
-                    >Sitemap</span
+                    class="border-text-muted group-hover:border-accent-highlight border-b border-dashed"
+                    >{t('footer.sitemap')}</span
                   >
                 </a>
                 <a
                   href="/rss.xml"
-                  class="text-text-muted hover:text-accent-highlight transition-all duration-200 flex items-center group"
+                  class="text-text-muted hover:text-accent-highlight group flex items-center transition-all duration-200"
                 >
                   <Icon
                     name="tabler:rss"
-                    class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"
+                    class="mr-2 h-4 w-4 transition-transform group-hover:scale-110"
                   />
                   <span
-                    class="border-b border-dashed border-text-muted group-hover:border-accent-highlight"
-                    >RSS Feed</span
+                    class="border-text-muted group-hover:border-accent-highlight border-b border-dashed"
+                    >{t('footer.rss')}</span
                   >
                 </a>
               </div>
@@ -55,26 +56,26 @@ import Socials from "@/components/Socials.astro";
           <!-- Social Links -->
           <div class="flex flex-col items-start">
             <div class="mb-6">
-              <span class="text-2xl font-semibold text-accent-highlight mb-3">
-                Connect with me
+              <span class="text-accent-highlight mb-3 text-2xl font-semibold">
+                {t('footer.connect')}
               </span>
-              <div class="flex space-x-4 mb-2">
+              <div class="mb-2 flex space-x-4">
                 <div class="flex items-center">
                   <Icon
                     name="tabler:map-pin"
-                    class="w-4 h-4 mr-2"
+                    class="mr-2 h-4 w-4"
                     style="color: var(--color-accent);"
                   />
-                  <span class="text-sm text-text-muted">Taiwan</span>
+                  <span class="text-text-muted text-sm">{t('common.location')}</span>
                 </div>
                 <div class="flex items-center">
                   <Icon
                     name="tabler:clock"
-                    class="w-4 h-4 mr-2"
+                    class="mr-2 h-4 w-4"
                     style="color: var(--color-accent);"
                   />
-                  <span class="text-sm text-text-muted" id="footer-time"
-                    >UTC+8</span
+                  <span class="text-text-muted text-sm" id="footer-time"
+                    >{t('common.timezone')}</span
                   >
                 </div>
               </div>
@@ -86,25 +87,21 @@ import Socials from "@/components/Socials.astro";
         </div>
 
         <!-- Divider -->
-        <div
-          class="mt-4 pt-8 border-t border-accent"
-        >
-          <div
-            class="flex justify-center items-center"
-          >
+        <div class="border-accent mt-4 border-t pt-8">
+          <div class="flex items-center justify-center">
             <!-- Copyright -->
-            <div class="flex items-center text-text-muted text-sm">
-              <Icon name="tabler:copyright" class="w-4 h-4 mr-2 opacity-70" />
-              <span>2025 Yorukot. Made with</span>
+            <div class="text-text-muted flex items-center text-sm">
+              <Icon name="tabler:copyright" class="mr-2 h-4 w-4 opacity-70" />
+              <span>{t('footer.copyright')}</span>
               <Icon
                 name="tabler:heart-filled"
-                class="w-4 h-4 mx-2 animate-pulse"
+                class="mx-2 h-4 w-4 animate-pulse"
                 style="color: var(--color-danger);"
               />
-              <span>and</span>
+              <span>{t('footer.madeWith.and')}</span>
               <Icon
                 name="skill-icons:astro"
-                class="w-5 h-5 ml-2 hover:scale-110 transition-transform"
+                class="ml-2 h-5 w-5 transition-transform hover:scale-110"
               />
             </div>
           </div>
@@ -116,14 +113,14 @@ import Socials from "@/components/Socials.astro";
   <script>
     function updateFooterTime() {
       const now = new Date();
-      const timeString = now.toLocaleTimeString("en-US", {
-        timeZone: "Asia/Taipei",
+      const timeString = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Taipei',
         hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       });
 
-      const timeElement = document.getElementById("footer-time");
+      const timeElement = document.getElementById('footer-time');
       if (timeElement) {
         timeElement.textContent = `${timeString} UTC+8`;
       }

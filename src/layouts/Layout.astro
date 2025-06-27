@@ -1,7 +1,7 @@
 ---
-import "../styles/global.css";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
+import '../styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
 
 export interface Props {
   title?: string;
@@ -10,9 +10,9 @@ export interface Props {
 }
 
 const {
-  title = "Yorukot - Student & Full-Stack Developer",
-  lang = "en",
-  description = "17-year-old full-stack developer with 6 years of experience, creating CLI/TUI tools and web apps. Passionate about open-source, anime, and sharing knowledge.",
+  title = 'Yorukot - Student & Full-Stack Developer',
+  lang = 'en',
+  description = '17-year-old full-stack developer with 6 years of experience, creating CLI/TUI tools and web apps. Passionate about open-source, anime, and sharing knowledge.',
 } = Astro.props;
 ---
 
@@ -44,10 +44,79 @@ const {
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
   </head>
-  <body class="min-h-screen bg-bg">
+  <body class="bg-bg min-h-screen">
     <Header />
     <slot />
     <Footer />
+
+    <script>
+      // Add copy buttons to markdown code blocks
+      function addCopyButtons() {
+        const codeBlocks = document.querySelectorAll(
+          '.markdown-content pre, .code-tabs-container pre'
+        );
+
+        codeBlocks.forEach((pre) => {
+          // Skip if button already exists
+          if (pre.querySelector('.copy-button')) return;
+
+          const code = pre.querySelector('code');
+          if (!code) return;
+
+          // Create copy button
+          const copyButton = document.createElement('button');
+          copyButton.className = 'copy-button';
+          copyButton.setAttribute('aria-label', 'Copy code');
+          copyButton.setAttribute('title', 'Copy code');
+
+          // Add copy icon SVG
+          copyButton.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+              <path d="m4 16c-1.1 0-2-.9-2-2v-10c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+          `;
+
+          // Add click handler
+          copyButton.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(code.textContent || '');
+
+              // Show success feedback
+              const originalContent = copyButton.innerHTML;
+              copyButton.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              `;
+              copyButton.classList.add('copied');
+
+              setTimeout(() => {
+                copyButton.innerHTML = originalContent;
+                copyButton.classList.remove('copied');
+              }, 2000);
+            } catch (err) {
+              console.error('Failed to copy code:', err);
+            }
+          });
+
+          pre.appendChild(copyButton);
+        });
+      }
+
+      // Initialize when DOM loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+      } else {
+        addCopyButtons();
+      }
+
+      // Re-initialize after page navigation (for Astro)
+      document.addEventListener('astro:page-load', addCopyButtons);
+
+      // Re-initialize when CodeTabs content changes
+      document.addEventListener('codetab:changed', addCopyButtons);
+    </script>
   </body>
 </html>
 

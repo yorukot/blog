@@ -1,21 +1,21 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { getLangFromUrl } from "@/i18n/utils";
-import { useTranslations } from "@/i18n/utils";
-import Hero from "@/components/Hero.astro";
-import TechStack from "@/components/TechStack.astro";
-import Projects from "@/components/Projects.astro";
-import Experience from "@/components/Experience.astro";
+import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl } from '@/i18n/utils';
+import { useTranslations } from '@/i18n/utils';
+import Hero from '@/components/Hero.astro';
+import TechStack from '@/components/TechStack.astro';
+import Projects from '@/components/Projects.astro';
+import Experience from '@/components/Experience.astro';
 
 const currentLocale = getLangFromUrl(Astro.url);
 const t = useTranslations(currentLocale);
 
 export async function getStaticPaths() {
-  return [{ params: { locale: "en" } }, { params: { locale: "zh-tw" } }];
+  return [{ params: { locale: 'en' } }, { params: { locale: 'zh-tw' } }];
 }
 ---
 
-<Layout title={"Hello"} lang={currentLocale}>
+<Layout title={'Hello'} lang={currentLocale}>
   <Hero />
   <TechStack />
   <Projects />
