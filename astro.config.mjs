@@ -8,8 +8,8 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://yorukot.me',
-  vite: {
-    plugins: [tailwindcss()],
+  redirects: {
+    '/': '/en/',
   },
   i18n: {
     locales: ['en', 'zh-tw'],
@@ -18,6 +18,9 @@ export default defineConfig({
     routing: {
       prefixDefaultLocale: true,
     },
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
   integrations: [
     mdx({
