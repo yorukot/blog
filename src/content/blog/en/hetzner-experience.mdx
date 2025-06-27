@@ -1,0 +1,149 @@
+---
+title: My VPS Experience with Hetzner
+author: Yorukot
+pubDate: 2025-06-28
+postSlug: hetzner-experience
+featured: true
+draft: false
+tags: ['cloud', 'vps', 'guide', 'hetzner']
+description: Sharing my VPS experience and comparing the cheapest and best value VPS options out there.
+lang: 'en'
+image:
+  url: /blog/hetzner-experience/intro.png
+  alt: 'intro image'
+---
+
+# My VPS Experience
+
+Hey everyone! Today I want to share my VPS experience with you. Since I have a Discord Bot called MHCAT with around one million users, I need a stable VPS to run it.
+
+The bot's source code is available [here](https://github.com/Yorukot/old-MHCAT) if you're interested in checking it out.
+
+## Why I Chose Hetzner?
+
+As a broke student, I've tried various cheap VPS providers to run this bot, comparing the cheapest and best value options. Eventually, I became a loyal Hetzner fan, using their services since 2024 - almost two years now.
+
+### VPS Providers I've Tried
+
+Before settling on Hetzner, I actually tested quite a few:
+- **Hetzner** (currently my main choice)
+- **DigitalOcean** (used it for a while, but too expensive)
+- **Vultr** (decent performance, but not as good value as Hetzner)
+- **OVH Cloud** (French company, latency was a bit high)
+- **Contabo** (German competitor, but less stable)
+- **Google Cloud** (ran away after the free credits expired xD)
+
+After all these comparisons, Hetzner really found the sweet spot between price and performance.
+
+## Detailed Hetzner Experience
+
+### Performance
+
+Hetzner's performance feels about the same as Google Cloud to me. They mainly offer AMD, Intel, and ARM CPUs. I personally prefer Intel because it's cheap, but I've heard AMD performs well too. ARM CPUs are much cheaper with slightly lower performance, but great value for money.
+
+![](/blog/hetzner-experience/hetzner-cpu-type.png)
+
+I've tested several configurations myself:
+- **CAX11 (ARM)**: 2 cores, 4GB RAM - more than enough for my Discord Bot, Geekbench scores: 1311 single-core, 1687 multi-core
+- **CX21 (Intel)**: 2 cores, 4GB RAM - great stability, perfect for long-running services
+- **CPX21 (AMD)**: 3 cores, 4GB RAM - good performance for CPU-intensive tasks
+
+### Network Speed
+
+Their network speed is incredibly fast - basically 10Gbps upload and 9Gbps download, with 20TB of traffic included by default. What a steal! In my tests, European data centers can reach 1-2 Gbps, with around 200-300ms latency from Taiwan, which is totally fine for my bot.
+
+![](/blog/hetzner-experience/network-speed.png)
+
+### Stability Performance
+
+Speaking of stability, I'm really satisfied. Look at this uptime - 241 days of continuous operation without a single reboot! This is crucial for a Discord Bot that needs to run 24/7.
+
+![](/blog/hetzner-experience/uptime.png)
+
+### Pricing Advantage
+
+This is Hetzner's biggest selling point! Same configuration costs way less than DigitalOcean:
+- DigitalOcean: $24/month → 4GB RAM + 2 vCPU + 4TB traffic
+- Hetzner: €3.29/month → 4GB RAM + 2 vCPU + 20TB traffic
+
+The difference is insane! For broke students like me, there's really no choice.
+
+![](/blog/hetzner-experience/hetzner-amd-intel-price.png)
+
+ARM plans are even cheaper, but you need to consider code compatibility.
+
+![](/blog/hetzner-experience/hetzner-arm-price.png)
+
+### Registration Experience: German Precision
+
+Honestly, signing up for Hetzner is way more tedious than other providers. They require passport or ID documents, plus address verification - the whole process took me two days to complete. In comparison, DigitalOcean or Vultr just need you to fill out a form and you're good to go.
+
+But I later understood this is the German company's meticulous approach, also to prevent abuse. Though annoying, it does filter out many malicious users.
+
+### Customer Support: Professional and Timely
+
+Hetzner's customer support is actually pretty good, though it has that German style. They're professional and respond fairly quickly (usually within 24 hours), and they effectively solve problems when they arise. While they don't have that American "customer is king" enthusiasm, they're highly practical - straight to the solution without BS.
+
+### Technical Features
+
+After using them for so long, I've discovered several impressive things about Hetzner:
+
+**Self-built Infrastructure**: They have their own data centers with customized hardware, which is why they can control costs so well.
+
+**Bandwidth Policy**: 20TB of free traffic is seriously generous - I've never exceeded it, even with a million-user bot.
+
+## Usage Challenges
+
+### Geographic Limitations
+
+Hetzner's data centers are mainly in Europe and the US. Although they recently added Singapore, the pricing isn't competitive. For Asian users, latency is definitely an issue, though it's acceptable for my Discord Bot.
+
+### Limited Service Range
+
+Compared to DigitalOcean or AWS, Hetzner's services are pretty basic:
+- No Managed Database (you have to set up PostgreSQL yourself), but I heard they're launching it soon
+- No Kubernetes service (gotta use Docker and figure it out yourself)
+- No CDN service (need to use Cloudflare separately)
+
+However, they've recently added some new services:
+- **Object Storage**: Pricing seems reasonable, but I haven't tried it yet - should be similar to AWS S3
+- **Load Balancer / Reverse Proxy**: Pretty useful for applications requiring high availability
+
+Overall, the services are still pretty basic, so complex applications might need additional services.
+
+### Strict Usage Policies
+
+Germans are really strict. They have zero tolerance for:
+- Port scanning
+- Mass emailing
+- Mining
+- Any suspicious activities
+
+Get detected and you might get restricted or banned. This is something to pay attention to.
+
+## Who Should Use Hetzner?
+
+**Good fit if you:**
+- Are a budget-conscious individual developer or student
+- Have users mainly in Europe/US
+- Have basic Linux management skills
+- Need lots of bandwidth and storage space
+- Don't mind managing services yourself
+
+**Not suitable if you:**
+- Need global multi-region deployment
+- Want comprehensive managed services
+- Require fast customer support response
+- Are used to one-click deployment convenience
+
+## Conclusion
+
+After using Hetzner for almost two years, I'm pretty satisfied overall. Sure, there are some minor issues, but the value is unbeatable. For broke students like me, getting this level of performance and stability at this price is more than satisfactory.
+
+If you're also looking for cheap and stable VPS and don't mind hands-on management, Hetzner is definitely worth a try!
+
+One last reminder: when registering, make sure to prepare your ID documents and be patient with the verification process. Once you're approved, you can enjoy German engineering's stability and affordability!
+
+---
+
+## You've read this far, so if you're interested, please use [my referral link](https://hetzner.cloud/?ref=sNdQv6wHdiDR) to sign up! This way I can get some kickback to keep my Discord Bot and website running :)
