@@ -5,11 +5,18 @@ import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
 
-// https://astro.build/config
 export default defineConfig({
-  site: "https://yorukot.me", // Replace with your actual domain
+  site: "https://yorukot.me",
   vite: {
     plugins: [tailwindcss()],
+  },
+  i18n: {
+    locales: ["en", "zh-tw"],
+    defaultLocale: "en",
+
+    routing: {
+      prefixDefaultLocale: true,
+    },
   },
   integrations: [
     icon(),

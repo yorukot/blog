@@ -1,70 +1,33 @@
-export const LOCALES = {
-    en: 'English',
-    'zh-tw': '繁體中文'
-} as const;
+import { translations } from './home';
 
-export type Locale = keyof typeof LOCALES;
-
-export const DEFAULT_LOCALE: Locale = 'en';
-
-/**
- * Get the locale from a URL path
- */
-export function getLocaleFromUrl(url: URL): Locale {
-    const [, locale] = url.pathname.split('/');
-    if (locale && locale in LOCALES) {
-        return locale as Locale;
-    }
-    return DEFAULT_LOCALE;
+export const lang = {
+  en: "English",
+  "zh-tw": "繁體中文",
 }
 
-/**
- * Remove locale prefix from a path
- */
-export function removeLocaleFromPath(path: string): string {
-    const segments = path.split('/');
-    if (segments[1] && segments[1] in LOCALES) {
-        segments.splice(1, 1);
-    }
-    return segments.join('/') || '/';
+export const defaultLang = "en";
+export const languages = Object.keys(lang) as Array<keyof typeof lang>;
+
+export function getLangFromUrl(url: URL) {
+  const [, lang] = url.pathname.split('/');
+  if (lang in translations) return lang as keyof typeof translations;
+  return defaultLang;
 }
 
-/**
- * Add locale prefix to a path
- */
-export function addLocaleToPath(path: string, locale: Locale): string {
-    if (locale === DEFAULT_LOCALE) {
-        return path;
-    }
-
-    const cleanPath = removeLocaleFromPath(path);
-    return `/${locale}${cleanPath === '/' ? '' : cleanPath}`;
+export function useTranslations(lang: keyof typeof translations) {
+  return function t(key: keyof typeof translations[typeof defaultLang]) {
+    return key in translations[lang] ? (translations[lang] as any)[key] : translations[defaultLang][key];
+  }
 }
 
-/**
- * Get the localized URL for a given path and locale
- */
-export function getLocalizedUrl(path: string, locale: Locale): string {
-    return addLocaleToPath(path, locale);
+export function getAlternateLanguageUrl(currentUrl: URL, targetLang: keyof typeof lang) {
+  const currentLang = getLangFromUrl(currentUrl);
+  const pathname = currentUrl.pathname;
+
+  if (currentLang === defaultLang && !pathname.startsWith(`/${defaultLang}`)) {
+    return targetLang === defaultLang ? pathname : `/${targetLang}${pathname}`;
+  }
+
+  const pathWithoutLang = pathname.replace(`/${currentLang}`, '') || '/';
+  return targetLang === defaultLang ? pathWithoutLang : `/${targetLang}${pathWithoutLang}`;
 }
-
-/**
- * Get all available locale URLs for a given path
- */
-export function getAllLocalizedUrls(path: string): Record<Locale, string> {
-    const cleanPath = removeLocaleFromPath(path);
-    const urls = {} as Record<Locale, string>;
-
-    for (const locale of Object.keys(LOCALES) as Locale[]) {
-        urls[locale] = getLocalizedUrl(cleanPath, locale);
-    }
-
-    return urls;
-}
-
-/**
- * Check if a locale is supported
- */
-export function isValidLocale(locale: string): locale is Locale {
-    return locale in LOCALES;
-} 

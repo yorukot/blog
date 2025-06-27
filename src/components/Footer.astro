@@ -1,11 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import Socials from "./Socials.astro";
+import Socials from "@/components/Socials.astro";
 ---
 
 <footer class="border-t bg-bg-card border-bg-highlight mt-auto">
   <div class="container mx-auto px-4">
-    <div class="py-16">
+    <div class="py-4">
       <div class="relative z-10 w-full max-w-6xl mx-auto">
         <div
           class="flex flex-col md:flex-row justify-between items-start gap-12"
@@ -87,11 +87,10 @@ import Socials from "./Socials.astro";
 
         <!-- Divider -->
         <div
-          class="mt-4 pt-8 border-t"
-          style="border-color: var(--color-bg-highlight);"
+          class="mt-4 pt-8 border-t border-accent"
         >
           <div
-            class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0"
+            class="flex justify-center items-center"
           >
             <!-- Copyright -->
             <div class="flex items-center text-text-muted text-sm">
