@@ -24,8 +24,6 @@ export default defineConfig({
       syntaxHighlight: 'prism',
     }),
     icon(),
-    sitemap({
-      xslURL: '/sitemap-index.xsl',
-    }),
+    sitemap(),
   ],
 });
