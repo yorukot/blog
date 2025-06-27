@@ -1,0 +1,171 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+
+const currentLocale = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLocale);
+---
+
+<Layout title="404 - Page Not Found" description="The page you're looking for doesn't exist.">
+  <div class="min-h-screen bg-bg flex items-center justify-center px-4">
+    <div class="text-center max-w-2xl mx-auto">
+      <!-- 404 Number -->
+      <div class="mb-8">
+        <h1 class="text-8xl md:text-9xl font-bold text-primary opacity-30 leading-none font-mono">
+          404
+        </h1>
+      </div>
+
+      <!-- Icon -->
+      <div class="mb-8">
+        <Icon 
+          name="tabler:robot-off" 
+          class="w-24 h-24 mx-auto text-text-muted"
+        />
+      </div>
+
+      <!-- Error Message -->
+      <div class="mb-12 space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-text">
+          {currentLocale === 'zh-tw' ? '頁面不存在' : 'Page Not Found'}
+        </h2>
+        <p class="text-text-muted text-lg leading-relaxed max-w-lg mx-auto">
+          {currentLocale === 'zh-tw' 
+            ? '抱歉，您要找的頁面可能已被移動、刪除或從未存在過。' 
+            : "Sorry, the page you're looking for might have been moved, deleted, or never existed in the first place."
+          }
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+        <!-- Go Home Button -->
+        <a
+          href={`/${currentLocale}/`}
+          class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg"
+        >
+          <Icon name="tabler:home" class="w-5 h-5" />
+          {currentLocale === 'zh-tw' ? '回到首頁' : 'Go Home'}
+        </a>
+
+        <!-- Go to Blog Button -->
+        <a
+          href={`/${currentLocale}/blog/`}
+          class="inline-flex items-center gap-2 px-6 py-3 bg-bg-card text-text border border-primary border-opacity-30 font-medium rounded-lg hover:bg-bg-highlight hover:border-primary-hover transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg"
+        >
+          <Icon name="tabler:book" class="w-5 h-5" />
+          {currentLocale === 'zh-tw' ? '查看文章' : 'Read Blog'}
+        </a>
+      </div>
+
+      <!-- Fun Easter Egg -->
+      <div class="mt-8">
+        <button
+          id="easter-egg"
+          class="text-text-muted text-xs hover:text-accent transition-colors duration-200"
+        >
+          {currentLocale === 'zh-tw' ? '🎮 點擊這裡來點有趣的' : '🎮 Click here for something fun'}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for interactions -->
+  <script>
+    // Easter egg functionality
+    const easterEggBtn = document.getElementById('easter-egg');
+    let clickCount = 0;
+    const currentLocale = document.documentElement.lang || 'en';
+    
+    easterEggBtn?.addEventListener('click', () => {
+      clickCount++;
+      
+      if (clickCount === 1) {
+        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎯 再點一次...' : '🎯 Click again...';
+      } else if (clickCount === 2) {
+        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎊 最後一次！' : '🎊 One more time!';
+      } else if (clickCount >= 3) {
+        // Fun animation
+        easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎉 你找到了彩蛋！' : '🎉 You found the easter egg!';
+        easterEggBtn.style.transform = 'scale(1.2)';
+        easterEggBtn.style.color = 'var(--color-primary)';
+        
+        // Add some fun effects
+        const container = easterEggBtn.parentElement;
+        for (let i = 0; i < 10; i++) {
+          setTimeout(() => {
+            const emoji = document.createElement('span');
+            emoji.textContent = ['🎉', '🎊', '✨', '🌟', '⭐'][Math.floor(Math.random() * 5)];
+            emoji.style.position = 'absolute';
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.top = Math.random() * 100 + '%';
+            emoji.style.fontSize = '2rem';
+            emoji.style.animation = 'fadeInOut 2s ease-in-out forwards';
+            emoji.style.pointerEvents = 'none';
+            emoji.style.zIndex = '10';
+            
+            container?.appendChild(emoji);
+            
+            setTimeout(() => {
+              emoji.remove();
+            }, 2000);
+          }, i * 100);
+        }
+        
+        setTimeout(() => {
+          easterEggBtn.style.transform = '';
+          easterEggBtn.textContent = currentLocale === 'zh-tw' ? '🎮 點擊這裡來點有趣的' : '🎮 Click here for something fun';
+          easterEggBtn.style.color = '';
+          clickCount = 0;
+        }, 3000);
+      }
+    });
+  </script>
+
+  <!-- CSS for animations -->
+  <style>
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.5);
+      }
+    }
+
+    /* Hover effects for the 404 number */
+    h1:hover {
+      background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+
+    /* Subtle background animation */
+    .min-h-screen {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .min-h-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(251, 146, 60, 0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+  </style>
+</Layout> 
