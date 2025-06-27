@@ -25,7 +25,7 @@ export default defineConfig({
     }),
     icon(),
     sitemap({
-      xslURL: '/sitemap.xsl',
+      xslURL: '/sitemap-index.xsl',
     }),
   ],
 });
