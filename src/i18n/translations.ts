@@ -285,8 +285,8 @@ export const translations = {
     "footer.sitemap": "網站導覽",
     "footer.rss": "RSS 訂閱",
     "footer.connect": "聯絡我",
-    "footer.copyright": "2025 ©️ Yorukot。由",
-    "footer.madeWith.and": "和",
+    "footer.copyright": "2025 Yorukot。Made with",
+    "footer.madeWith.and": "and",
 
     // Blog Section
     "blog.title": "部落格",
