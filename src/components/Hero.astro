@@ -138,6 +138,21 @@ const { title = personalInfo.name, photoUrl = avatarImage.src } = Astro.props;
             </ul>
           </div>
 
+          <!-- Blog Button -->
+          <div class="mb-6">
+            <a
+              href={`/${currentLocale}/blog`}
+              class="inline-flex items-center gap-2 rounded-lg border border-primary bg-primary/10 px-6 py-3 text-text-contrast font-medium transition-all duration-200 hover:bg-primary hover:text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+            >
+              <Icon
+                name="tabler:book-2"
+                size={20}
+                style="color: currentColor;"
+              />
+              {t('common.visitBlog')}
+            </a>
+          </div>
+
           <!-- Social Links -->
           <Socials />
         </div>

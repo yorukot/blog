@@ -2,17 +2,20 @@
 import '../styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import { config } from '@/config';
 
 export interface Props {
   title?: string;
   lang?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = 'Yorukot - Student & Full-Stack Developer',
   lang = 'en',
   description = '17-year-old full-stack developer with 6 years of experience, creating CLI/TUI tools and web apps. Passionate about open-source, anime, and sharing knowledge.',
+  image = '/favicon.svg',
 } = Astro.props;
 ---
 
@@ -29,12 +32,14 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
     <meta property="og:site_name" content="Yorukot" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -43,6 +48,19 @@ const {
     <!-- Sitemap and RSS Feed -->
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+
+    <!-- Google Analytics -->
+    {config.analytics.googleAnalytics && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${config.analytics.googleAnalytics}`}></script>
+        <script is:inline define:vars={{ gaId: config.analytics.googleAnalytics }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body class="bg-bg min-h-screen">
     <Header />

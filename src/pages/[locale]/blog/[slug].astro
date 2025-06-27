@@ -49,7 +49,7 @@ function formatDate(date: Date) {
 }
 ---
 
-<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description}>
+<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description} image={post.data.image?.url}>
   <div class="min-h-screen" style="background-color: var(--color-bg);">
     <!-- Main Content Container -->
     <div class="container mx-auto max-w-4xl px-6 py-16">
@@ -191,80 +191,101 @@ function formatDate(date: Date) {
           }
         </section>
 
-        <!-- Social Sharing -->
+        <!-- Social Sharing & Suggest Edit -->
         <section class="pt-8">
-          <div class="flex items-center gap-4 border-b border-opacity-20 pb-4 border-text-muted border-dashed">
-            <span 
-              class="text-sm font-medium whitespace-nowrap"
-              style="color: var(--color-text-muted);"
-            >
-              Share this post on:
-            </span>
-
-            <div class="flex items-center gap-2">
-              <!-- WhatsApp -->
-              <button
-                id="share-whatsapp"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary transition-all duration-200"
-                aria-label="Share on WhatsApp"
+          <div class="flex flex-col gap-4 border-b border-opacity-20 pb-4 border-text-muted border-dashed md:flex-row md:items-center md:justify-between">
+            <!-- Social Sharing -->
+            <div class="flex items-center gap-4">
+              <span 
+                class="text-sm font-medium whitespace-nowrap"
+                style="color: var(--color-text-muted);"
               >
-                <Icon name="tabler:brand-whatsapp" class="h-6 w-6" />
-              </button>
+                Share this post on:
+              </span>
 
-              <!-- Facebook -->
-              <button
-                id="share-facebook"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Share on Facebook"
-              >
-                <Icon name="tabler:brand-facebook" class="h-6 w-6" />
-              </button>
+              <div class="flex items-center gap-2">
+                <!-- WhatsApp -->
+                <button
+                  id="share-whatsapp"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary transition-all duration-200"
+                  aria-label="Share on WhatsApp"
+                >
+                  <Icon name="tabler:brand-whatsapp" class="h-6 w-6" />
+                </button>
 
-              <!-- Twitter/X -->
-              <button
-                id="share-twitter"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Share on X (Twitter)"
-              >
-                <Icon name="tabler:brand-x" class="h-6 w-6" />
-              </button>
+                <!-- Facebook -->
+                <button
+                  id="share-facebook"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Share on Facebook"
+                >
+                  <Icon name="tabler:brand-facebook" class="h-6 w-6" />
+                </button>
 
-              <!-- Telegram -->
-              <button
-                id="share-telegram"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Share on Telegram"
-              >
-                <Icon name="tabler:brand-telegram" class="h-6 w-6" />
-              </button>
+                <!-- Twitter/X -->
+                <button
+                  id="share-twitter"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Share on X (Twitter)"
+                >
+                  <Icon name="tabler:brand-x" class="h-6 w-6" />
+                </button>
 
-              <!-- Threads -->
-              <button
-                id="share-threads"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Share on Threads"
-              >
-                <Icon name="tabler:brand-threads" class="h-6 w-6" />
-              </button>
+                <!-- Telegram -->
+                <button
+                  id="share-telegram"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Share on Telegram"
+                >
+                  <Icon name="tabler:brand-telegram" class="h-6 w-6" />
+                </button>
 
-              <!-- Email -->
-              <button
-                id="share-email"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Share via Email"
-              >
-                <Icon name="tabler:mail" class="h-6 w-6" />
-              </button>
+                <!-- Threads -->
+                <button
+                  id="share-threads"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Share on Threads"
+                >
+                  <Icon name="tabler:brand-threads" class="h-6 w-6" />
+                </button>
 
-              <!-- Copy URL -->
-              <button
-                id="share-copy-url"
-                class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                aria-label="Copy URL"
-              >
-                <Icon name="tabler:link" class="h-6 w-6" />
-              </button>
+                <!-- Email -->
+                <button
+                  id="share-email"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Share via Email"
+                >
+                  <Icon name="tabler:mail" class="h-6 w-6" />
+                </button>
+
+                <!-- Copy URL -->
+                <button
+                  id="share-copy-url"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  aria-label="Copy URL"
+                >
+                  <Icon name="tabler:link" class="h-6 w-6" />
+                </button>
+              </div>
             </div>
+
+            <!-- Suggest Edit Button -->
+            <a
+              id="suggest-edit"
+              href={`https://github.com/yorukot/blog/edit/main/src/content/blog/${post.data.lang}/${post.slug.split('/').slice(1).join('/')}.mdx`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:scale-105 self-start"
+              style="background-color: var(--color-bg-card); color: var(--color-text); border: 1px solid var(--color-text-muted); border-opacity: 0.3;"
+              aria-label="Suggest an edit to this post"
+            >
+              <Icon 
+                name="tabler:edit" 
+                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" 
+                style="color: var(--color-accent);" 
+              />
+              <span>Suggest an Edit</span>
+            </a>
           </div>
         </section>
 

@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 }
 ---
 
-<Layout title={'Hello'} lang={currentLocale}>
+<Layout title={t('nav.homeTitle')} lang={currentLocale} image="/assets/avatar.png">
   <Hero />
   <TechStack />
   <Projects />

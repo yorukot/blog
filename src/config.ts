@@ -1,4 +1,8 @@
 export const config = {
+  website: 'https://yorukot.me',
+  analytics: {
+    googleAnalytics: 'G-SSQL8Y8XE4',
+  },
   personal: {
     name: 'Yorukot',
     age: 17,

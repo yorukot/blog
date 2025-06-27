@@ -7,6 +7,7 @@ export const translations = {
     'nav.language': 'Language',
     'nav.switchLang': 'Switch Language',
     'nav.blog': 'Blog',
+    'nav.homeTitle': 'Yorukot - Student & Full-Stack Developer',
 
     // Hero Section
     'hero.greeting': 'Hi,',
@@ -179,6 +180,7 @@ export const translations = {
     'common.timezone': 'UTC+8',
     'common.visitProject': 'Visit project',
     'common.externalLink': 'External link',
+    'common.visitBlog': 'Visit my blog',
   },
   'zh-tw': {
     // Navigation
@@ -188,6 +190,7 @@ export const translations = {
     "nav.language": "語言",
     "nav.switchLang": "切換語言",
     "nav.blog": "部落格",
+    "nav.homeTitle": "Yorukot - 學生 & 全端開發者",
 
     // Hero Section
     "hero.greeting": "嗨，",
@@ -320,6 +323,7 @@ export const translations = {
     "common.location": "臺灣",
     "common.timezone": "UTC＋8",
     "common.visitProject": "前往專案",
-    "common.externalLink": "外部連結"
+    "common.externalLink": "外部連結",
+    "common.visitBlog": "瀏覽我的部落格"
   },
 } as const;

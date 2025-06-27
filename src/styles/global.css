@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
 
 @theme {
   /* Base background and text colors */
@@ -30,4 +32,49 @@
   --color-success: hsl(141, 71%, 48%);
   --color-success-hover: hsl(141, 71%, 38%);
   --color-success-active: hsl(141, 71%, 28%);
+
+  /* Font families */
+  --font-sans: 'JetBrains Mono', 'Noto Sans TC', 'Noto Sans SC', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', LiHei Pro, '黑體-繁', '微軟正黑體';
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New';
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+/* Global font settings */
+* {
+  font-feature-settings: 'liga' 1, 'calt' 1, 'kern' 1;
+}
+
+html {
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: common-ligatures;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-feature-settings: 'liga' 0, 'calt' 0;
+}
+
+/* Optimize for Chinese characters */
+:lang(zh-TW), :lang(zh-CN) {
+  font-family: 'Noto Sans TC', 'Noto Sans SC', var(--font-sans);
+  line-height: 1.7;
+  letter-spacing: 0.05em;
 }
