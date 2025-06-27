@@ -74,7 +74,7 @@ const t = useTranslations(currentLocale);
     const easterEggBtn = document.getElementById('easter-egg');
     let clickCount = 0;
     const currentLocale = document.documentElement.lang || 'en';
-    
+
     // Translation strings for JavaScript
     const translations = {
       en: {
@@ -90,12 +90,12 @@ const t = useTranslations(currentLocale);
         original: '🎮 點擊這裡來點有趣的'
       }
     };
-    
+
     const t = translations[currentLocale as keyof typeof translations] || translations.en;
-    
+
     easterEggBtn?.addEventListener('click', () => {
       clickCount++;
-      
+
       if (clickCount === 1) {
         easterEggBtn.textContent = t.again;
       } else if (clickCount === 2) {
@@ -105,7 +105,7 @@ const t = useTranslations(currentLocale);
         easterEggBtn.textContent = t.found;
         easterEggBtn.style.transform = 'scale(1.2)';
         easterEggBtn.style.color = 'var(--color-primary)';
-        
+
         // Add some fun effects
         const container = easterEggBtn.parentElement;
         for (let i = 0; i < 10; i++) {
@@ -119,15 +119,15 @@ const t = useTranslations(currentLocale);
             emoji.style.animation = 'fadeInOut 2s ease-in-out forwards';
             emoji.style.pointerEvents = 'none';
             emoji.style.zIndex = '10';
-            
+
             container?.appendChild(emoji);
-            
+
             setTimeout(() => {
               emoji.remove();
             }, 2000);
           }, i * 100);
         }
-        
+
         setTimeout(() => {
           easterEggBtn.style.transform = '';
           easterEggBtn.textContent = t.original;

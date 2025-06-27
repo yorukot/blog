@@ -175,7 +175,7 @@ const actualSlug = post.slug.split('/').slice(1).join('/');
           />
         </div>
       )}
-      
+
       <div class="space-y-2">
         <h4 class="text-lg font-semibold transition-colors duration-200 group-hover:text-primary" 
             style="color: var(--color-text-contrast);">
@@ -183,18 +183,18 @@ const actualSlug = post.slug.split('/').slice(1).join('/');
             {post.data.title}
           </a>
         </h4>
-        
+
         {post.data.description && (
           <p class="text-sm leading-relaxed" style="color: var(--color-text-muted);">
             {post.data.description.length > 100 ? post.data.description.substring(0, 100) + '...' : post.data.description}
           </p>
         )}
-        
+
         <div class="flex items-center justify-between">
           <time class="text-xs" style="color: var(--color-text-muted);">
             {formatDate(post.data.pubDate)}
           </time>
-          
+
           {post.data.tags && post.data.tags.length > 0 && (
             <div class="flex gap-1">
               {post.data.tags.slice(0, 2).map(tag => (

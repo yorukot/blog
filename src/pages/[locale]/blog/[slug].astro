@@ -420,7 +420,7 @@ function formatDate(date: Date) {
       const { url } = getShareData();
       try {
         await navigator.clipboard.writeText(url);
-        
+
         // Visual feedback - change to check icon and green color
         const iconElement = copyUrlButton.querySelector('svg');
         if (iconElement) {
@@ -430,16 +430,16 @@ function formatDate(date: Date) {
           `;
           iconElement.setAttribute('viewBox', '0 0 24 24');
           iconElement.setAttribute('fill', 'none');
-          
+
           // Make it green and slightly larger
           iconElement.style.color = '#10b981'; // Green color
           iconElement.style.transform = 'scale(1.1)';
         }
-        
+
         // Show temporary feedback
         const originalAriaLabel = copyUrlButton.getAttribute('aria-label');
         copyUrlButton.setAttribute('aria-label', 'URL Copied!');
-        
+
         // Revert back to original icon after 2 seconds
         setTimeout(() => {
           if (iconElement) {
@@ -453,7 +453,7 @@ function formatDate(date: Date) {
           }
           copyUrlButton.setAttribute('aria-label', originalAriaLabel || 'Copy URL');
         }, 2000);
-        
+
       } catch (err) {
         console.error('Failed to copy URL:', err);
         // Fallback for browsers that don't support clipboard API
