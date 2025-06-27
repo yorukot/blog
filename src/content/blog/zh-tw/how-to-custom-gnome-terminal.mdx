@@ -1,59 +1,63 @@
 ---
-title: Simple Configuration for a Stylish Gnome Terminal with Zsh
+title: 打造超酷炫的 GNOME 終端機！Zsh + Oh My Zsh 完整攻略
 author: Yorukot
 pubDate: 2023-12-25
 updatedDate: 2025-06-27
 postSlug: how-to-custom-gnome-terminal
 featured: true
 draft: false
-tags: ['ubuntu', 'terminal', 'theme', 'step-by-step']
-description: Customize your Ubuntu GNOME terminal to have a unique look using Zsh and Oh My Zsh.
+tags: ['terminal', 'theme']
+description: 用 Zsh 和 Oh My Zsh 來打造你的專屬 Ubuntu GNOME 終端機，讓它變得超有型！
 lang: 'zh-tw'
 image:
-  url: '/assets/blog/hello-world.png'
-  alt: 'Hello World - 第一篇部落格文章'
+  url: /blog/how-to-custom-gnome-terminal/intro.png
+  alt: 'intro image'
 ---
 
-If you wish to have a very stylish terminal like this:
-![](https://i.imgur.com/6F8Lizy.png)
-Then this article will be perfect for you!
+<Alert type="info">
+因為這篇文章已經很老了，而且我找不到原始圖片，所以有些圖片是沒有的。
+</Alert>
 
-## Introduction
+想要擁有像這樣的超帥終端機嗎？
+![intro image](/blog/how-to-custom-gnome-terminal/intro.png)
+那這篇文章就是為你量身打造的！
 
-- The system is running Ubuntu 22.10, theoretically should work similarly on other systems.
-- Demonstrations are done using VirtualBox.
-- If you have already run this command due to installing other software, you can skip to Step 2.
-- If you encounter errors, you can check the troubleshooting section at the bottom.
+## 前言
 
-# Installing Zsh and Customizing Oh My Zsh
+- 系統環境是 Ubuntu 22.10，理論上其他系統也差不多可以這樣搞
+- 示範是用 VirtualBox 做的
+- 如果你之前因為安裝其他軟體已經跑過更新指令，可以直接跳到步驟 2
+- 如果遇到問題，可以看看文章最後的疑難排解部分
 
-## Step 1: Update the Entire System
+# 安裝 Zsh 並打造專屬的 Oh My Zsh
 
-> If you have already executed this command due to installing other software, you can directly proceed to Step 2.
+## 步驟 1：更新整個系統
 
-Update the system packages to keep the software up to date by entering the following command:
+> 如果你之前因為安裝其他軟體已經執行過這個指令，可以直接跳到步驟 2
+
+先讓系統套件保持最新狀態，輸入以下指令：
 
 ```bash
 sudo apt install
 ```
 
-You should see something similar to this upon completion:
+完成後應該會看到類似這樣的畫面：
 
-![](https://i.imgur.com/JgCcicT.png)
+![intro image](/blog/how-to-custom-gnome-terminal/intro.png)
 
-## Step 2: Install Zsh
+## 步驟 2：安裝 Zsh
 
-Install Zsh on your Ubuntu system.
+在 Ubuntu 上安裝 Zsh 這個超強的 shell。
 
 ```bash
 sudo apt install zsh
 ```
 
-If prompted with (y/n), simply type y and press enter.
+如果問你 (y/n)，直接打 y 然後按 Enter 就好。
 
-### Verify Zsh Installation
+### 確認 Zsh 安裝成功
 
-To check if Zsh is installed correctly, enter:
+檢查 Zsh 是否正確安裝，輸入：
 
 ```bash
 zsh --version
@@ -61,144 +65,144 @@ zsh --version
 
 ![](https://i.imgur.com/xyN5XY2.png)
 
-## Step 3: Install Curl and Git
+## 步驟 3：安裝 Curl 和 Git
 
-To be able to fetch the installation files for Oh My Zsh, you need to first install curl and git. To install curl and git, enter the following command:
+要下載 Oh My Zsh 的安裝檔案，需要先安裝 curl 和 git。輸入以下指令：
 
 ```bash
 sudo apt install curl git
 ```
 
-## Step 4: Install Oh My Zsh
+## 步驟 4：安裝 Oh My Zsh
 
-Oh My Zsh is a package that enhances Zsh for a better appearance. Enter the following command to install it:
+Oh My Zsh 是一個讓 Zsh 變得更帥的套件。輸入以下指令來安裝：
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-When prompted, press y.
+當它問你的時候，按 y 就對了。
 
-If the installation is successful, you should see the following:
+如果安裝成功，你應該會看到這個：
 
 ![](https://i.imgur.com/zP8EMvC.png)
 
-## Step 5: Customize Your Zsh
+## 步驟 5：開始客製化你的 Zsh
 
-Now that you have successfully installed Zsh, you can start customizing!
+現在你已經成功安裝 Zsh 了，可以開始打造專屬風格！
 
-[**You can find the official list of Oh My Zsh themes here**](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+[**這裡有 Oh My Zsh 的官方主題列表**](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
 
-> You can also find unofficial themes, but installation is more complex. We won't cover it in this article.
+> 也有非官方的主題，但安裝比較複雜，這篇文章就不講了。
 
-Once you have found a theme you like, note down its name. For example, if I like this one, I'll remember "cloud".
+找到你喜歡的主題後，記下它的名字。比如說我喜歡這個，我就記住 "cloud"。
 
 ![](https://i.imgur.com/mORlwfs.png)
 
-Next, enter the following command:
+接下來輸入這個指令：
 
 ```bash
 nano ~/.zshrc
 ```
 
-You will see a somewhat intimidating screen, but it's not difficult!
+你會看到一個看起來有點嚇人的畫面，但其實不難！
 
 ![](https://i.imgur.com/EI2mg4F.png)
 
-First, find ZSH_THEME="rubbyrussell" and replace it with the name of your desired theme.
+首先，找到 `ZSH_THEME="rubbyrussell"` 這行，把它改成你想要的主題名稱。
 
-Using the cloud theme as an example, it would be:
+用 cloud 主題當例子，就是：
 
 `ZSH_THEME="cloud"`
 
-Once you've made the change, press `ctrl+x` + `y` + `enter` to save!
+改完後，按 `ctrl+x` + `y` + `enter` 來儲存！
 
-To reload Zsh, you can enter:
+要重新載入 Zsh，可以輸入：
 
 ```bash
 source ~/.zshrc
 ```
 
-After completion, you should see it adapted to your chosen theme!
+完成後，你應該就能看到它變成你選的主題了！
 
-# Terminal Color Themes
+# 終端機顏色主題
 
-## Step 6: Install Necessary Packages
+## 步驟 6：安裝必要的套件
 
-You can now start customizing your colors. Here, we suggest using pre-adjusted themes by others.
+現在可以開始客製化顏色了。這裡我們建議使用別人已經調好的主題。
 
-> [We will use this theme package here](https://github.com/Gogh-Co/Gogh)
+> [我們會使用這個主題包](https://github.com/Gogh-Co/Gogh)
 
-To install the necessary packages, enter the following command:
+安裝必要的套件，輸入：
 
 ```bash
 sudo apt-get install dconf-cli uuid-runtime
 ```
 
-## Step 7: Install Theme Package
+## 步驟 7：安裝主題包
 
-To install the theme package, enter:
+安裝主題包，輸入：
 
 ```bash
 bash -c "$(wget -qO- https://git.io/vQgMr)"
 ```
 
-It will display various symbols and English, where one symbol and English represent one theme. You can search online for the name of the theme you want or explore on your own.
+它會顯示各種符號和英文，一個符號加英文代表一個主題。你可以上網搜尋你想要的主題名稱，或是自己探索看看。
 
-Assuming I want to use "Tokyo Night" as my theme:
+假設我想用 "Tokyo Night" 這個主題：
 
 ![](https://i.imgur.com/HPqe3j2.png)
 
-Then I'll enter `230` (as shown in the image):
+那我就輸入 `230`（如圖所示）：
 
 ![](https://i.imgur.com/xBbMqnr.png)
 
-Then press `enter`.
+然後按 `enter`。
 
-> If you encounter this error, please see troubleshooting below. ![](https://i.imgur.com/AVFdyQ6.png)
+> 如果遇到這個錯誤，請看下面的疑難排解。![](https://i.imgur.com/AVFdyQ6.png)
 
-## Step 8: Apply the Theme
+## 步驟 8：套用主題
 
-First, right-click on the terminal and click `Preferences`.
+首先，右鍵點擊終端機，點選 `Preferences`。
 
 ![](https://i.imgur.com/Ninvspx.png)
 
-Then click `Set as default` next to the name of the theme you just selected.
+然後在你剛才選的主題名稱旁邊點 `Set as default`。
 
 ![](https://i.imgur.com/r63e1TY.png)
 
-Close the terminal and open it again to see the theme in effect.
+關掉終端機再重新開啟，就能看到主題效果了。
 
-But you may notice that the Zsh theme is missing. This is because Zsh is not your default shell. You can see how to set it as the default shell in the next section.
+但你可能會發現 Zsh 主題不見了，這是因為 Zsh 還不是你的預設 shell。下一節會教你怎麼把它設成預設。
 
 ![](https://i.imgur.com/r63e1TY.png)
 
-## Step 9: Set Zsh as the Default
+## 步驟 9：把 Zsh 設為預設
 
-First, go to Preferences, and click on the theme you just set.
+首先，進入 Preferences，點選你剛才設定的主題。
 
 ![](https://i.imgur.com/SEiDkEm.png)
 
-Then click on `command` at the top, check `Run a custom command instead of my shell`, and enter zsh in the input field below (as seen in the image below).
+然後點選上方的 `command`，勾選 `Run a custom command instead of my shell`，在下面的輸入欄位輸入 zsh（如下圖所示）。
 
 ![](https://i.imgur.com/xLvSk4n.png)
 
-# Conclusion
+# 完成！
 
-That's it! You've now configured your GNOME terminal theme!
+搞定！你現在已經成功設定好 GNOME 終端機主題了！
 
-To achieve the look of the image at the beginning, you'll need to set up a GNOME theme (might write an article on that in the future!).
+要達到文章開頭圖片的效果，你還需要設定 GNOME 主題（這個以後可能會寫文章介紹！）。
 
-# Troubleshooting
+# 疑難排解
 
-## Error Occurs When Installing Theme Package
+## 安裝主題包時出現錯誤
 
-Right-click on the terminal and click on Preferences.
+右鍵點擊終端機，點選 Preferences。
 
 ![](https://i.imgur.com/Ninvspx.png)
 
-Open the window and click on the `+` next to `Profiles` and enter `Default` (without changing anything).
+開啟視窗後，點選 `Profiles` 旁邊的 `+`，輸入 `Default`（其他都不用改）。
 
 ![](https://i.imgur.com/R5hCUNc.png)
 
-After completion, repeat Step 7.
+完成後，重複步驟 7。

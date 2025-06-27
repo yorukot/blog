@@ -11,14 +11,6 @@ import '@/styles/prism-theme.css';
 import CodeTabs from '@/components/markdown/CodeTabs.astro';
 import Alert from '@/components/markdown/Alert.astro';
 
-// Import blog images
-import helloWorldImage from '@/assets/blog/hello-world.png';
-
-// Create image mapping
-const imageMap: Record<string, { src: string; width: number; height: number }> = {
-  '/assets/blog/hello-world.png': helloWorldImage,
-};
-
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post: CollectionEntry<'blog'>) => {
@@ -89,7 +81,7 @@ function formatDate(date: Date) {
                 style="border-color: var(--color-text-muted);"
               >
                 <img
-                  src={imageMap[post.data.image.url]?.src || post.data.image.url}
+                  src={post.data.image.url}
                   alt={post.data.image.alt}
                   class="h-64 w-full object-cover md:h-96"
                 />
@@ -177,7 +169,7 @@ function formatDate(date: Date) {
         <!-- Article Content -->
         <section>
           <article class="prose prose-lg markdown-content max-w-none">
-            <Content />
+            <Content components={{ Alert, CodeTabs }} />
           </article>
           <!-- Tags -->
           {

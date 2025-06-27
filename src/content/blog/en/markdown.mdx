@@ -1,0 +1,231 @@
+---
+title: Complete Guide to Markdown Syntax + Special Features on This Website
+author: Yorukot
+pubDate: 2025-06-27
+postSlug: markdown
+featured: true
+draft: false
+tags: ['demo', 'guide']
+description: Complete guide to Markdown syntax and special features available on this website
+lang: 'en'
+image:
+  url: /blog/markdown/intro.png
+  alt: 'intro image'
+---
+
+# Complete Markdown Syntax Guide for This Website
+
+Welcome to my blog! This post will walk you through all the Markdown syntax supported on this website, including some cool custom features I've specially designed.
+
+## Basic Markdown Syntax
+
+### Heading System
+
+This website supports full heading hierarchy from `#` to `######`:
+
+```markdown
+# Level 1 Heading (H1)
+## Level 2 Heading (H2) 
+### Level 3 Heading (H3)
+#### Level 4 Heading (H4)
+##### Level 5 Heading (H5)
+###### Level 6 Heading (H6)
+```
+
+What's special is that level 2 headings get beautiful underline decorations to give your articles more visual hierarchy!
+
+### Text Formatting
+
+```markdown
+**Bold text** or __Bold text__
+*Italic text* or _Italic text_
+~~Strikethrough~~
+`Inline code`
+```
+
+### Links and Images
+
+```markdown
+[Link text](https://example.com)
+![Image description](image-url)
+```
+
+Images come with nice rounded corners and shadow effects, plus they slightly scale up on hover!
+
+### Lists
+
+**Unordered lists:**
+```markdown
+- Item 1
+- Item 2
+  - Sub-item 2.1
+  - Sub-item 2.2
+- Item 3
+```
+
+**Ordered lists:**
+```markdown
+1. First item
+2. Second item
+3. Third item
+```
+
+### Blockquotes
+
+```markdown
+> This is a blockquote
+> It can span multiple lines
+> 
+> And can include **bold** and `code`
+```
+
+Blockquotes feature a colorful left border and background - very professional looking!
+
+### Code Blocks
+
+**Inline code:**
+```markdown
+Use `console.log('Hello World')` to output messages
+```
+
+**Code blocks:**
+````markdown
+```javascript
+function hello() {
+  console.log('Hello World!');
+}
+```
+````
+
+Code blocks feature syntax highlighting, copy buttons, and beautiful rounded corners!
+
+### Tables
+
+```markdown
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Content 1 | Content 2 | Content 3 |
+| Content 4 | Content 5 | Content 6 |
+```
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Content 1 | Content 2 | Content 3 |
+| Content 4 | Content 5 | Content 6 |
+
+Tables come with beautiful styling and hover effects!
+
+### Horizontal Rules
+
+```markdown
+---
+```
+
+## Custom Features
+
+### 1. Alert Component
+
+This is one of my favorite features! You can create different types of alert boxes:
+
+<Alert type="tip" title="Pro Tip">
+This is a tip box for sharing useful information!
+</Alert>
+
+<Alert type="warning">
+This is a warning box for highlighting important notes.
+</Alert>
+
+<Alert type="error">
+This is an error box for displaying error messages.
+</Alert>
+
+<Alert type="info">
+This is an info box for providing general information.
+</Alert>
+
+<Alert type="success">
+This is a success box for celebrating achievements!
+</Alert>
+
+**How to use:**
+```markdown
+<Alert type="tip" title="Custom Title">
+Your content goes here
+</Alert>
+```
+
+Supported types:
+- `tip` - Tips (lightbulb icon)
+- `warning` - Warnings (triangle icon)  
+- `error` - Errors (X icon)
+- `info` - Information (i icon)
+- `success` - Success (checkmark icon)
+
+### 2. Code Tabs (CodeTabs)
+
+Super handy when you need to showcase code in multiple languages:
+
+<CodeTabs tabs={['JavaScript', 'Python', 'Go']}>
+```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+```
+
+```python
+def greet(name):
+    return f"Hello, {name}!"
+```
+
+```go
+func greet(name string) string {
+    return fmt.Sprintf("Hello, %s!", name)
+}
+```
+</CodeTabs>
+
+### How to use:
+I can't demonstrate this here directly, so please check out the [CodeTabs source code](https://github.com/yorukot/blog/blob/main/src/content/blog/en/markdown.mdx).
+
+### 3. Task Lists
+
+```markdown
+- [x] Complete basic functionality
+- [ ] Add advanced features
+- [ ] Test all features
+- [ ] Deploy to production
+```
+
+### 4. Keyboard Keys
+
+```markdown
+Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy
+Press <kbd>Ctrl</kbd> + <kbd>V</kbd> to paste
+```
+
+### 5. Highlighted Text
+
+```markdown
+This is text with <mark>highlighted</mark> content
+```
+
+### 6. Collapsible Content
+
+<details>
+<summary>Click to expand more content</summary>
+
+This is collapsible content, perfect for additional information or detailed explanations.
+
+- Can include lists
+- Can include **bold text**
+- Can include `code`
+
+</details>
+
+**How to use:**
+```markdown
+<details>
+<summary>Title</summary>
+
+Content...
+</details>
+```

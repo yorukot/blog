@@ -2,14 +2,6 @@
 import { Icon } from 'astro-icon/components';
 import type { CollectionEntry } from 'astro:content';
 
-// Import blog images
-import helloWorldImage from '@/assets/blog/hello-world.png';
-
-// Create image mapping
-const imageMap: Record<string, { src: string; width: number; height: number }> = {
-  '/assets/blog/hello-world.png': helloWorldImage,
-};
-
 interface Props {
   post: CollectionEntry<'blog'>;
   currentLocale: string;
@@ -48,7 +40,7 @@ const actualSlug = post.slug.split('/').slice(1).join('/');
       {post.data.image && (
         <div class="relative w-full h-32">
           <img
-            src={imageMap[post.data.image.url]?.src || post.data.image.url}
+            src={post.data.image.url}
             alt={post.data.image.alt}
             class="w-full h-full rounded-lg object-cover transition-opacity duration-200"
           />
@@ -152,7 +144,7 @@ const actualSlug = post.slug.split('/').slice(1).join('/');
         <div class="hidden md:block flex-shrink-0 ml-6">
           <div class="relative w-48 lg:w-56 xl:w-64" style="aspect-ratio: 16/9;">
             <img
-              src={imageMap[post.data.image.url]?.src || post.data.image.url}
+              src={post.data.image.url}
               alt={post.data.image.alt}
               class="w-full h-full rounded-lg object-cover transition-opacity duration-200"
             />
@@ -177,7 +169,7 @@ const actualSlug = post.slug.split('/').slice(1).join('/');
       {post.data.image && (
         <div class="overflow-hidden rounded-lg">
           <img 
-            src={imageMap[post.data.image.url]?.src || post.data.image.url}
+            src={post.data.image.url}
             alt={post.data.image.alt}
             class="h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
