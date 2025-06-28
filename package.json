@@ -23,6 +23,7 @@
     "@iconify-json/tabler": "^1.2.19",
     "@lucide/astro": "^0.523.0",
     "@tailwindcss/vite": "^4.1.11",
+    "@vercel/speed-insights": "^1.2.0",
     "activity-calendar-widget": "^0.0.18",
     "astro": "^5.10.1",
     "lucide-astro": "^0.523.0",

@@ -32,7 +32,7 @@
 .markdown-content h1 {
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--color-accent);
-  font-size: 2rem;
+  font-size: 2rem !important;
   margin-top: 0;
   margin-bottom: 1.5rem;
 }
@@ -117,19 +117,6 @@
 .markdown-content pre.collapsible.expanded {
   max-height: none;
   overflow-y: visible;
-}
-
-.markdown-content pre.collapsible::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(transparent, var(--color-bg-card) 70%);
-  pointer-events: none;
-  border-radius: 0 0 0.75rem 0.75rem;
-  z-index: 10;
 }
 
 .markdown-content pre.collapsible.expanded::after {
@@ -259,7 +246,7 @@
   color: var(--color-text) !important;
   font-size: 0.875rem;
   line-height: 1.5;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
   white-space: pre !important;
   tab-size: 2 !important;
   -moz-tab-size: 2 !important;

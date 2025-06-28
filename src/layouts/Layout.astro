@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { config } from '@/config';
+import  SpeedInsights  from "@vercel/speed-insights/astro"
 
 export interface Props {
   title?: string;
@@ -135,6 +136,7 @@ const {
       // Re-initialize when CodeTabs content changes
       document.addEventListener('codetab:changed', addCopyButtons);
     </script>
+    <SpeedInsights />
   </body>
 </html>
 

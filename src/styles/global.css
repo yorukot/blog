@@ -67,6 +67,15 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.025em;
 }
 
+/* Ensure consistent h1 font-size in semantic containers */
+article h1,
+aside h1,
+nav h1,
+section h1,
+h1 {
+  font-size: 2rem !important;
+}
+
 code, pre, kbd, samp {
   font-family: var(--font-mono);
   font-feature-settings: 'liga' 0, 'calt' 0;
@@ -86,7 +95,7 @@ code, pre, kbd, samp {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-bg-card);
   border-radius: 4px;
 }
 
@@ -103,12 +112,12 @@ code, pre, kbd, samp {
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+  background: var(--color-bg-card);
 }
 
 /* Firefox scrollbar styling */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) transparent;
+  scrollbar-color: var(--color-primary) var(--color-bg-card);
   scrollbar-gutter: stable;
 }

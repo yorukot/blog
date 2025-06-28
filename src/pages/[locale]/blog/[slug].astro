@@ -42,14 +42,14 @@ const otherPosts = currentLocalePosts.filter(p => p.slug !== post.slug);
 // Find related posts with same tags first, then fall back to newest posts
 const getRelatedPosts = () => {
   const currentTags = post.data.tags || [];
-  
+
   if (currentTags.length === 0) {
     // If current post has no tags, return newest posts
     return otherPosts
       .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
       .slice(0, 3);
   }
-  
+
   // Find posts with matching tags
   const postsWithMatchingTags = otherPosts
     .map(p => {
@@ -210,7 +210,7 @@ function formatDate(date: Date) {
         </div>
       </header>
 
-            <!-- Main Content Area -->
+      <!-- Main Content Area -->
       <main class="space-y-4">
         <!-- Article Content -->
         <section>
@@ -241,7 +241,7 @@ function formatDate(date: Date) {
         <section class="pt-8">
           <div class="flex flex-col gap-4 border-b border-opacity-20 pb-4 border-text-muted border-dashed md:flex-row md:items-center md:justify-between">
             <!-- Social Sharing -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 flex-wrap">
               <span 
                 class="text-sm font-medium whitespace-nowrap"
                 style="color: var(--color-text-muted);"
@@ -249,20 +249,20 @@ function formatDate(date: Date) {
                 Share this post on:
               </span>
 
-              <div class="flex items-center gap-2">
-                <!-- WhatsApp -->
+              <div class="flex items-center gap-2 flex-wrap">
+                <!-- Copy URL -->
                 <button
-                  id="share-whatsapp"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary transition-all duration-200"
-                  aria-label="Share on WhatsApp"
+                  id="share-copy-url"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
+                  aria-label="Copy URL"
                 >
-                  <Icon name="tabler:brand-whatsapp" class="h-6 w-6" />
+                  <Icon name="tabler:link" class="h-6 w-6" />
                 </button>
 
                 <!-- Facebook -->
                 <button
                   id="share-facebook"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
                   aria-label="Share on Facebook"
                 >
                   <Icon name="tabler:brand-facebook" class="h-6 w-6" />
@@ -271,7 +271,7 @@ function formatDate(date: Date) {
                 <!-- Twitter/X -->
                 <button
                   id="share-twitter"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
                   aria-label="Share on X (Twitter)"
                 >
                   <Icon name="tabler:brand-x" class="h-6 w-6" />
@@ -280,7 +280,7 @@ function formatDate(date: Date) {
                 <!-- Telegram -->
                 <button
                   id="share-telegram"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
                   aria-label="Share on Telegram"
                 >
                   <Icon name="tabler:brand-telegram" class="h-6 w-6" />
@@ -289,7 +289,7 @@ function formatDate(date: Date) {
                 <!-- Threads -->
                 <button
                   id="share-threads"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
                   aria-label="Share on Threads"
                 >
                   <Icon name="tabler:brand-threads" class="h-6 w-6" />
@@ -298,19 +298,10 @@ function formatDate(date: Date) {
                 <!-- Email -->
                 <button
                   id="share-email"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
+                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary cursor-pointer"
                   aria-label="Share via Email"
                 >
                   <Icon name="tabler:mail" class="h-6 w-6" />
-                </button>
-
-                <!-- Copy URL -->
-                <button
-                  id="share-copy-url"
-                  class="group flex h-8 w-8 items-center justify-center text-text hover:rotate-12 hover:text-primary"
-                  aria-label="Copy URL"
-                >
-                  <Icon name="tabler:link" class="h-6 w-6" />
                 </button>
               </div>
             </div>
@@ -391,14 +382,6 @@ function formatDate(date: Date) {
       const description = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
       return { title, url, description };
     };
-
-    // WhatsApp share functionality
-    const whatsappButton = document.getElementById('share-whatsapp');
-    whatsappButton?.addEventListener('click', () => {
-      const { title, url } = getShareData();
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${title} - ${url}`)}`;
-      window.open(whatsappUrl, '_blank');
-    });
 
     // Facebook share functionality
     const facebookButton = document.getElementById('share-facebook');
