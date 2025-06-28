@@ -13,7 +13,7 @@ export const config = {
       utcOffset: '+8',
       mapUrl: 'https://maps.app.goo.gl/d6URazuxoMjo3Ch16',
     },
-    avatar: '/avatar.png',
+    avatar: '/avatar.webp',
     experienceYears: 6,
     description: {
       intro:

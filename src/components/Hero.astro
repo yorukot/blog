@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import Socials from '@/components/Socials.astro';
 import { getLangFromUrl, useTranslations, getPersonalInfo, getContactInfo } from '@/i18n/utils';
-import avatarImage from '@/assets/avatar.png';
+import avatarImage from '@/assets/avatar.webp';
 
 const currentLocale = getLangFromUrl(Astro.url);
 const t = useTranslations(currentLocale);

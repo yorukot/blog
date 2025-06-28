@@ -19,7 +19,7 @@ export const translations = {
     'hero.description.work':
       'I work @Opensource where I spend most of my time building tools and websites.',
     'hero.description.projectsIntro': 'Here are a few of my projects and tags:',
-    'hero.projects.superfile': 'A sleek, modern terminal file manager called Superfile.',
+    'hero.projects.superfile': 'A sleek, modern terminal file manager called superfile.',
     'hero.projects.opensource': 'I contribute to a variety of open-source projects.',
     'hero.projects.systemDesign': "I'm passionate about system design and architecture.",
     'hero.projects.websites': "I've started plenty of websites and web apps—none of them quite finished yet. :/",
@@ -237,7 +237,7 @@ export const translations = {
     "experience.scrapyard-taiwan-2025.title": "工作人員 @ 2025 Scrapyard Taiwan",
     "experience.scrapyard-taiwan-2025.description": "參與 maker 社群活動，創意科技專案。",
     "experience.sitcon-speaker-2025.title": "演講者 @ 2025 SITCON",
-    "experience.sitcon-speaker-2025.description": "在學生資訊科技年會上發表專題演講「如何獲得 1,000 顆⭐？成功開源專案的實務經驗分享」。",
+    "experience.sitcon-speaker-2025.description": "在學生計算機年會上發表專題演講「如何獲得 1000 顆星？開源專案的實戰分享！」。",
     "experience.research-paper-competition-2025.title": "參賽者 @ 研究論文比賽",
     "experience.research-paper-competition-2025.description": "以論文「平行運算效能分析與討論」獲得甲等獎。",
     "experience.nthu-hpc-winter-camp-2025.title": "學員 @ 2025 清華大學 HPC 冬令營",
