@@ -39,6 +39,52 @@ const allPosts = await getCollection('blog');
 const currentLocalePosts = allPosts.filter(p => p.data.lang === currentLocale);
 const otherPosts = currentLocalePosts.filter(p => p.slug !== post.slug);
 
+// Find related posts with same tags first, then fall back to newest posts
+const getRelatedPosts = () => {
+  const currentTags = post.data.tags || [];
+  
+  if (currentTags.length === 0) {
+    // If current post has no tags, return newest posts
+    return otherPosts
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+      .slice(0, 3);
+  }
+  
+  // Find posts with matching tags
+  const postsWithMatchingTags = otherPosts
+    .map(p => {
+      const matchingTags = (p.data.tags || []).filter(tag => currentTags.includes(tag));
+      return {
+        post: p,
+        matchingTagsCount: matchingTags.length,
+        matchingTags
+      };
+    })
+    .filter(item => item.matchingTagsCount > 0)
+    .sort((a, b) => {
+      // Sort by number of matching tags (descending), then by publication date (newest first)
+      if (a.matchingTagsCount !== b.matchingTagsCount) {
+        return b.matchingTagsCount - a.matchingTagsCount;
+      }
+      return b.post.data.pubDate.getTime() - a.post.data.pubDate.getTime();
+    })
+    .map(item => item.post);
+  
+  // If we have enough posts with matching tags, return them
+  if (postsWithMatchingTags.length >= 3) {
+    return postsWithMatchingTags.slice(0, 3);
+  }
+  
+  // Otherwise, combine posts with matching tags and newest posts
+  const newestPosts = otherPosts
+    .filter(p => !postsWithMatchingTags.includes(p))
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  
+  return [...postsWithMatchingTags, ...newestPosts].slice(0, 3);
+};
+
+const relatedPosts = getRelatedPosts();
+
 // Format date for display
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat(currentLocale === 'zh-tw' ? 'zh-TW' : 'en-US', {
@@ -49,7 +95,7 @@ function formatDate(date: Date) {
 }
 ---
 
-<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description} image={post.data.image?.url}>
+<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description} image={post.data.image?.url} lang={currentLocale}>
   <div class="min-h-screen" style="background-color: var(--color-bg);">
     <!-- Main Content Container -->
     <div class="container mx-auto max-w-4xl px-6 py-16">
@@ -289,18 +335,6 @@ function formatDate(date: Date) {
           </div>
         </section>
 
-        <!-- Related Posts Section -->
-        <section class="pt-8">
-          <h3 class="mb-8 text-2xl font-bold" style="color: var(--color-text-contrast);">
-            Related Posts
-          </h3>
-          <div class="space-y-6">
-            {otherPosts.slice(0, 3).map((relatedPost) => (
-              <Post post={relatedPost} currentLocale={currentLocale} variant="default" />
-            ))}
-          </div>
-        </section>
-
         <!-- Comments Section -->
         <section class="pt-8">
           <h3 class="mb-8 text-2xl font-bold" style="color: var(--color-text-contrast);">
@@ -325,6 +359,18 @@ function formatDate(date: Date) {
             </script>
           </div>
         </section>
+  
+        <!-- Related Posts Section -->
+        <section class="pt-8">
+          <h3 class="mb-8 text-2xl font-bold" style="color: var(--color-text-contrast);">
+            Related Posts
+          </h3>
+          <div class="space-y-6">
+            {relatedPosts.map((relatedPost) => (
+              <Post post={relatedPost} currentLocale={currentLocale} variant="default" />
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   </div>
@@ -334,24 +380,6 @@ function formatDate(date: Date) {
     /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
-    }
-
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--color-bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-primary);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-primary-hover);
     }
   </style>
 
@@ -487,42 +515,85 @@ function formatDate(date: Date) {
       progressBar.style.width = scrolled + '%';
     });
 
-    // Copy functionality for regular code blocks
+    // Initialize code blocks with copy and expand functionality
     const codeBlocks = document.querySelectorAll('.markdown-content pre');
     codeBlocks.forEach((pre) => {
-      pre.addEventListener('click', async (e: Event) => {
-        const mouseEvent = e as MouseEvent;
-        // Check if click is on the copy button area
-        const rect = pre.getBoundingClientRect();
-        const clickX = mouseEvent.clientX - rect.left;
-        const clickY = mouseEvent.clientY - rect.top;
+      const preElement = pre as HTMLElement;
 
-        // Copy button is positioned at top-right (0.75rem from top and right)
-        const copyButtonArea = {
-          left: rect.width - 48, // 2rem button + 0.75rem margin
-          top: 0,
-          width: 48,
-          height: 48,
-        };
+      // Add copy button
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-button';
+      copyButton.innerHTML = `
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </svg>
+      `;
+      copyButton.addEventListener('click', async () => {
+        const codeElement = pre.querySelector('code');
+        if (codeElement) {
+          try {
+            await navigator.clipboard.writeText(codeElement.textContent || '');
 
-        if (clickX >= copyButtonArea.left && clickY <= copyButtonArea.height) {
-          const codeElement = pre.querySelector('code');
-          if (codeElement) {
-            try {
-              await navigator.clipboard.writeText(codeElement.textContent || '');
+            // Visual feedback
+            copyButton.innerHTML = `
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            `;
+            copyButton.classList.add('copied');
 
-              // Visual feedback
-              const htmlElement = pre as HTMLElement;
-              htmlElement.style.setProperty('--copy-feedback', 'block');
-              setTimeout(() => {
-                htmlElement.style.removeProperty('--copy-feedback');
-              }, 2000);
-            } catch (err) {
-              console.error('Failed to copy code:', err);
-            }
+            setTimeout(() => {
+              copyButton.innerHTML = `
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              `;
+              copyButton.classList.remove('copied');
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy code:', err);
           }
         }
       });
+      preElement.appendChild(copyButton);
+
+      // Check if code block is tall enough to need collapsing
+      const codeElement = pre.querySelector('code');
+      if (codeElement && preElement.scrollHeight > 300) {
+        preElement.classList.add('collapsible');
+
+        // Add expand/collapse button
+        const expandButton = document.createElement('button');
+        expandButton.className = 'expand-button';
+        expandButton.innerHTML = `
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+          </svg>
+        `;
+
+        expandButton.addEventListener('click', () => {
+          const isExpanded = preElement.classList.contains('expanded');
+
+          if (isExpanded) {
+            preElement.classList.remove('expanded');
+            expandButton.innerHTML = `
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/>
+              </svg>
+            `;
+          } else {
+            preElement.classList.add('expanded');
+            expandButton.innerHTML = `
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 15-6-6-6 6"/>
+              </svg>
+            `;
+          }
+        });
+
+        // Simply append the button to the pre element
+        preElement.appendChild(expandButton);
+      }
     });
 
     // Enhanced tag click functionality

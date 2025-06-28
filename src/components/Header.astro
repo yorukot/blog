@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Book from '@lucide/astro/icons/book';
 import Languages from '@lucide/astro/icons/languages';
 import {
@@ -27,6 +28,17 @@ const personalInfo = getPersonalInfo();
 
       <!-- Right Side Navigation -->
       <div class="flex items-center space-x-6">
+
+        <!-- Github -->
+        <a
+          href="https://github.com/yorukot/blog"
+          class="text-text hover:text-primary flex items-center space-x-2 transition-colors hover:rotate-15"
+          title="Github"
+        >
+          <Icon name="tabler:brand-github" class="h-6 w-6" />
+        </a>
+
+        <!-- Blog -->
         <a
           href={`/${currentLocale}/blog/`}
           class="text-text hover:text-primary flex items-center space-x-2 transition-colors hover:rotate-15"

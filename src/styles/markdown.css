@@ -30,13 +30,15 @@
 }
 
 .markdown-content h1 {
-  font-size: 1.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  font-size: 2rem;
   margin-top: 0;
   margin-bottom: 1.5rem;
 }
 
 .markdown-content h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   border-bottom: 2px solid var(--color-accent);
   padding-bottom: 0.5rem;
   margin-top: 2.5rem;
@@ -44,19 +46,19 @@
 }
 
 .markdown-content h3 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .markdown-content h4 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 
 .markdown-content h5 {
-  font-size: 1rem;
+  font-size: 1.125rem;
 }
 
 .markdown-content h6 {
-  font-size: 1rem;
+  font-size: 1.125rem;
   color: var(--color-text-muted) !important;
 }
 
@@ -89,7 +91,7 @@
   border-radius: 0.375rem;
   font-size: 0.875em;
   font-weight: 600;
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
 }
 
 /* Code blocks */
@@ -102,6 +104,57 @@
   margin: 1.5rem 0;
   overflow-x: auto;
   position: relative;
+  font-family: 'JetBrains Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  transition: max-height 0.3s ease;
+}
+
+/* Collapsible code blocks */
+.markdown-content pre.collapsible {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.markdown-content pre.collapsible.expanded {
+  max-height: none;
+  overflow-y: visible;
+}
+
+.markdown-content pre.collapsible::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(transparent, var(--color-bg-card) 70%);
+  pointer-events: none;
+  border-radius: 0 0 0.75rem 0.75rem;
+  z-index: 10;
+}
+
+.markdown-content pre.collapsible.expanded::after {
+  display: none;
+}
+
+/* Custom scrollbar for collapsible code blocks */
+.markdown-content pre.collapsible::-webkit-scrollbar {
+  width: 6px;
+}
+
+.markdown-content pre.collapsible::-webkit-scrollbar-track {
+  background: var(--color-bg-highlight);
+  border-radius: 3px;
+}
+
+.markdown-content pre.collapsible::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.markdown-content pre.collapsible::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+  opacity: 0.8;
 }
 
 /* Copy button for regular code blocks */
@@ -156,6 +209,49 @@
   transform: scale(0.95);
 }
 
+/* Expand/collapse button for code blocks */
+.markdown-content pre .expand-button {
+  position: sticky;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: none;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  margin: 0.25rem auto 0;
+}
+
+.markdown-content pre.collapsible .expand-button {
+  opacity: 1;
+}
+
+.markdown-content pre .expand-button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateX(-50%) translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.markdown-content pre .expand-button svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.3s ease;
+  stroke: currentColor;
+}
+
 .markdown-content pre code {
   background: none !important;
   border: none !important;
@@ -199,6 +295,73 @@
 .markdown-content img:hover {
   transform: scale(1.02);
   box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* Iframe */
+.markdown-content iframe {
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.5);
+  margin: 1.5rem auto;
+  border: 1px solid var(--color-bg-highlight);
+  border-opacity: 0.2;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: block;
+  background-color: var(--color-bg-card);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.markdown-content iframe:hover {
+  transform: scale(1.01);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive iframe container */
+.markdown-content .iframe-container {
+  position: relative;
+  width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--color-bg-highlight);
+  border-opacity: 0.2;
+  background-color: var(--color-bg-card);
+}
+
+.markdown-content .iframe-container::before {
+  content: '';
+  display: block;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.markdown-content .iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Different aspect ratios */
+.markdown-content .iframe-container.aspect-4-3::before {
+  padding-top: 75%; /* 4:3 aspect ratio */
+}
+
+.markdown-content .iframe-container.aspect-1-1::before {
+  padding-top: 100%; /* 1:1 aspect ratio */
+}
+
+.markdown-content .iframe-container.aspect-21-9::before {
+  padding-top: 42.86%; /* 21:9 aspect ratio */
 }
 
 /* Lists */
@@ -453,6 +616,17 @@
   .markdown-content th,
   .markdown-content td {
     padding: 0.5rem;
+  }
+
+  .markdown-content iframe {
+    margin: 1rem -1rem;
+    border-radius: 0;
+    min-height: 250px;
+  }
+
+  .markdown-content .iframe-container {
+    margin: 1rem -1rem;
+    border-radius: 0;
   }
 }
 

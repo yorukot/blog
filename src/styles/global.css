@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -34,9 +35,8 @@
   --color-success-active: hsl(141, 71%, 28%);
 
   /* Font families */
-  --font-sans: 'JetBrains Mono', 'Noto Sans TC', 'Noto Sans SC', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', LiHei Pro, '黑體-繁', '微軟正黑體';
+  --font-sans: 'JetBrains Mono', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, LiHei Pro, '黑體-繁', '微軟正黑體';
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New';
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
 /* Global font settings */
@@ -45,7 +45,7 @@
 }
 
 html {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -54,7 +54,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
   letter-spacing: -0.011em;
 }
@@ -73,8 +73,42 @@ code, pre, kbd, samp {
 }
 
 /* Optimize for Chinese characters */
-:lang(zh-TW), :lang(zh-CN) {
-  font-family: 'Noto Sans TC', 'Noto Sans SC', var(--font-sans);
+:lang(zh-tw) html {
+  font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', 'Noto Sans SC', var(--font-sans);
   line-height: 1.7;
   letter-spacing: 0.05em;
+}
+
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 4px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+  opacity: 0.8;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+  scrollbar-gutter: stable;
 }
