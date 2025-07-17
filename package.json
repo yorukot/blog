@@ -29,6 +29,7 @@
     "astro": "^5.10.1",
     "lucide-astro": "^0.523.0",
     "prismjs": "^1.30.0",
+    "sharp": "^0.34.3",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {

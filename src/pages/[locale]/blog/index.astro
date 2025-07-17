@@ -24,9 +24,9 @@ const t = useTranslations(currentLocale);
 const url = new URL(Astro.request.url);
 const initialTag = url.searchParams.get('tag') || 'all';
 
-// Get all blog posts for the current locale
+// Get all blog posts for the current locale (excluding drafts)
 const allPosts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => {
-  return data.lang === currentLocale;
+  return data.lang === currentLocale && !data.draft;
 });
 
 // Sort posts by publication date (newest first)

@@ -10,10 +10,14 @@ const blog = defineCollection({
     author: z.string().optional(),
     tags: z.array(z.string()).optional(),
     lang: z.enum(['en', 'zh-tw']),
+    draft: z.boolean().default(false),
+    featured: z.boolean().optional(),
+    postSlug: z.string().optional(),
     image: z
       .object({
-        url: z.string(),
+        url: z.string().optional(),
         alt: z.string(),
+        filename: z.string().optional(),
       })
       .optional(),
   }),

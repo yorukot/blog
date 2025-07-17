@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import Layout from '@/layouts/Layout.astro';
 import Post from '@/components/Post.astro';
 import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import { getImageSrc } from '@/utils/imageLoader';
 import '@/styles/markdown.css';
 import '@/styles/prism-theme.css';
 
@@ -12,7 +13,7 @@ import CodeTabs from '@/components/markdown/CodeTabs.astro';
 import Alert from '@/components/markdown/Alert.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post: CollectionEntry<'blog'>) => {
     // Extract the actual slug without the language prefix
     const slugParts = post.slug.split('/');
@@ -34,8 +35,15 @@ const t = useTranslations(currentLocale);
 
 const { Content } = await post.render();
 
-// Get all posts for related posts functionality
-const allPosts = await getCollection('blog');
+// Resolve image URL with fallback
+const imageUrl = post.data.image?.url || getImageSrc(post.data.image?.filename);
+const optimizedImage = imageUrl ? {
+  url: imageUrl,
+  alt: post.data.image?.alt || post.data.title
+} : null;
+
+// Get all posts for related posts functionality (excluding drafts)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const currentLocalePosts = allPosts.filter(p => p.data.lang === currentLocale);
 const otherPosts = currentLocalePosts.filter(p => p.slug !== post.slug);
 
@@ -95,7 +103,7 @@ function formatDate(date: Date) {
 }
 ---
 
-<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description} image={post.data.image?.url} lang={currentLocale}>
+<Layout title={`${post.data.title} - ${t('blog.title')}`} description={post.data.description} image={optimizedImage?.url} lang={currentLocale}>
   <div class="min-h-screen" style="background-color: var(--color-bg);">
     <!-- Main Content Container -->
     <div class="container mx-auto max-w-4xl px-6 py-16">
@@ -120,15 +128,15 @@ function formatDate(date: Date) {
       <header class="mb-12">
         <!-- Hero Image -->
         {
-          post.data.image && (
+          optimizedImage && (
             <div class="group relative mb-12">
               <div
                 class="border-opacity-20 overflow-hidden rounded-2xl border shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
                 style="border-color: var(--color-text-muted);"
               >
                 <img
-                  src={post.data.image.url}
-                  alt={post.data.image.alt}
+                  src={optimizedImage.url}
+                  alt={optimizedImage.alt}
                   class="h-64 w-full object-cover md:h-96"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -228,7 +236,7 @@ function formatDate(date: Date) {
                       class="underline decoration-wavy text-text-muted hover:text-primary hover:-translate-y-0.5 transition-all duration-200"
                       aria-label={`View all posts tagged with ${tag}`}
                     >
-                      # {tag}
+                      #{tag}
                     </a>
                   ))}
                 </div>

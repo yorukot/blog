@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { config } from "@/config";
 
 export async function GET() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
 
   // Sort posts by publication date (newest first)
   const sortedPosts = posts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
