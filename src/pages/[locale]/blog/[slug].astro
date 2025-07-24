@@ -13,7 +13,7 @@ import CodeTabs from '@/components/markdown/CodeTabs.astro';
 import Alert from '@/components/markdown/Alert.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('blog');
   return posts.map((post: CollectionEntry<'blog'>) => {
     // Extract the actual slug without the language prefix
     const slugParts = post.slug.split('/');

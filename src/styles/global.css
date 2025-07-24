@@ -1,17 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @theme {
   /* Base background and text colors */
   --color-bg: hsl(232, 23%, 18%); /* Main dark background */
-  --color-bg-card: hsl(232, 23%, 22%); /* Slightly lighter background */
-  --color-bg-highlight: hsl(232, 23%, 25%); /* Slightly lighter background */
-  --color-bg-dark: hsl(232, 23%, 15%); /* Slightly lighter background */
+  --color-bg-card: hsl(232, 23%, 22%);
+  --color-bg-highlight: hsl(232, 23%, 25%);
+  --color-bg-dark: hsl(232, 23%, 15%);
 
   --color-text: hsl(60, 33%, 94.9%); /* Primary text, warm light gold */
   --color-text-muted: hsl(60, 33%, 80%); /* Muted text, warm beige */
-  --color-text-contrast: hsl(60, 33%, 95%); /* Strong highlight text (for emphasis / CTA) */
+  --color-text-contrast: hsl(0, 0%, 100%);
 
   /* Primary colors */
   --color-primary: hsl(24, 84.4%, 65%);

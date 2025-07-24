@@ -15,9 +15,9 @@ image:
 
 這篇文章主要會以我 superfile 中的經驗，來講解一下如果想要做一個 TUI 或者 CLI APP 你可能會需要知道的一些冷門知識以及規範。
 
-## TUI 以及 CLI
+# TUI 以及 CLI
 
-### TUI (terminal user interfaces)
+## TUI (terminal user interfaces)
 TUI 簡單來說就是在 Terminal 上做出一個簡單的類似你平常使用的使用者介面來讓使用者可以做到控制你的 APP。這邊指的 使用者介面一般都是以文字配合顏色來做到。
 
 而再操作部分你可以使用鍵盤上的上下左右，或者某個快捷鍵等來去做到某個功能，有些較為現代的 TUI 程式還會支援滑鼠的操作。
@@ -25,7 +25,7 @@ TUI 簡單來說就是在 Terminal 上做出一個簡單的類似你平常使用
 比方說下面這個是我做的 superfile APP，他就是一個標準的 TUI APP 可以讓你在 Terminal 中運用 UI 介面來做到檔案管理中做的事情。除此之外各位熟知的 Vim 也是 TUI。
 ![tui-example](../../../assets/blog/before-you-build-a-tui-or-cli-app/tui-example.webp)
 
-### CLI (Command-Line Interface)
+## CLI (Command-Line Interface)
 CLI 則是一個很早就創造出來的東西（在創造出來的時候電腦還沒有辦法炫染使用者介面），CLI 能做的都是打指令的方式來去做交互，你沒有辦法像普通的這樣按上下左右等去做交互。
 
 一般是把全部的操作集合成一個指令，而在指令中間一般會分為 command 以及 options 這邊的 command 還可以有 sub-command 或者值，舉例來說像是下面這樣:
@@ -39,9 +39,41 @@ docker run -d -p 8080:80 --name my-nginx nginx
 - `nginx` 為給 command 的值
 
 下面這個就是 docker (這邊用 podman 演示) 的就是 command 在後面
+## This need change
 ![cli-example](../../../assets/blog/before-you-build-a-tui-or-cli-app/superfile-hackernews.png)
 
-## 關於 TUI 以及 CLI 或者一些 APP 的知識
+# 關於 TUI 以及 CLI 或者一些 APP 的知識
 
 這段主要講一些 TUI 以及 CLI 的部分可能會需要的小知識（不是很重要的部分），但如果你認為你的 APP 會成為一個正經的軟體的話建議你可以看一下下面這部分的東西，不然你可能會像我一樣被 HackerNews 上的人嘴 :/
+![superfile hackernews](../../../assets/blog/before-you-build-a-tui-or-cli-app/superfile-hackernews.png)
+
+## 默認資料夾 （通用）
+這個不管你是寫 CLI TUI 或者其他的 APP 基本上都是可以參考的，基本上來說就是每個系統其實都有自己專屬放置設定檔、log 檔案之類的地方，並不是你想要放在哪裡就放在哪裡的東西。
+
+原則上 Linux 中是遵守 [XDG](https://wiki.archlinux.org/title/XDG_Base_Directory) 規範的，這個應該是最複雜最難遵守的，但應該是對於使用者來說算是蠻好管理的一個系統。這個系統如果是 CLI TUI 程式基本上是完全符合的，但是很多的 APP 是不符合這個規範的（估計懶得為了 Linux 去做優化）。
+
+而在 macOS 以及 Windows 中的規範就比較寬鬆了，我就放在下面的表給各位參考。
+
+下面這張圖表給各位去做一下參考（這邊只有一部份不是全部）:
+
+| Purpose       | Linux                              | macOS                                       | Windows                          |
+|---------------|-------------------------------------|----------------------------------------------|----------------------------------|
+| **Data**      | `~/.local/share/{your_app_name}`    | `~/Library/Application Support/{your_app_name}` | `%LOCALAPPDATA%\\{your_app_name}` |
+| **Log**       | `~/.local/state/{your_app_name}`    | `~/Library/Application Support/{your_app_name}` | `%LOCALAPPDATA%\\{your_app_name}` |
+| **Config**    | `~/.config/{your_app_name}`         | `~/Library/Application Support/{your_app_name}` | `%LOCALAPPDATA%\\{your_app_name}` |
+
+## 網路問題 （CLI TUI）
+這個問題可能你要是在做 Linux Unix 相關或者比較極客的東西才會遇到，但我的建議是即便你不是做這些的也可以看一下。
+
+原則上來說只要你的程式能不用用到網路就不要用，如果真的要用到怎麼辦？開一個選項給使用者讓他們關閉。原則上 CLI 跟 TUI 大多都是不需要連結上去網路的。除非你是做像是 curl 之類的這種例外。
+
+如果你的程式不需要網路，像是我的 superfile 這種檔案管理器是不應該需要網路的，那建議你就別亂跑網路相關的東西，但像是我的 superfile 本身還會驗證是否可以更新，所以為此我就開了一個 setting 讓使用者可以控制。但最好的做法其實是開一個提示視窗問使用者是否有自動檢查更新。
+
+## Release 的版本問題（通用）
+當你今天完成了你的偉大 APP 之後你可能會開始需要去宣傳他 release 他來讓其他人去做使用，而在 release 的過程中就會需要設定你的版本號。你可能會很好奇到底應該設多少。如果沒設好可能會跟我的 superfile 一樣搞了一個 `1.1.7.1` 然後造成後面有部分的人偵測不到新版本...（下圖）
+
+版本號這個東西實際上不只是給你看的，還要給其他 package manager 如 Homebrew、apt、snap、dnf 等去做使用，而在這部分中有些其實是不支援合法的版本號的，所以版本號請不要亂打，這邊建議一律使用 [Semantic versioning](https://semver.org) 除非你有特殊理由。
+
+當然除了上面講到的 Semantic versioning 部分語言可能有自己的版本格式那就用你那個語言的規範就好了。
+![superfile v1.1.7.1](../../../assets/blog/before-you-build-a-tui-or-cli-app/superfile-v1.1.7.1.png)
 
