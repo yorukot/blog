@@ -1,29 +1,29 @@
 import rss from "@astrojs/rss";
-import { getCollection, type CollectionEntry } from "astro:content";
 import { config } from "@/config";
 
 export async function GET() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
-
-  // Sort posts by publication date (newest first)
-  const sortedPosts = posts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
-    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-  );
-
   return rss({
-    title: config.personal.name,
-    description: config.personal.description.intro,
+    title: `${config.personal.name} - RSS Feed Index`,
+    description: `${config.personal.description.intro} - Available in multiple languages`,
     site: config.website,
-    items: sortedPosts.map((post: CollectionEntry<'blog'>) => {
-      // Extract the actual slug without the language prefix
-      const actualSlug = post.slug.split('/').slice(1).join('/');
-
-      return {
-        link: `${config.website}/${post.data.lang}/blog/${actualSlug}`,
-        title: post.data.title,
-        description: post.data.description,
-        pubDate: new Date(post.data.updatedDate ?? post.data.pubDate),
-      };
-    }),
+    items: [
+      {
+        title: "English RSS Feed",
+        link: `${config.website}/rss-en.xml`,
+        description: "RSS feed for English blog posts",
+        pubDate: new Date(),
+      },
+      {
+        title: "繁體中文 RSS Feed",
+        link: `${config.website}/rss-zh-tw.xml`,
+        description: "RSS feed for Traditional Chinese blog posts",
+        pubDate: new Date(),
+      },
+    ],
+    customData: `
+      <language>en-us</language>
+      <atom:link href="${config.website}/rss-en.xml" rel="alternate" type="application/rss+xml" title="English RSS Feed" />
+      <atom:link href="${config.website}/rss-zh-tw.xml" rel="alternate" type="application/rss+xml" title="繁體中文 RSS Feed" />
+    `,
   });
 }
