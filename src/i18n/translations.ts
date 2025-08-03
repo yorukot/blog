@@ -17,7 +17,7 @@ export const translations = {
     'hero.description.hobbies':
       "When I'm not coding or contributing to open-source projects, I'm probably binging anime, TV shows, or movies—or tinkering with some obscure new tech.",
     'hero.description.work':
-      'I work @Opensource where I spend most of my time building tools and websites.',
+      'I spend most of my time building tools and websites and all my work is open-source (well almost).',
     'hero.description.projectsIntro': 'Here are a few of my projects and tags:',
     'hero.projects.superfile': 'A sleek, modern terminal file manager called superfile.',
     'hero.projects.opensource': 'I contribute to a variety of open-source projects.',
@@ -27,8 +27,6 @@ export const translations = {
     // Experience Section
     'experience.title': 'Experience',
     'experience.subtitle': "Competitions, events, and activities I've participated in",
-    'experience.footer': 'Always eager to participate in new events and learn from the community.',
-    'experience.lookingForward': 'Looking forward to more exciting opportunities',
 
     // Experience Items
     'experience.sitcon-camp-instructor-2025.title': 'Instructor @ SITCON Camp 2025',
@@ -79,8 +77,6 @@ export const translations = {
     // Projects Section
     'projects.title': 'Projects',
     'projects.subtitle': "Some of the things I've built and worked on",
-    'projects.footer':
-      'Always working on something new and exciting. Check out my GitHub for more projects!',
     'projects.visit': 'Visit {title}',
 
     // Project Items
@@ -106,7 +102,6 @@ export const translations = {
     // Tech Stack Section
     'techStack.title': 'Tech Stack',
     'techStack.subtitle': 'Technologies and tools I work with',
-    'techStack.footer': 'Always learning and exploring new technologies to build better solutions.',
 
     // Tech Stack Items
     'techStack.go.title': 'Go',
@@ -207,7 +202,7 @@ export const translations = {
     "hero.imName": "我是",
     "hero.description.intro": "你好！我是一名 {age} 歲的高中生，擁有大約 {experienceYears} 年的開發經驗。用程式打造各種東西，專精於全端網頁開發，也喜歡設計一些莫名奇妙的 CLI/TUI 工具。",
     "hero.description.hobbies": "我沒在寫程式時大概率正在追動漫、影集或電影。或者是在看某個不知名的新技術。",
-    "hero.description.work": "我在 @Opensource 工作，主要負責開發工具和網站。",
+    "hero.description.work": "我主要開發工具和網站，大部分的專案都是開源的。",
     "hero.description.projectsIntro": "這裡是我的一些專案和標籤：",
     "hero.projects.superfile": "漂亮又現代的終端機檔案總管 superfile。",
     "hero.projects.opensource": "有參與許多開源專案的貢獻。",
@@ -217,8 +212,6 @@ export const translations = {
     // Experience Section
     "experience.title": "經歷",
     "experience.subtitle": "我參與過的競賽、活動與經歷",
-    "experience.footer": "我持續熱衷於參加新活動，也樂於從社群中學習。",
-    "experience.lookingForward": "期待更多精彩的機會",
 
     "experience.sitcon-camp-instructor-2025.title": "講師 @ 2025 SITCON Camp",
     "experience.sitcon-camp-instructor-2025.description": "擔任 SITCON Camp 的講師，教授學生程式與科技相關技能。",
@@ -252,7 +245,6 @@ export const translations = {
     // Projects Section
     "projects.title": "專案",
     "projects.subtitle": "我做過或參與的作品",
-    "projects.footer": "我總在開發新東西與嘗試，可以到 GitHub 看看！",
     "projects.visit": "查看 {title}",
     "projects.superfile.title": "superfile",
     "projects.superfile.description": "一款漂亮現代的終端檔案管理器，用 Go 撰寫，擁有直覺操作、多檔案操作與可自訂主題。",
@@ -270,7 +262,6 @@ export const translations = {
     // Tech Stack Section
     "techStack.title": "技術棧",
     "techStack.subtitle": "我正在使用的技術與工具",
-    "techStack.footer": "不斷學習探索，用更好的方式打造專案。",
 
     "techStack.go.title": "Go",
     "techStack.go.description": "Go 是我最喜歡也最常用的語言，用於後端服務與 CLI 工具，熟悉 Gin、Echo、Fiber 和 Bubble Tea、Cargo 等。",
