@@ -30,6 +30,7 @@
     "lucide-astro": "^0.523.0",
     "prismjs": "^1.30.0",
     "sharp": "^0.34.3",
+    "smooth-scrollbar": "^8.8.4",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {

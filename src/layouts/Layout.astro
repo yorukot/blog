@@ -22,7 +22,7 @@ const {
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,9 +65,11 @@ const {
     )}
   </head>
   <body class="bg-bg min-h-screen">
-    <Header />
-    <slot />
-    <Footer />
+    <div id="scroll-container">
+      <Header />
+      <slot />
+      <Footer />
+    </div>
 
     <script>
       // Add copy buttons to markdown code blocks
@@ -137,6 +139,50 @@ const {
       // Re-initialize when CodeTabs content changes
       document.addEventListener('codetab:changed', addCopyButtons);
     </script>
+
+    <script>
+      import Scrollbar from 'smooth-scrollbar';
+
+      // Initialize smooth scrollbar
+      function initSmoothScrollbar() {
+        const container = document.getElementById('scroll-container');
+        if (container) {
+          // Remove native scrolling from html and body
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+          
+          // Initialize smooth scrollbar
+          const scrollbar = Scrollbar.init(container, {
+            plugins: {},
+            damping: 0.1,
+            thumbMinSize: 20,
+            renderByPixels: true,
+            alwaysShowTracks: false,
+            continuousScrolling: true,
+            wheelEventTarget: null,
+            overscroll: {
+              effect: 'bounce',
+              damping: 0.15,
+              maxOverscroll: 150,
+            },
+          });
+
+          // Ensure proper sizing
+          container.style.height = '100vh';
+          container.style.overflow = 'hidden';
+        }
+      }
+
+      // Initialize when DOM loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSmoothScrollbar);
+      } else {
+        initSmoothScrollbar();
+      }
+
+      // Re-initialize after page navigation (for Astro)
+      document.addEventListener('astro:page-load', initSmoothScrollbar);
+    </script>
     <SpeedInsights />
     <Analytics />
   </body>
@@ -147,5 +193,24 @@ const {
   :global(body) {
     margin: 0;
     width: 100%;
+    height: 100%;
+  }
+  
+  :global(#scroll-container) {
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  :global(.scrollbar-track) {
+    background: rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  :global(.scrollbar-thumb) {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 6px !important;
+  }
+  
+  :global(.scrollbar-thumb:hover) {
+    background: rgba(255, 255, 255, 0.5) !important;
   }
 </style>
