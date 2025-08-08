@@ -71,9 +71,6 @@ importers:
       sharp:
         specifier: ^0.34.3
         version: 0.34.3
-      smooth-scrollbar:
-        specifier: ^8.8.4
-        version: 8.8.4
       tailwindcss:
         specifier: ^4.1.11
         version: 4.1.11
@@ -295,12 +292,12 @@ packages:
     peerDependencies:
       eslint: '>=0.8.0'
 
-  '@builder.io/mitosis-cli@0.12.1':
-    resolution: {integrity: sha512-XzCZkerE+ZgZ4hbliHhA4z81vSMhO7s3ZS9aUTeZCuQNjw5yBQEirs5vlNJL6PBQipgQRJLtVwuhQOXxODe5ow==}
+  '@builder.io/mitosis-cli@0.12.0':
+    resolution: {integrity: sha512-Ka7L5jtDqVxyrQi9Yr8WJZtY0fetSvFA+ci7MJmaOCatsx8Glwp+adr8civvgDLTW/UEOu5YkF6S1A9k+wqBTA==}
     hasBin: true
 
-  '@builder.io/mitosis@0.12.1':
-    resolution: {integrity: sha512-6jwAbTUb5fnYqGVe1Ll4JWrJmJJEkAkG1T4k9Jx+z9/7SzBzNnwo19EXEKlSE8FnHod0i6+sx5j/tcWoD9fplw==}
+  '@builder.io/mitosis@0.12.0':
+    resolution: {integrity: sha512-/IjfTs/4rlRjfHLjqifGa89uLD63cA0TcBy48R3aHXA2MbxhbJKI26LXF3IuzrFrxWiR+akt8KCPBz5PbINJeQ==}
 
   '@builder.io/sdk@2.2.9':
     resolution: {integrity: sha512-B9DUNKYIkGXzvEm4ciZNjTQ6cdfuZXZ0gViKEXeAiIR/L6aDXdCyIlcPFtBOepVZQiI5fZNQAlbWY1pDgaW4BA==}
@@ -1480,9 +1477,6 @@ packages:
   cookie@1.0.2:
     resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
     engines: {node: '>=18'}
-
-  core-js@3.44.0:
-    resolution: {integrity: sha512-aFCtd4l6GvAXwVEh3XbbVqJGHDJt0OZRa+5ePGx3LLwi12WfexqQxcsohb2wgsa/92xtl19Hd66G/L+TaAxDMw==}
 
   cosmiconfig@7.0.1:
     resolution: {integrity: sha512-a1YWNUV2HwGimB7dU2s1wUMurNKjpx60HxBB6xUM8Re+2s1g1IIfJvFR0/iCF+XHdE0GMTKTuLR32UQff4TEyQ==}
@@ -3116,9 +3110,6 @@ packages:
     resolution: {integrity: sha512-UOPtVuYkzYGee0Bd2Szz8d2G3RfMfJ2t3qVdZUAozZyAk+a0Sxa+QKix0YCwjL/A1RR0ar44nCxaoN9FxdJGwA==}
     engines: {node: '>= 18'}
 
-  smooth-scrollbar@8.8.4:
-    resolution: {integrity: sha512-Wn2Q/iE+PE1ef4EfhFMhgaIMfSrjJl2LalRu0hBWSrw5nZKGsUIjWFWHnLB/Lpx7N+a1pJH6+wkQzBr+5nWPUg==}
-
   sorcery@0.11.1:
     resolution: {integrity: sha512-o7npfeJE6wi6J9l0/5LKshFzZ2rMatRiCDwYeDQaOzqdzRJwALhX7mk/A/ecg6wjMu7wdZbmXfD2S/vpOg0bdQ==}
     hasBin: true
@@ -3938,9 +3929,9 @@ snapshots:
       eslint: 8.57.1
       ts-pattern: 3.3.5
 
-  '@builder.io/mitosis-cli@0.12.1(postcss@8.5.6)(typescript@5.8.3)':
+  '@builder.io/mitosis-cli@0.12.0(postcss@8.5.6)(typescript@5.8.3)':
     dependencies:
-      '@builder.io/mitosis': 0.12.1(postcss@8.5.6)
+      '@builder.io/mitosis': 0.12.0(postcss@8.5.6)
       cosmiconfig: 9.0.0(typescript@5.8.3)
       debug: 4.4.1
       dedent: 0.7.0
@@ -3967,7 +3958,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@builder.io/mitosis@0.12.1(postcss@8.5.6)':
+  '@builder.io/mitosis@0.12.0(postcss@8.5.6)':
     dependencies:
       '@angular/compiler': 11.2.14
       '@babel/core': 7.14.5
@@ -4753,8 +4744,8 @@ snapshots:
   activity-calendar-widget@0.0.18(postcss@8.5.6)(typescript@5.8.3):
     dependencies:
       '@builder.io/eslint-plugin-mitosis': 0.0.15(eslint@8.57.1)
-      '@builder.io/mitosis': 0.12.1(postcss@8.5.6)
-      '@builder.io/mitosis-cli': 0.12.1(postcss@8.5.6)(typescript@5.8.3)
+      '@builder.io/mitosis': 0.12.0(postcss@8.5.6)
+      '@builder.io/mitosis-cli': 0.12.0(postcss@8.5.6)(typescript@5.8.3)
       eslint: 8.57.1
     transitivePeerDependencies:
       - '@volar/vue-language-plugin-pug'
@@ -5142,8 +5133,6 @@ snapshots:
   cookie-es@1.2.2: {}
 
   cookie@1.0.2: {}
-
-  core-js@3.44.0: {}
 
   cosmiconfig@7.0.1:
     dependencies:
@@ -7242,11 +7231,6 @@ snapshots:
       sax: 1.4.1
 
   smol-toml@1.3.4: {}
-
-  smooth-scrollbar@8.8.4:
-    dependencies:
-      core-js: 3.44.0
-      tslib: 1.14.1
 
   sorcery@0.11.1:
     dependencies:
