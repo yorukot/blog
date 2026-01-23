@@ -5,7 +5,7 @@ export const config = {
   },
   personal: {
     name: 'Yorukot',
-    age: 17,
+    age: 18,
     location: {
       city: 'Taichung',
       country: 'Taiwan',
@@ -17,7 +17,7 @@ export const config = {
     experienceYears: 6,
     description: {
       intro:
-        "Hi! I'm a 17-year-old high school student with about 6 years of development experience. I love building things with code and specialize in full-stack web development and creating CLI/TUI tools that make working in the terminal more enjoyable.",
+        "Hi! I'm a 18-year-old high school student with about 6 years of development experience. I love building things with code and specialize in full-stack web development and creating CLI/TUI tools that make working in the terminal more enjoyable.",
       hobbies:
         "When I'm not coding or contributing to open-source projects, you'll probably find me watching anime, TV series, or movies. I'm always learning new technologies and sharing what I discover with the community.",
       work: 'I work @Opensource where I spend most of my time building tools and websites.',
